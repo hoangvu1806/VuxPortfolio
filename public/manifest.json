@@ -1,0 +1,21 @@
+{
+    "name": "VU HOANG Portfolio",
+    "short_name": "VU HOANG",
+    "description": "AI Engineer specializing in Generative AI, NLP, and Computer Vision",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#030712",
+    "theme_color": "#030712",
+    "icons": [
+        {
+            "src": "/images/ui/logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/ui/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
