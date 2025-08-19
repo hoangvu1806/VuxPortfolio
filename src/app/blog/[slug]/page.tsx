@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
+import { GiscusComments } from "@/components/ui/giscus-comments";
+import { GiscusFallback } from "@/components/ui/giscus-fallback";
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -252,6 +254,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 </>
                             )}
                         </div>
+                    </div>
+                </section>
+
+                {/* Giscus Comments Section */}
+                <section className="container px-4 md:px-6 mx-auto pb-20">
+                    <div className="max-w-4xl mx-auto">
+                        {process.env.NEXT_PUBLIC_GISCUS_REPO_ID && process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID ? (
+                            <GiscusComments 
+                                slug={slug}
+                                title={post.title}
+                            />
+                        ) : (
+                            <GiscusFallback 
+                                slug={slug}
+                                title={post.title}
+                            />
+                        )}
                     </div>
                 </section>
             </article>

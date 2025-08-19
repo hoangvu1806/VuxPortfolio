@@ -1,0 +1,323 @@
+
+.giscus-container {
+  --color-primary: #6366f1; 
+  --color-primary-hover: #4f46e5; 
+  --color-primary-light: #818cf8;
+  --color-secondary: #00ffff; 
+  --color-secondary-dark: #0891b2; 
+  
+  --color-text-primary: #e0f2fe; 
+  --color-text-secondary: rgb(156 163 175); 
+  --color-text-muted: rgb(107 114 128);
+  --color-text-link: #6366f1; 
+ 
+  --color-bg-primary: #030712; 
+  --color-bg-secondary: rgb(17 24 39); 
+  --color-bg-tertiary: rgb(31 41 55); 
+  --color-bg-overlay: rgba(17, 24, 39, 0.8); 
+
+  --color-border: rgba(99, 102, 241, 0.2);
+  --color-border-muted: rgba(75, 85, 99, 0.3); 
+  --color-border-focus: rgba(99, 102, 241, 0.5);
+}
+
+.giscus-frame {
+  border-radius: 16px !important;
+  border: 1px solid var(--color-border) !important;
+  background: var(--color-bg-primary) !important;
+  box-shadow: 
+    0 0 20px rgba(99, 102, 241, 0.1),
+    0 10px 25px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(8px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.giscus-frame:hover {
+  border-color: var(--color-border-focus) !important;
+  box-shadow: 
+    0 0 30px rgba(99, 102, 241, 0.15),
+    0 15px 35px -3px rgba(0, 0, 0, 0.5),
+    0 6px 8px -2px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Giscus Container */
+.giscus {
+  width: 100% !important;
+  max-width: none !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Loading Animation */
+.giscus-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, rgb(31 41 55) 0%, rgb(17 24 39) 100%);
+  border-radius: 16px;
+  border: 1px solid rgb(75 85 99);
+  position: relative;
+  overflow: hidden;
+}
+
+.giscus-loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.giscus-loading::after {
+  content: "Loading discussion...";
+  color: rgb(156 163 175);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1;
+}
+
+/* Custom Scrollbar for Giscus */
+.giscus-frame ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.giscus-frame ::-webkit-scrollbar-track {
+  background: rgb(31 41 55);
+  border-radius: 4px;
+}
+
+.giscus-frame ::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.giscus-frame ::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .giscus-frame {
+    border-radius: 12px !important;
+    margin: 0 -1rem !important;
+  }
+  
+  .giscus-loading {
+    border-radius: 12px;
+    margin: 0 -1rem;
+    min-height: 150px;
+  }
+  
+  .giscus-loading::after {
+    font-size: 13px;
+  }
+}
+
+/* Dark Theme Enhancements */
+@media (prefers-color-scheme: dark) {
+  .giscus-container {
+    --color-canvas-default: rgb(17 24 39) !important;
+    --color-canvas-overlay: rgb(31 41 55) !important;
+    --color-canvas-inset: rgb(55 65 81) !important;
+    --color-canvas-subtle: rgb(31 41 55) !important;
+  }
+}
+
+/* Animation for Comments Appearance */
+.giscus-container[style*="opacity: 1"] {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus States */
+.giscus-frame:focus-within {
+  border-color: rgb(59 130 246) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .giscus-frame {
+    border-width: 2px !important;
+    border-color: rgb(156 163 175) !important;
+  }
+}
+
+/* Advanced Giscus Internal Styling */
+
+/* Override Giscus internal elements */
+.giscus-frame iframe[src*="giscus"] {
+  color-scheme: dark !important;
+}
+
+/* Inject styles into Giscus iframe */
+.giscus-frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(0, 255, 255, 0.02) 100%);
+}
+
+/* Custom theme variables that Giscus will pick up */
+:root {
+  --giscus-bg-primary: #030712;
+  --giscus-bg-secondary: #111827;
+  --giscus-bg-tertiary: #1f2937;
+  --giscus-text-primary: #e0f2fe;
+  --giscus-text-secondary: #9ca3af;
+  --giscus-border: rgba(99, 102, 241, 0.2);
+  --giscus-primary: #6366f1;
+  --giscus-primary-hover: #4f46e5;
+}
+
+/* Force dark theme appearance */
+.giscus-container[data-theme="dark"] {
+  --color-canvas-default: var(--giscus-bg-primary) !important;
+  --color-canvas-overlay: var(--giscus-bg-secondary) !important;
+  --color-canvas-inset: var(--giscus-bg-tertiary) !important;
+  --color-canvas-subtle: var(--giscus-bg-secondary) !important;
+  --color-fg-default: var(--giscus-text-primary) !important;
+  --color-fg-muted: var(--giscus-text-secondary) !important;
+  --color-border-default: var(--giscus-border) !important;
+  --color-border-muted: rgba(75, 85, 99, 0.3) !important;
+  --color-accent-fg: var(--giscus-primary) !important;
+  --color-accent-emphasis: var(--giscus-primary-hover) !important;
+  --color-btn-bg: var(--giscus-bg-tertiary) !important;
+  --color-btn-border: var(--giscus-border) !important;
+  --color-btn-text: var(--giscus-text-primary) !important;
+  --color-btn-hover-bg: rgba(99, 102, 241, 0.1) !important;
+  --color-btn-hover-border: rgba(99, 102, 241, 0.4) !important;
+  --color-btn-active-bg: rgba(99, 102, 241, 0.15) !important;
+  --color-btn-primary-bg: var(--giscus-primary) !important;
+  --color-btn-primary-hover-bg: var(--giscus-primary-hover) !important;
+}
+
+/* Enhanced scrollbar styling */
+.giscus-frame ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.giscus-frame ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+.giscus-frame ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.giscus-frame ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-primary-hover), var(--color-secondary-dark));
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.giscus-frame ::-webkit-scrollbar-corner {
+  background: var(--color-bg-secondary);
+}
+
+/* Loading state improvements */
+.giscus-loading {
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.giscus-loading::before {
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(99, 102, 241, 0.1), 
+    rgba(0, 255, 255, 0.05),
+    transparent
+  );
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .giscus-frame {
+    border-radius: 12px !important;
+    margin: 0 -0.5rem !important;
+  }
+  
+  .giscus-frame:hover {
+    transform: none !important;
+  }
+  
+  .giscus-loading {
+    border-radius: 12px;
+    margin: 0 -0.5rem;
+    min-height: 120px;
+  }
+}
+
+/* High contrast and accessibility */
+@media (prefers-contrast: high) {
+  .giscus-frame {
+    border-width: 2px !important;
+    border-color: var(--color-primary) !important;
+  }
+  
+  .giscus-container {
+    --color-text-primary: #ffffff !important;
+    --color-border: var(--color-primary) !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .giscus-loading::before {
+    animation: none;
+  }
+  
+  .giscus-container[style*="opacity: 1"] {
+    animation: none;
+  }
+  
+  .giscus-frame {
+    transition: none !important;
+  }
+  
+  .giscus-frame:hover {
+    transform: none !important;
+  }
+}
+
+/* Focus management */
+.giscus-frame:focus-within {
+  border-color: var(--color-primary) !important;
+  box-shadow: 
+    0 0 0 3px rgba(99, 102, 241, 0.2),
+    0 0 25px rgba(99, 102, 241, 0.15),
+    0 10px 25px -3px rgba(0, 0, 0, 0.4) !important;
+  outline: none !important;
+}

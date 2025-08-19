@@ -4,6 +4,7 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
 import { FiSearch, FiTag, FiX, FiCalendar, FiUser, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useState, useEffect } from "react";
+import { CommentCount } from "@/components/ui/comment-count";
 
 // Types
 export interface BlogPost {
@@ -313,6 +314,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                                             <FiCalendar size={12} />
                                                             <span>{new Date(post.date).toLocaleDateString()}</span>
                                                         </div>
+                                                        <CommentCount slug={post.slug} className="text-xs" />
                                                     </div>
                                                 </div>
                                             </article>

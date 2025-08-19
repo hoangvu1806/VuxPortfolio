@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start -p 8000",
         "lint": "next lint",
-        "add-project": "node scripts/add-project.js"
+        "add-project": "node scripts/add-project.js",
+        "check-giscus": "node scripts/check-giscus-env.js"
     },
     "dependencies": {
         "@emailjs/browser": "^4.4.1",

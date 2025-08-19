@@ -10,6 +10,9 @@
 /* Code highlighting styles */
 @import "highlight.js/styles/github-dark.css";
 
+/* Giscus comments custom styling */
+@import "../styles/giscus.css";
+
 :root {
     --foreground: #e0f2fe;
     --background: #030712;
