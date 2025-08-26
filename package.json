@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@emailjs/browser": "^4.4.1",
+        "@giscus/react": "^3.1.0",
         "@tailwindcss/line-clamp": "^0.4.4",
         "framer-motion": "^12.11.0",
         "gray-matter": "^4.0.3",

@@ -23,7 +23,8 @@ public/images/blog/*
 !public/images/blog/default-hero.jpg
 # misc
 
-src/data/blog/post/*
+src/data/blog/posts/*
+
 .DS_Store
 *.pem
 .swc
