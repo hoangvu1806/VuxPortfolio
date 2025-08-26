@@ -4,7 +4,8 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
 import { FiSearch, FiTag, FiX, FiCalendar, FiUser, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useState, useEffect } from "react";
-import { CommentCount } from "@/components/ui/comment-count";
+import  CommentCount  from "@/components/ui/comment-count";
+import { blogCategories } from "@/data/blog/config";
 
 // Types
 export interface BlogPost {
@@ -82,20 +83,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 6;
 
-    const categories = [
-        "AI & IT Trends",
-        "AI & ML",
-        "Agentic AI",
-        "LLMs",
-        "MLOps",
-        "Natural Language Processing",
-        "Maths",
-        "Computer Science",
-        "Generative AI",
-        "Physics",
-        "Technical News",
-        "Research Paper"
-    ];
+    const categories = blogCategories;
 
     // Filter posts when search or category changes
     useEffect(() => {
@@ -314,7 +302,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                                             <FiCalendar size={12} />
                                                             <span>{new Date(post.date).toLocaleDateString()}</span>
                                                         </div>
-                                                        <CommentCount slug={post.slug} className="text-xs" />
+                                                        <CommentCount slug={post.slug}  />
                                                     </div>
                                                 </div>
                                             </article>

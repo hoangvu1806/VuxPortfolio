@@ -5,12 +5,14 @@ export const blogCategories = [
     "LLMs",
     "MLOps",
     "Natural Language Processing",
-    "Maths",
+    "Mathematics",
     "Computer Science",
     "Generative AI",
     "Physics",
     "Technical News",
-    "Research Paper"
+    "Research Paper",
+    "Cosmology",
+    "Philosophy"
 ] as const;
 
 export const blogTags = [
@@ -51,6 +53,7 @@ export const blogTags = [
     "diffusion-models",
 
     // Technical & Research
+    "computer-science",
     "research-paper",
     "algorithms",
     "data-structures",

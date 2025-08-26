@@ -93,7 +93,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 {post.title}
                             </h1>
 
-                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 md:mb-8 leading-relaxed">
+                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 md:mb-8 leading-relaxed text-justify">
                                 {post.description}
                             </p>
 
@@ -153,16 +153,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 prose-h1:text-3xl md:prose-h1:text-5xl prose-h1:mb-6 md:prose-h1:mb-8 prose-h1:bg-clip-text prose-h1:text-transparent prose-h1:bg-gradient-to-r prose-h1:from-primary prose-h1:to-secondary prose-h1:leading-tight
                                 prose-h2:text-2xl md:prose-h2:text-4xl prose-h2:mb-4 md:prose-h2:mb-6 prose-h2:text-primary prose-h2:border-b prose-h2:border-gray-700/30 prose-h2:pb-3 prose-h2:leading-tight
                                 prose-h3:text-xl md:prose-h3:text-3xl prose-h3:mb-3 md:prose-h3:mb-4 prose-h3:text-secondary prose-h3:leading-tight
-                                prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4 md:prose-p:mb-6 prose-p:text-base md:prose-p:text-lg
+                                prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4 md:prose-p:mb-6 prose-p:text-base md:prose-p:text-lg prose-p:text-justify
                                 prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary-light prose-a:break-words
                                 prose-strong:text-gray-100 prose-strong:font-semibold
                                 prose-code:text-accent prose-code:bg-gray-800/60 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:break-words
                                 prose-pre:bg-gray-900/80 prose-pre:border prose-pre:border-gray-700/50 prose-pre:rounded-xl prose-pre:p-3 md:prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:text-sm
-                                prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gray-800/40 prose-blockquote:p-4 md:prose-blockquote:p-6 prose-blockquote:rounded-r-xl prose-blockquote:my-4 md:prose-blockquote:my-6
-                                prose-ul:text-gray-300 prose-ol:text-gray-300 prose-ul:pl-4 md:prose-ul:pl-6
-                                prose-li:mb-1 md:prose-li:mb-2 prose-li:leading-relaxed prose-li:text-sm md:prose-li:text-base
+                                prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gray-800/40 prose-blockquote:p-4 md:prose-blockquote:p-6 prose-blockquote:rounded-r-xl prose-blockquote:my-4 md:prose-blockquote:my-6 prose-blockquote:text-justify
+                                prose-ul:text-gray-300 prose-ol:text-gray-300 prose-ul:pl-4 md:prose-ul:pl-6 prose-ul:list-disc prose-ul:marker:text-primary prose-ul:marker:font-semibold
+                                prose-ol:pl-4 md:prose-ol:pl-6 prose-ol:list-decimal prose-ol:marker:text-secondary prose-ol:marker:font-semibold
+                                prose-li:mb-1 md:prose-li:mb-2 prose-li:leading-relaxed prose-li:text-sm md:prose-li:text-base prose-li:text-left
                                 prose-img:rounded-xl prose-img:border prose-img:border-gray-700/50 prose-img:mx-auto prose-img:max-w-full prose-img:h-auto
-                                prose-table:text-sm prose-table:overflow-x-auto prose-table:block prose-table:whitespace-nowrap md:prose-table:whitespace-normal md:prose-table:table"
+                                prose-table:text-sm prose-table:overflow-x-auto prose-table:block prose-table:whitespace-nowrap md:prose-table:whitespace-normal md:prose-table:table
+                                [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol_li]:text-gray-300 [&_ol_li::marker]:text-secondary [&_ol_li::marker]:font-bold
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul_li]:text-gray-300 [&_ul_li::marker]:text-primary [&_ul_li::marker]:font-bold
+                                [&_ol_ol]:list-decimal [&_ol_ol]:pl-8 [&_ol_ol]:mt-2 [&_ol_ol]:mb-2
+                                [&_ul_ul]:list-disc [&_ul_ul]:pl-8 [&_ul_ul]:mt-2 [&_ul_ul]:mb-2
+                                [&_ol_ul]:list-disc [&_ol_ul]:pl-8 [&_ol_ul]:mt-2 [&_ol_ul]:mb-2
+                                [&_ul_ol]:list-decimal [&_ul_ol]:pl-8 [&_ul_ol]:mt-2 [&_ul_ol]:mb-2
+                                [&_ol_ol_ol]:list-decimal [&_ol_ol_ol]:pl-10 [&_ul_ul_ul]:list-disc [&_ul_ul_ul]:pl-10
+                                [&_li_ol]:mt-2 [&_li_ul]:mt-2 [&_li_p]:mb-2"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
                     </div>
@@ -261,12 +270,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <section className="container px-4 md:px-6 mx-auto pb-20">
                     <div className="max-w-4xl mx-auto">
                         {process.env.NEXT_PUBLIC_GISCUS_REPO_ID && process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID ? (
-                            <GiscusComments 
+                            <GiscusComments
                                 slug={slug}
                                 title={post.title}
                             />
                         ) : (
-                            <GiscusFallback 
+                            <GiscusFallback
                                 slug={slug}
                                 title={post.title}
                             />
