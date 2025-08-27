@@ -6,6 +6,9 @@ import Link from "next/link";
 import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
 import { GiscusComments } from "@/components/ui/giscus-comments";
 import { GiscusFallback } from "@/components/ui/giscus-fallback";
+import { ShareButton } from "@/components/ui/share-button";
+import { ShareButtonFloating } from "@/components/ui/share-button-floating";
+import { getBlogPostUrl } from "@/lib/url-utils";
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -24,6 +27,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         };
     }
 
+    // Get current URL for metadata
+    const currentUrl = await getBlogPostUrl(slug);
+
     return {
         title: `${post.title} | VU HOANG Blog`,
         description: post.description,
@@ -35,6 +41,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
             type: "article",
             publishedTime: post.date,
             authors: [post.author],
+            url: currentUrl,
             images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
         },
         twitter: {
@@ -42,6 +49,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
             title: post.title,
             description: post.description,
             images: [post.image],
+        },
+        alternates: {
+            canonical: currentUrl,
         }
     };
 }
@@ -58,8 +68,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const relatedPosts = BlogService.getRelatedPosts(post, allPosts, 4); // Increase to 4
     const otherPosts = allPosts.filter(p => p.slug !== post.slug && !relatedPosts.some(rp => rp.slug === p.slug));
 
+    // Get current URL
+    const currentUrl = await getBlogPostUrl(post.slug);
+
     return (
         <MainLayout>
+            {/* Floating Share Button */}
+            <ShareButtonFloating
+                url={currentUrl}
+                title={post.title}
+                description={post.description}
+            />
+
             <article className="min-h-screen">
                 {/* Header Section with improved spacing and design */}
                 <div className="relative bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-transparent">
@@ -97,19 +117,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 {post.description}
                             </p>
 
-                            <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
-                                <div className="flex items-center gap-2 hover:text-primary transition-colors text-sm sm:text-base">
-                                    <FiUser size={14} className="text-primary sm:w-4 sm:h-4" />
-                                    <span className="font-medium">{post.author}</span>
+                            <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
+                                <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6">
+                                    <div className="flex items-center gap-2 hover:text-primary transition-colors text-sm sm:text-base">
+                                        <FiUser size={14} className="text-primary sm:w-4 sm:h-4" />
+                                        <span className="font-medium">{post.author}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 hover:text-secondary transition-colors text-sm sm:text-base">
+                                        <FiCalendar size={14} className="text-secondary sm:w-4 sm:h-4" />
+                                        <span>{new Date(post.date).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}</span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2 hover:text-secondary transition-colors text-sm sm:text-base">
-                                    <FiCalendar size={14} className="text-secondary sm:w-4 sm:h-4" />
-                                    <span>{new Date(post.date).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric'
-                                    })}</span>
-                                </div>
+                                <ShareButton
+                                    url={currentUrl}
+                                    title={post.title}
+                                    description={post.description}
+                                />
                             </div>
 
                             <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -174,6 +201,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 [&_li_ol]:mt-2 [&_li_ul]:mt-2 [&_li_p]:mb-2"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
+
+                        {/* Share Section at End of Article */}
+                        <div className="mt-12 pt-8 border-t border-gray-700/30">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-gradient-to-r from-gray-900/50 to-gray-800/50 rounded-xl border border-gray-700/30 backdrop-blur-sm">
+                                <div className="text-center sm:text-left">
+                                    <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                                        Enjoyed this article?
+                                    </h3>
+                                    <p className="text-gray-400 text-sm">
+                                        Share it with your network and help others discover great content!
+                                    </p>
+                                </div>
+                                <ShareButton
+                                    url={currentUrl}
+                                    title={post.title}
+                                    description={post.description}
+                                    className="flex-shrink-0"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
