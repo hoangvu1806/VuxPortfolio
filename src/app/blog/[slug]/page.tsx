@@ -7,7 +7,7 @@ import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
 import { GiscusComments } from "@/components/ui/giscus-comments";
 import { GiscusFallback } from "@/components/ui/giscus-fallback";
 import { ShareButton } from "@/components/ui/share-button";
-import { ShareButtonFloating } from "@/components/ui/share-button-floating";
+
 import { getBlogPostUrl } from "@/lib/url-utils";
 
 interface BlogPostPageProps {
@@ -73,12 +73,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     return (
         <MainLayout>
-            {/* Floating Share Button */}
-            <ShareButtonFloating
-                url={currentUrl}
-                title={post.title}
-                description={post.description}
-            />
+
 
             <article className="min-h-screen">
                 {/* Header Section with improved spacing and design */}
@@ -202,25 +197,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
 
-                        {/* Share Section at End of Article */}
-                        <div className="mt-12 pt-8 border-t border-gray-700/30">
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-gradient-to-r from-gray-900/50 to-gray-800/50 rounded-xl border border-gray-700/30 backdrop-blur-sm">
-                                <div className="text-center sm:text-left">
-                                    <h3 className="text-lg font-semibold text-gray-100 mb-2">
-                                        Enjoyed this article?
-                                    </h3>
-                                    <p className="text-gray-400 text-sm">
-                                        Share it with your network and help others discover great content!
-                                    </p>
-                                </div>
-                                <ShareButton
-                                    url={currentUrl}
-                                    title={post.title}
-                                    description={post.description}
-                                    className="flex-shrink-0"
-                                />
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
