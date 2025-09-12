@@ -1059,10 +1059,6 @@ p {
     transform: translateY(-5px);
 }
 
-.hover-scale:hover {
-    transform: scale(1.05);
-}
-
 /* Grid Layouts */
 @media (min-width: 768px) {
     .md\:grid-cols-2 {
@@ -1325,11 +1321,7 @@ p {
 }
 
 .project-image-container img {
-    transition: transform 0.3s ease;
-}
-
-.project-image-container:hover img {
-    transform: scale(1.05);
+    transition: none;
 }
 
 /* Fix for project cards on desktop/landscape */
@@ -2019,4 +2011,361 @@ img {
         max-width: 100%;
         padding: 0;
     }
+}
+/* Chatbot Styles */
+.chatbot-popup {
+    font-family: var(--font-sans);
+}
+
+/* Chatbot markdown styles */
+.chatbot-markdown {
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.chatbot-markdown h1,
+.chatbot-markdown h2,
+.chatbot-markdown h3,
+.chatbot-markdown h4,
+.chatbot-markdown h5,
+.chatbot-markdown h6 {
+    margin: 0.5rem 0;
+    font-weight: 600;
+    color: inherit;
+}
+
+.chatbot-markdown h1 {
+    font-size: 1rem;
+}
+.chatbot-markdown h2 {
+    font-size: 0.875rem;
+}
+.chatbot-markdown h3 {
+    font-size: 0.8125rem;
+}
+.chatbot-markdown h4 {
+    font-size: 0.75rem;
+}
+
+.chatbot-markdown p {
+    margin: 0.5rem 0;
+}
+
+.chatbot-markdown ul,
+.chatbot-markdown ol {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+}
+
+.chatbot-markdown li {
+    margin: 0.25rem 0;
+}
+
+.chatbot-markdown code {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+}
+
+.chatbot-markdown pre {
+    background: rgba(15, 23, 42, 0.8);
+    color: #e2e8f0;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    font-size: 0.8125rem;
+}
+
+.chatbot-markdown pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.chatbot-markdown blockquote {
+    border-left: 3px solid #6366f1;
+    padding-left: 0.75rem;
+    margin: 0.5rem 0;
+    color: #64748b;
+    font-style: italic;
+}
+
+.chatbot-markdown a {
+    color: #6366f1;
+    text-decoration: underline;
+}
+
+.chatbot-markdown a:hover {
+    color: #818cf8;
+}
+
+/* Chatbot animations */
+@keyframes chatbot-bounce {
+    0%,
+    20%,
+    53%,
+    80%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+    40%,
+    43% {
+        transform: translate3d(0, -8px, 0);
+    }
+    70% {
+        transform: translate3d(0, -4px, 0);
+    }
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+@keyframes chatbot-pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+}
+
+@keyframes chatbot-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.chatbot-bounce {
+    animation: chatbot-bounce 2s infinite;
+}
+
+.chatbot-pulse-ring {
+    animation: chatbot-pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1)
+        infinite;
+}
+
+.chatbot-fade-in-up {
+    animation: chatbot-fade-in-up 0.3s ease-out;
+}
+
+/* Dark mode adjustments for chatbot */
+@media (prefers-color-scheme: dark) {
+    .chatbot-markdown pre {
+        background: rgba(15, 23, 42, 0.9);
+    }
+
+    .chatbot-markdown code {
+        background: rgba(99, 102, 241, 0.15);
+    }
+}
+
+/* Chatbot scrollbar - Visible gray thumb */
+.chatbot-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 3px;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Chatbot markdown styles - Absolute font size control */
+.chatbot-markdown {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+}
+
+.chatbot-markdown *,
+.chatbot-markdown p,
+.chatbot-markdown span,
+.chatbot-markdown div,
+.chatbot-markdown strong,
+.chatbot-markdown em,
+.chatbot-markdown a,
+.chatbot-markdown h1,
+.chatbot-markdown h2,
+.chatbot-markdown h3,
+.chatbot-markdown h4,
+.chatbot-markdown h5,
+.chatbot-markdown h6,
+.chatbot-markdown ul,
+.chatbot-markdown ol,
+.chatbot-markdown li {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+}
+
+.chatbot-markdown p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.chatbot-markdown code {
+    font-size: 13px !important;
+    background: rgba(75, 85, 99, 0.2) !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    font-weight: 400 !important;
+}
+
+.chatbot-markdown h1,
+.chatbot-markdown h2,
+.chatbot-markdown h3,
+.chatbot-markdown h4,
+.chatbot-markdown h5,
+.chatbot-markdown h6 {
+    font-weight: 600 !important;
+    margin: 8px 0 4px 0 !important;
+}
+
+.chatbot-markdown ul,
+.chatbot-markdown ol {
+    margin: 4px 0 !important;
+    padding-left: 16px !important;
+}
+
+.chatbot-markdown li {
+    margin: 2px 0 !important;
+}
+
+/* Force uniform message font sizes - Ultimate override */
+.chatbot-message-user,
+.chatbot-message-ai {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+}
+
+.chatbot-message-user *,
+.chatbot-message-ai * {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+}
+
+.chatbot-timestamp {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    font-weight: 400 !important;
+}
+/* Glass effect for chatbot header */
+.glass-header {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
+    position: relative !important;
+}
+
+.glass-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.dark .glass-header {
+    background: rgba(17, 24, 39, 0.4) !important;
+    border-bottom: 1px solid rgba(75, 85, 99, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .glass-header::before {
+    background: linear-gradient(
+        135deg,
+        rgba(75, 85, 99, 0.1),
+        rgba(75, 85, 99, 0.05)
+    );
+}
+
+/* Chatbot KaTeX Math Rendering Styles */
+.chatbot-markdown .katex {
+    font-size: 1em !important;
+    color: inherit !important;
+}
+
+.chatbot-markdown .katex-display {
+    margin: 1em 0 !important;
+    text-align: center !important;
+}
+
+.chatbot-markdown .katex-display > .katex {
+    display: inline-block !important;
+    white-space: nowrap !important;
+}
+
+/* Inline math */
+.chatbot-markdown .katex-inline {
+    display: inline !important;
+    margin: 0 0.1em !important;
+}
+
+/* Math block styling */
+.chatbot-markdown .katex-display {
+    background: rgba(0, 0, 0, 0.1) !important;
+    padding: 0.5em !important;
+    border-radius: 0.25rem !important;
+    border-left: 3px solid #6366f1 !important;
+    margin: 1em 0 !important;
+}
+
+/* Dark theme adjustments for KaTeX */
+.dark .chatbot-markdown .katex {
+    color: #e5e7eb !important;
+}
+
+.dark .chatbot-markdown .katex .mord {
+    color: #e5e7eb !important;
+}
+
+.dark .chatbot-markdown .katex .mbin,
+.dark .chatbot-markdown .katex .mrel {
+    color: #60a5fa !important;
+}
+
+.dark .chatbot-markdown .katex .mop {
+    color: #34d399 !important;
+}
+
+/* Scrollable math for long equations */
+.chatbot-markdown .katex-display {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+/* Fix for math rendering in streaming */
+.chatbot-message-ai .katex {
+    opacity: 1 !important;
+    visibility: visible !important;
 }

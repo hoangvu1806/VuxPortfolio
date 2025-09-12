@@ -22,18 +22,18 @@ export function TypingAnimation({
     useEffect(() => {
         let timer: NodeJS.Timeout;
 
-        // Đảm bảo có văn bản để hiển thị
+        // Ensure there are texts to display
         if (texts.length === 0) return;
 
-        // Nếu đang xóa văn bản
+        // If currently deleting text
         if (isDeleting) {
             timer = setTimeout(() => {
                 setDisplayText((prevText) =>
                     prevText.substring(0, prevText.length - 1)
                 );
-                setTypingSpeed(20); // Tốc độ xóa nhanh hơn
+                setTypingSpeed(20); // Faster deletion speed
 
-                // Khi đã xóa hết văn bản
+                // When text is completely deleted
                 if (displayText.length <= 1) {
                     setIsDeleting(false);
                     // Đặt fadeClass và displayText trước khi chuyển sang text mới

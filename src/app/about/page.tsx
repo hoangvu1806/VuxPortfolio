@@ -114,7 +114,7 @@ export default function AboutPage() {
                                     applications.
                                 </p>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                     <motion.div
                                         whileHover={{ scale: 1.03 }}
                                         transition={{
@@ -122,16 +122,16 @@ export default function AboutPage() {
                                             stiffness: 400,
                                             damping: 10,
                                         }}
-                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg"
+                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow">
+                                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow flex-shrink-0">
                                             <FiMapPin className="text-xl text-primary" />
                                         </div>
-                                        <div>
-                                            <h4 className="font-medium text-gray-200">
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-medium text-gray-200 mb-1">
                                                 Location
                                             </h4>
-                                            <p className="text-gray-300">
+                                            <p className="text-gray-300 text-sm break-words">
                                                 {profile.location.city},{" "}
                                                 {profile.location.country}
                                             </p>
@@ -144,16 +144,16 @@ export default function AboutPage() {
                                             stiffness: 400,
                                             damping: 10,
                                         }}
-                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg"
+                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center shadow-secondary-glow">
+                                        <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center shadow-secondary-glow flex-shrink-0">
                                             <FiMail className="text-xl text-secondary" />
                                         </div>
-                                        <div>
-                                            <h4 className="font-medium text-gray-200">
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-medium text-gray-200 mb-1">
                                                 Email
                                             </h4>
-                                            <p className="text-gray-300">
+                                            <p className="text-gray-300 text-sm break-all">
                                                 {profile.email}
                                             </p>
                                         </div>
@@ -165,16 +165,16 @@ export default function AboutPage() {
                                             stiffness: 400,
                                             damping: 10,
                                         }}
-                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg"
+                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shadow-accent-glow">
+                                        <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shadow-accent-glow flex-shrink-0">
                                             <FiAward className="text-xl text-accent" />
                                         </div>
-                                        <div>
-                                            <h4 className="font-medium text-gray-200">
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-medium text-gray-200 mb-1">
                                                 Education
                                             </h4>
-                                            <p className="text-gray-300">
+                                            <p className="text-gray-300 text-sm break-words">
                                                 {profile.education.university}
                                             </p>
                                         </div>
@@ -186,16 +186,16 @@ export default function AboutPage() {
                                             stiffness: 400,
                                             damping: 10,
                                         }}
-                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg"
+                                        className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow">
+                                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow flex-shrink-0">
                                             <FiUser className="text-xl text-primary" />
                                         </div>
-                                        <div>
-                                            <h4 className="font-medium text-gray-200">
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-medium text-gray-200 mb-1">
                                                 Degree
                                             </h4>
-                                            <p className="text-gray-300">
+                                            <p className="text-gray-300 text-sm break-words">
                                                 {profile.education.degree}
                                             </p>
                                         </div>
@@ -258,15 +258,13 @@ export default function AboutPage() {
                                 <div className="relative" key={index}>
                                     <div className="flex flex-col md:flex-row items-center">
                                         <div
-                                            className={`flex-1 ${
-                                                index % 2 === 0
+                                            className={`flex-1 ${index % 2 === 0
                                                     ? "md:text-right md:pr-10"
                                                     : "md:pl-10 order-1 md:order-3"
-                                            } mb-4 md:mb-0 ${
-                                                index % 2 === 0
+                                                } mb-4 md:mb-0 ${index % 2 === 0
                                                     ? "order-1 md:order-1"
                                                     : "order-1 md:order-3"
-                                            }`}
+                                                }`}
                                         >
                                             <motion.div
                                                 initial={{
@@ -296,15 +294,13 @@ export default function AboutPage() {
                                             <FiBriefcase className="text-white" />
                                         </div>
                                         <div
-                                            className={`flex-1 ${
-                                                index % 2 === 0
+                                            className={`flex-1 ${index % 2 === 0
                                                     ? "md:pl-10 hidden md:block"
                                                     : "md:text-right md:pr-10"
-                                            } ${
-                                                index % 2 === 0
+                                                } ${index % 2 === 0
                                                     ? "order-3"
                                                     : "order-1 md:order-1 hidden md:block"
-                                            }`}
+                                                }`}
                                         >
                                             {/* Empty space for alignment on alternating sides */}
                                         </div>
@@ -433,15 +429,15 @@ export default function AboutPage() {
                                                         lang.level === "Native"
                                                             ? "100%"
                                                             : lang.level ===
-                                                              "Fluent"
-                                                            ? "90%"
-                                                            : lang.level ===
-                                                              "Advanced"
-                                                            ? "80%"
-                                                            : lang.level ===
-                                                              "Intermediate"
-                                                            ? "60%"
-                                                            : "40%",
+                                                                "Fluent"
+                                                                ? "90%"
+                                                                : lang.level ===
+                                                                    "Advanced"
+                                                                    ? "80%"
+                                                                    : lang.level ===
+                                                                        "Intermediate"
+                                                                        ? "60%"
+                                                                        : "40%",
                                                 }}
                                                 viewport={{ once: true }}
                                                 transition={{

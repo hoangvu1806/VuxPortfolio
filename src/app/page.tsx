@@ -25,21 +25,7 @@ import { TypingAnimation } from "@/components/ui/typing-animation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-    const [glowIntensity, setGlowIntensity] = useState(0.5);
     const [isAvatarHovered, setIsAvatarHovered] = useState(false);
-
-    // Subtle breathing animation for the avatar glow
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setGlowIntensity((prev) => {
-                // Oscillate between 0.4 and 0.6 for subtle effect
-                const newValue = prev + 0.005 * (Math.random() > 0.5 ? 1 : -1);
-                return Math.max(0.4, Math.min(0.6, newValue));
-            });
-        }, 100);
-
-        return () => clearInterval(interval);
-    }, []);
 
     const introTexts = [
         "AI Engineer specializing in generative AI programming, advanced large language models, and multimodal visual processing.",
@@ -157,7 +143,7 @@ export default function Home() {
                                     animate={{
                                         opacity: isAvatarHovered
                                             ? 0.7
-                                            : glowIntensity,
+                                            : 0.5,
                                     }}
                                     transition={{ duration: 0.5 }}
                                 ></motion.div>
@@ -186,10 +172,10 @@ export default function Home() {
                                     animate={{
                                         opacity: isAvatarHovered
                                             ? 0.85
-                                            : glowIntensity + 0.2,
+                                            : 0.7,
                                         scale: isAvatarHovered
                                             ? 1.03
-                                            : 1 + (glowIntensity - 0.5) * 0.02,
+                                            : 1,
                                     }}
                                     transition={{ duration: 0.5 }}
                                 ></motion.div>
@@ -287,8 +273,8 @@ export default function Home() {
                                         <p
                                             key={index}
                                             className={`text-gray-300 ${index < arr.length - 1
-                                                    ? "mb-3"
-                                                    : ""
+                                                ? "mb-3"
+                                                : ""
                                                 }`}
                                         >
                                             {lang.language} - {lang.level}
@@ -351,12 +337,12 @@ export default function Home() {
                                     <div>
                                         <h3
                                             className={`font-semibold text-xl mb-4 ${index === 0
-                                                    ? "text-primary text-shadow-primary"
-                                                    : index === 1
-                                                        ? "text-secondary text-shadow-secondary"
-                                                        : index === 2
-                                                            ? "text-accent text-shadow-accent"
-                                                            : "text-primary text-shadow-primary"
+                                                ? "text-primary text-shadow-primary"
+                                                : index === 1
+                                                    ? "text-secondary text-shadow-secondary"
+                                                    : index === 2
+                                                        ? "text-accent text-shadow-accent"
+                                                        : "text-primary text-shadow-primary"
                                                 }`}
                                         >
                                             {skill.category}
@@ -369,12 +355,12 @@ export default function Home() {
                                                 >
                                                     <span
                                                         className={`w-2 h-2 rounded-full ${index === 0
-                                                                ? "bg-primary"
-                                                                : index === 1
-                                                                    ? "bg-secondary"
-                                                                    : index === 2
-                                                                        ? "bg-accent"
-                                                                        : "bg-primary"
+                                                            ? "bg-primary"
+                                                            : index === 1
+                                                                ? "bg-secondary"
+                                                                : index === 2
+                                                                    ? "bg-accent"
+                                                                    : "bg-primary"
                                                             }`}
                                                     ></span>
                                                     {item}
@@ -434,16 +420,15 @@ export default function Home() {
                                         title={project.title}
                                         className="w-full h-full object-cover object-center"
                                         priority={index === 0}
-                                        enableZoom={true}
                                     />
                                 </div>
                                 <div className="p-6">
                                     <h3
                                         className={`font-semibold text-xl mb-3 ${index === 0
-                                                ? "text-primary text-shadow-primary"
-                                                : index === 1
-                                                    ? "text-secondary text-shadow-secondary"
-                                                    : "text-accent text-shadow-accent"
+                                            ? "text-primary text-shadow-primary"
+                                            : index === 1
+                                                ? "text-secondary text-shadow-secondary"
+                                                : "text-accent text-shadow-accent"
                                             }`}
                                     >
                                         {project.title}
@@ -468,10 +453,10 @@ export default function Home() {
                                     <Link
                                         href="/projects"
                                         className={`hover:text-${index === 0
-                                                ? "primary"
-                                                : index === 1
-                                                    ? "secondary"
-                                                    : "accent"
+                                            ? "primary"
+                                            : index === 1
+                                                ? "secondary"
+                                                : "accent"
                                             } font-medium inline-flex items-center transition-colors`}
                                     >
                                         View Details

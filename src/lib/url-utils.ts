@@ -27,16 +27,10 @@ export async function getCurrentUrl(path?: string): Promise<string> {
     return baseUrl;
 }
 
-/**
- * Get the current blog post URL
- */
 export async function getBlogPostUrl(slug: string): Promise<string> {
     return getCurrentUrl(`/blog/${slug}`);
 }
 
-/**
- * Get site URL with fallback to environment variable
- */
 export function getSiteUrl(): string {
-    return process.env.NEXT_PUBLIC_SITE_URL || 'https://vuhoang.dev';
+    return process.env.NEXT_PUBLIC_SITE_URL || 'https://hoangvu.id.vn';
 }

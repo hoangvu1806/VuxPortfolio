@@ -210,7 +210,6 @@ export default function ProjectsPage() {
                                                         title={project.title}
                                                         className="w-full h-full object-cover object-center"
                                                         priority={index < 3}
-                                                        enableZoom={true}
                                                     />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-gray-900/60 lg:via-gray-900/20 lg:to-transparent"></div>
 

@@ -7,6 +7,7 @@ import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
 import { GiscusComments } from "@/components/ui/giscus-comments";
 import { GiscusFallback } from "@/components/ui/giscus-fallback";
 import { ShareButton } from "@/components/ui/share-button";
+import { BlogContentWrapper } from "@/components/blog/blog-content-wrapper";
 
 import { getBlogPostUrl } from "@/lib/url-utils";
 
@@ -16,14 +17,16 @@ interface BlogPostPageProps {
     }>;
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+    params,
+}: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
     const post = await BlogService.getPostBySlug(slug);
 
     if (!post) {
         return {
             title: "Post Not Found",
-            description: "The requested blog post could not be found."
+            description: "The requested blog post could not be found.",
         };
     }
 
@@ -42,7 +45,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
             publishedTime: post.date,
             authors: [post.author],
             url: currentUrl,
-            images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+            images: [
+                { url: post.image, width: 1200, height: 630, alt: post.title },
+            ],
         },
         twitter: {
             card: "summary_large_image",
@@ -52,7 +57,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         },
         alternates: {
             canonical: currentUrl,
-        }
+        },
     };
 }
 
@@ -66,15 +71,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     const allPosts = await BlogService.getAllPosts();
     const relatedPosts = BlogService.getRelatedPosts(post, allPosts, 4); // Increase to 4
-    const otherPosts = allPosts.filter(p => p.slug !== post.slug && !relatedPosts.some(rp => rp.slug === p.slug));
+    const otherPosts = allPosts.filter(
+        (p) =>
+            p.slug !== post.slug &&
+            !relatedPosts.some((rp) => rp.slug === p.slug)
+    );
 
     // Get current URL
     const currentUrl = await getBlogPostUrl(post.slug);
 
     return (
         <MainLayout>
-
-
             <article className="min-h-screen">
                 {/* Header Section with improved spacing and design */}
                 <div className="relative bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-transparent">
@@ -90,8 +97,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 href="/blog"
                                 className="inline-flex items-center gap-2 text-gray-400 hover:text-primary transition-all duration-300 hover:gap-3 group"
                             >
-                                <FiArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />
-                                <span className="font-medium">Back to Blog</span>
+                                <FiArrowLeft
+                                    size={16}
+                                    className="group-hover:-translate-x-1 transition-transform duration-300"
+                                />
+                                <span className="font-medium">
+                                    Back to Blog
+                                </span>
                             </Link>
                         </div>
 
@@ -115,16 +127,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
                                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6">
                                     <div className="flex items-center gap-2 hover:text-primary transition-colors text-sm sm:text-base">
-                                        <FiUser size={14} className="text-primary sm:w-4 sm:h-4" />
-                                        <span className="font-medium">{post.author}</span>
+                                        <FiUser
+                                            size={14}
+                                            className="text-primary sm:w-4 sm:h-4"
+                                        />
+                                        <span className="font-medium">
+                                            {post.author}
+                                        </span>
                                     </div>
                                     <div className="flex items-center gap-2 hover:text-secondary transition-colors text-sm sm:text-base">
-                                        <FiCalendar size={14} className="text-secondary sm:w-4 sm:h-4" />
-                                        <span>{new Date(post.date).toLocaleDateString('en-US', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric'
-                                        })}</span>
+                                        <FiCalendar
+                                            size={14}
+                                            className="text-secondary sm:w-4 sm:h-4"
+                                        />
+                                        <span>
+                                            {new Date(
+                                                post.date
+                                            ).toLocaleDateString("en-US", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                            })}
+                                        </span>
                                     </div>
                                 </div>
                                 <ShareButton
@@ -140,7 +164,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                         key={tag}
                                         className="px-2 sm:px-3 py-1 sm:py-2 bg-gradient-to-r from-gray-800/60 to-gray-700/60 text-gray-300 rounded-full text-xs sm:text-sm border border-gray-600/50 hover:border-secondary/50 hover:text-secondary hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-md cursor-pointer break-words"
                                         style={{
-                                            animationDelay: `${index * 0.1}s`
+                                            animationDelay: `${index * 0.1}s`,
                                         }}
                                     >
                                         #{tag}
@@ -169,7 +193,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Content */}
                 <div className="container px-4 md:px-6 mx-auto pb-16">
                     <div className="max-w-4xl mx-auto">
-                        <div
+                        <BlogContentWrapper
+                            content={post.content}
                             className="blog-content prose prose-lg md:prose-xl prose-invert max-w-none overflow-hidden
                                 prose-headings:text-gray-100 prose-headings:font-bold
                                 prose-h1:text-3xl md:prose-h1:text-5xl prose-h1:mb-6 md:prose-h1:mb-8 prose-h1:bg-clip-text prose-h1:text-transparent prose-h1:bg-gradient-to-r prose-h1:from-primary prose-h1:to-secondary prose-h1:leading-tight
@@ -194,10 +219,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 [&_ul_ol]:list-decimal [&_ul_ol]:pl-8 [&_ul_ol]:mt-2 [&_ul_ol]:mb-2
                                 [&_ol_ol_ol]:list-decimal [&_ol_ol_ol]:pl-10 [&_ul_ul_ul]:list-disc [&_ul_ul_ul]:pl-10
                                 [&_li_ol]:mt-2 [&_li_ul]:mt-2 [&_li_p]:mb-2"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
                         />
-
-
                     </div>
                 </div>
 
@@ -207,35 +229,48 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <div className="border-t border-gray-700/50 pt-16">
                             <div className="text-center mb-12">
                                 <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                                    {relatedPosts.length > 0 ? 'Related Articles' : 'More Articles'}
+                                    {relatedPosts.length > 0
+                                        ? "Related Articles"
+                                        : "More Articles"}
                                 </h2>
                                 <p className="text-gray-400 max-w-2xl mx-auto">
                                     {relatedPosts.length > 0
-                                        ? 'Discover more articles related to this topic'
-                                        : 'Explore our latest articles and insights'
-                                    }
+                                        ? "Discover more articles related to this topic"
+                                        : "Explore our latest articles and insights"}
                                 </p>
                             </div>
 
                             {/* Display related posts if available, otherwise show other posts */}
-                            {(relatedPosts.length > 0 ? relatedPosts : otherPosts.slice(0, 4)).length > 0 && (
+                            {(relatedPosts.length > 0
+                                ? relatedPosts
+                                : otherPosts.slice(0, 4)
+                            ).length > 0 && (
                                 <>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                                        {(relatedPosts.length > 0 ? relatedPosts : otherPosts.slice(0, 4)).map((relatedPost, index) => (
+                                        {(relatedPosts.length > 0
+                                            ? relatedPosts
+                                            : otherPosts.slice(0, 4)
+                                        ).map((relatedPost, index) => (
                                             <Link
                                                 key={relatedPost.slug}
                                                 href={`/blog/${relatedPost.slug}`}
                                                 className="group"
                                                 style={{
-                                                    animationDelay: `${index * 0.1}s`
+                                                    animationDelay: `${
+                                                        index * 0.1
+                                                    }s`,
                                                 }}
                                             >
                                                 <article className="h-full flex flex-col backdrop-blur-sm bg-gray-900/30 rounded-xl border border-gray-700/50 overflow-hidden hover:border-primary/50 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
                                                     {relatedPost.image && (
                                                         <div className="aspect-video overflow-hidden flex-shrink-0 relative">
                                                             <img
-                                                                src={relatedPost.image}
-                                                                alt={relatedPost.title}
+                                                                src={
+                                                                    relatedPost.image
+                                                                }
+                                                                alt={
+                                                                    relatedPost.title
+                                                                }
                                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                                             />
                                                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -244,22 +279,31 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                                     <div className="p-4 flex flex-col flex-grow">
                                                         <div className="mb-3">
                                                             <span className="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs font-medium border border-secondary/30">
-                                                                {relatedPost.category}
+                                                                {
+                                                                    relatedPost.category
+                                                                }
                                                             </span>
                                                         </div>
                                                         <h3 className="text-base font-semibold mb-2 text-gray-100 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                                                             {relatedPost.title}
                                                         </h3>
                                                         <p className="text-gray-400 text-sm line-clamp-3 flex-grow leading-relaxed">
-                                                            {relatedPost.description}
+                                                            {
+                                                                relatedPost.description
+                                                            }
                                                         </p>
                                                         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700/30">
                                                             <span className="text-xs text-gray-500">
-                                                                {new Date(relatedPost.date).toLocaleDateString('en-US', {
-                                                                    month: 'short',
-                                                                    day: 'numeric',
-                                                                    year: 'numeric'
-                                                                })}
+                                                                {new Date(
+                                                                    relatedPost.date
+                                                                ).toLocaleDateString(
+                                                                    "en-US",
+                                                                    {
+                                                                        month: "short",
+                                                                        day: "numeric",
+                                                                        year: "numeric",
+                                                                    }
+                                                                )}
                                                             </span>
                                                             <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                                 Read more →
@@ -278,10 +322,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border border-primary/30 rounded-xl font-semibold hover:from-primary/30 hover:to-secondary/30 hover:border-primary/50 hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-lg group"
                                         >
                                             <span>View All Articles</span>
-                                            <span className="text-lg group-hover:translate-x-1 transition-transform duration-300">→</span>
+                                            <span className="text-lg group-hover:translate-x-1 transition-transform duration-300">
+                                                →
+                                            </span>
                                         </Link>
                                         <p className="text-gray-500 text-sm mt-3">
-                                            Discover all {allPosts.length} articles in our blog
+                                            Discover all {allPosts.length}{" "}
+                                            articles in our blog
                                         </p>
                                     </div>
                                 </>
@@ -293,16 +340,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Giscus Comments Section */}
                 <section className="container px-4 md:px-6 mx-auto pb-20">
                     <div className="max-w-4xl mx-auto">
-                        {process.env.NEXT_PUBLIC_GISCUS_REPO_ID && process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID ? (
-                            <GiscusComments
-                                slug={slug}
-                                title={post.title}
-                            />
+                        {process.env.NEXT_PUBLIC_GISCUS_REPO_ID &&
+                        process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID ? (
+                            <GiscusComments slug={slug} title={post.title} />
                         ) : (
-                            <GiscusFallback
-                                slug={slug}
-                                title={post.title}
-                            />
+                            <GiscusFallback slug={slug} title={post.title} />
                         )}
                     </div>
                 </section>
