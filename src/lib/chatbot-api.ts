@@ -79,7 +79,7 @@ export class ChatbotAPI {
         };
 
         try {
-            const apiUrl = "/api/chat/stream";
+            const apiUrl = "/chatbot/api/chat/stream";
             const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: {
