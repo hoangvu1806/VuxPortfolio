@@ -8,6 +8,10 @@ import { GiscusComments } from "@/components/ui/giscus-comments";
 import { GiscusFallback } from "@/components/ui/giscus-fallback";
 import { ShareButton } from "@/components/ui/share-button";
 import { BlogContentWrapper } from "@/components/blog/blog-content-wrapper";
+import { BlogScrollIndicators } from "@/components/blog/blog-scroll-indicators";
+import { TableOfContents } from "@/components/blog/table-of-contents";
+import { CustomScrollbar } from "@/components/blog/custom-scrollbar";
+import { MobileTocToggle } from "@/components/blog/mobile-toc-toggle";
 
 import { getBlogPostUrl } from "@/lib/url-utils";
 
@@ -82,6 +86,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     return (
         <MainLayout>
+            {/* Custom scrollbar only for blog pages */}
+            <CustomScrollbar />
+            
+            {/* Blog Scroll Indicators - Only progress bar */}
+            <BlogScrollIndicators target="article" showScrollToTop={false} />
+            
+            {/* Mobile TOC Toggle */}
+            <MobileTocToggle />
+            
+            {/* Fixed Table of Contents - Desktop only */}
+            <div className="hidden xl:block">
+                <TableOfContents />
+            </div>
+            
             <article className="min-h-screen">
                 {/* Header Section with improved spacing and design */}
                 <div className="relative bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-transparent">

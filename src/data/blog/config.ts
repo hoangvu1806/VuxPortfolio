@@ -67,7 +67,12 @@ export const blogTags = [
     "industry-news",
     "startup",
     "innovation",
-    "future-tech"
+    "future-tech",
+
+    // Philosophy & Cosmology
+    "philosophy",
+    "cosmology",
+    "theoretical-physics"
 ] as const;
 
 export type BlogCategory = typeof blogCategories[number];
@@ -75,6 +80,24 @@ export type BlogTag = typeof blogTags[number];
 
 export const blogConfig = {
     postsPerPage: 10,
-    defaultAuthor: "VU HOANG",
+    defaultAuthor: "Vu Hoang",
     dateFormat: "MMMM dd, yyyy",
+};
+
+// Mapping categories to suggested tags
+export const categoryTagMapping: Record<string, BlogTag[]> = {
+    "AI & IT Trends": ["tech-trends", "industry-news", "innovation", "future-tech", "artificial-intelligence"],
+    "AI & ML": ["artificial-intelligence", "machine-learning", "deep-learning", "neural-networks", "algorithms"],
+    "Agentic AI": ["ai-agents", "autonomous-systems", "multi-agent-systems", "reasoning", "planning"],
+    "LLMs": ["large-language-models", "transformers", "chatgpt", "prompt-engineering", "fine-tuning"],
+    "MLOps": ["mlops", "model-deployment", "data-engineering", "model-monitoring", "feature-engineering"],
+    "Natural Language Processing": ["natural-language-processing", "text-generation", "transformers", "large-language-models"],
+    "Mathematics": ["mathematics", "statistics", "algorithms", "data-structures"],
+    "Computer Science": ["computer-science", "algorithms", "data-structures", "computer-vision", "data-engineering"],
+    "Generative AI": ["generative-ai", "text-generation", "image-generation", "code-generation", "diffusion-models"],
+    "Physics": ["physics", "quantum-computing", "mathematics", "theoretical-physics"],
+    "Technical News": ["tech-trends", "industry-news", "startup", "innovation"],
+    "Research Paper": ["research-paper", "algorithms", "mathematics", "artificial-intelligence"],
+    "Cosmology": ["cosmology", "physics", "theoretical-physics", "mathematics"],
+    "Philosophy": ["philosophy", "reasoning", "future-tech"]
 };
