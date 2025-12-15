@@ -56,7 +56,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                 <div className={`relative ${isUser ? 'text-right' : 'text-left'}`}>
                     <div className={`rounded-2xl px-4 py-3 ${isUser
                         ? 'bg-gradient-to-r from-accent to-accent-light text-white'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                        : 'bg-gray-800 text-gray-100'
                         }`}>
                         {isUser ? (
                             <div className="chatbot-message-user">
@@ -73,7 +73,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                                             duration: 0.8,
                                             ease: "easeInOut"
                                         }}
-                                        className="inline-block w-0.5 h-4 bg-gray-600 dark:bg-gray-300 ml-0.5 align-text-bottom"
+                                        className="inline-block w-0.5 h-4 bg-gray-300 ml-0.5 align-text-bottom"
                                     />
                                 )}
                             </div>
@@ -88,12 +88,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={handleCopy}
-                            className="absolute -right-8 top-2 p-1.5 bg-gray-200 dark:bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute -right-8 top-2 p-1.5 bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                             {copied ? (
                                 <FiCheck className="w-3 h-3 text-green-500" />
                             ) : (
-                                <FiCopy className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                                <FiCopy className="w-3 h-3 text-gray-400" />
                             )}
                         </motion.button>
                     )}

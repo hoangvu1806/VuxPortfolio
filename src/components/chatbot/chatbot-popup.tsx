@@ -114,7 +114,7 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                                 }
                                 : {}
                         }
-                        className={`absolute bottom-0 right-0 w-80 h-[500px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden ${isDragLocked
+                        className={`absolute bottom-0 right-0 w-80 h-[500px] bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 flex flex-col overflow-hidden ${isDragLocked
                             ? ""
                             : "cursor-grab active:cursor-grabbing"
                             }`}
@@ -149,7 +149,7 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
-                                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl px-4 py-2">
+                                    <div className="bg-gray-800 rounded-2xl px-4 py-2">
                                         <div className="flex space-x-1">
                                             {[0, 1, 2].map((i) => (
                                                 <motion.div

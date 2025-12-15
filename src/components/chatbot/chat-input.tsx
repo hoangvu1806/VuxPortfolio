@@ -58,7 +58,7 @@ export function ChatInput({
     };
 
     return (
-        <div className="border-t border-gray-200 dark:border-gray-700 p-4 flex-shrink-0">
+        <div className="border-t border-gray-700 p-4 flex-shrink-0">
             {/* Context Tag */}
             <AnimatePresence>
                 {context && onRemoveContext && (
@@ -76,7 +76,7 @@ export function ChatInput({
                         onKeyPress={handleKeyPress}
                         placeholder="Enter message..."
                         disabled={disabled}
-                        className="w-full resize-none rounded-2xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 pr-10 text-xs focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed max-h-[80px]"
+                        className="w-full resize-none rounded-2xl border border-gray-600 bg-gray-800 text-gray-100 px-3 py-2 pr-10 text-xs focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed max-h-[80px]"
                         rows={1}
                     />
 
@@ -97,7 +97,7 @@ export function ChatInput({
                     className={`p-3 rounded-2xl transition-all duration-200 ${
                         message.trim() && !disabled
                             ? "bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:shadow-primary/25"
-                            : "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
                     }`}
                 >
                     <FiSend className="w-4 h-4" />
