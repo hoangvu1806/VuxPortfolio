@@ -134,10 +134,10 @@ export function Header() {
                         ))}
                     </nav>
 
-                    {/* Mobile Menu Toggle - Show on smaller screens */}
-                    <div className="flex items-center lg:hidden">
+                    {/* Mobile Menu Toggle - Only show on small screens */}
+                    <div className="flex items-center md:hidden">
                         <button
-                            className="p-2 rounded-md bg-gray-800 text-gray-300"
+                            className="p-2 rounded-md bg-transparent text-gray-300 hover:bg-gray-800/50 transition-colors"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             aria-label={
                                 mobileMenuOpen ? "Close menu" : "Open menu"
@@ -159,7 +159,7 @@ export function Header() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="lg:hidden bg-gray-900 py-4 px-4 shadow-lg border border-gray-700/50"
+                    className="md:hidden bg-gray-900 py-4 px-4 shadow-lg border border-gray-700/50"
                 >
                     <nav className="flex flex-col space-y-2 py-4">
                         {navItems.map((item, index) => (
