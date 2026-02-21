@@ -7,6 +7,7 @@ export interface BaseProject {
     details?: string[];
     image?: string;
     thumbnail?: string;
+    images?: string[];
     featured?: boolean;
     status?: "Completed" | "In Development" | "In Planning";
     demoUrl?: string | null;

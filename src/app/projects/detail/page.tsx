@@ -8,7 +8,9 @@ import {
     FiArrowLeft,
     FiTag,
     FiLayers,
+    FiX,
 } from "react-icons/fi";
+import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -27,8 +29,8 @@ interface ProjectData {
     challenges: string[];
     results: string[];
     technologies: string[];
-    githubUrl?: string;
-    demoUrl?: string;
+    githubUrl?: string | null;
+    demoUrl?: string | null;
     [key: string]: any;
 }
 
@@ -38,6 +40,8 @@ function ProjectDetailContent() {
     const searchParams = useSearchParams();
     const [project, setProject] = useState<ProjectData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [projectImages, setProjectImages] = useState<string[]>([]);
 
     useEffect(() => {
         // Get project title from URL query parameter
@@ -60,7 +64,10 @@ function ProjectDetailContent() {
             (foundProject.title !== "EzClip" &&
                 foundProject.title !== "Decision Tree Visualization" &&
                 foundProject.title !== "Deeplearning-Practice" &&
-                foundProject.title !== "SciHorizone - IELTS Exam Generator")
+                foundProject.title !== "AcaRead: AI-Powered Academic Assessment System" &&
+                foundProject.title !== "TwinSelf - Digital Twin Chatbot" &&
+                foundProject.title !== "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing" &&
+                foundProject.title !== "Ready4RAG: High-Precision Dual-Layer RAG Pipeline")
         ) {
             router.push("/projects");
             return;
@@ -71,17 +78,16 @@ function ProjectDetailContent() {
             ...foundProject,
             longDescription: foundProject.description,
             coverImage: foundProject.image,
-            images: foundProject.image ? [foundProject.image] : [],
+            images: [],  // populated by API call below
             features: foundProject.details || [],
             challenges:
-                foundProject.title === "SciHorizone - IELTS Exam Generator"
+                foundProject.title === "AcaRead: AI-Powered Academic Assessment System"
                     ? [
-                        "Integrating Google Gemini AI for intelligent question generation",
-                        "Implementing robust PDF processing with multiple extraction methods",
-                        "Creating professional exam interface that mimics real IELTS/TOEIC tests",
-                        "Developing automated grading system with detailed explanations",
-                        "Ensuring scalability and performance for production deployment",
-                        "Handling various PDF formats and scientific document structures",
+                        "Hallucination in AI: Ensuring the model doesn't invent facts by implementing 'Grounding Verification' with specific citation requirements.",
+                        "PDF Structure Chaos: Handling messy academic PDF layouts (multi-column, floats) using a custom 'StructuralComplianceAnalyzer'.",
+                        "Latency & Feedback: Managing long generation times (30-60s) by implementing an engaging 'Cyberpunk Loader' with real-time system logs.",
+                        "Format Compliance: Strictly adhering to IELTS formatting rules (e.g., 'TRUE' vs 'YES') and question sequencing.",
+                        "Pedagogical Validity: Ensuring generated questions test true comprehension rather than simple keyword matching.",
                     ]
                     : foundProject.title === "Deeplearning-Practice"
                         ? [
@@ -91,21 +97,44 @@ function ProjectDetailContent() {
                             "Balancing model complexity with training efficiency",
                             "Documenting implementations with clear explanations",
                         ]
-                        : [
-                            "Building an intuitive user interface",
-                            "Ensuring cross-platform compatibility",
-                            "Optimizing performance for all users",
-                        ],
+                        : foundProject.title === "TwinSelf - Digital Twin Chatbot"
+                            ? [
+                                "Memory Balancing: Tuning the retrieval weights (Semantic vs Episodic vs Procedural) to ensure facts don't override personality.",
+                                "Personality Alignment: Creating a robust Episodic memory that accurately captures and mimics user-specific tone and humor.",
+                                "Data Versioning Conflict: Implementing a safe snapshot and rollback mechanism for the Qdrant vector database.",
+                                "Evaluator Latency: Resolving the bottleneck caused by asynchronous DeepEval metrics logging to MLflow.",
+                                "Vietnamese Nuance: Optimizing semantic search for complex Vietnamese phrasing and professional terminology.",
+                            ]
+                            : foundProject.title === "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing"
+                                ? [
+                                    "Preprocessing Stability: Ensuring consistent recognition results by implementing 2D similarity transform facial alignment.",
+                                    "Low-light Performance: Mitigating accuracy drops in suboptimal lighting (from 97% to 85.2%) without depth-sensing hardware.",
+                                    "Anti-Spoofing Reliability: Detecting printed and digital attacks using software-only methods in varying illumination levels.",
+                                    "Quality Control: Building a 'Quality Gate' to filter out blurry or low-contrast frames before embedding extraction.",
+                                    "System Latency: Optimizing the modular pipeline to maintain a 1-2 second response time in a real-time kiosk environment.",
+                                ]
+                                : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
+                                    ? [
+                                        "Complex Layout Extraction: Handling multi-column research papers and complex tables using Vision LLMs without losing structural integrity.",
+                                        "Graph-Vector Fusion: Designing a retrieval mechanism that effectively merges similarity scores from Qdrant with relationship weights from NetworkX.",
+                                        "Entity Disambiguation: Ensuring the auto-graph construction doesn't create duplicate nodes for the same entity mentioned in different contexts.",
+                                        "Scalability: Managing the computational cost of using Vision LLMs for large-scale document ingestion pipelines.",
+                                        "Context Noise: Filtering out irrelevant retrieved chunks and nodes to maintain high precision in generated answers.",
+                                    ]
+                                    : [
+                                        "Building an intuitive user interface",
+                                "Ensuring cross-platform compatibility",
+                                "Optimizing performance for all users",
+                            ],
             results:
-                foundProject.title === "SciHorizone - IELTS Exam Generator"
+                foundProject.title === "AcaRead: AI-Powered Academic Assessment System"
                     ? [
-                        "Successfully deployed AI-powered exam generation system",
-                        "Achieved high accuracy in question generation using Google Gemini AI",
-                        "Implemented robust PDF processing supporting various scientific document formats",
-                        "Created professional exam interface with timer and navigation features",
-                        "Deployed production-ready application with Docker containerization",
-                        "Positive user feedback on exam quality and user experience",
-                        "Automated grading system with detailed explanations and analysis",
+                        "Successfully processes raw PDFs, handling complex layouts, citations, and dual-column formats.",
+                        "Provides instant, AI-driven grading with detailed explanations citing specific text evidence.",
+                        "Delivers a distraction-free 'Focused Mode' interface with split-screen view.",
+                        "Demonstrates true understanding of logic and arguments using Gemini 2.5 Flash (1M token context).",
+                        "Achieved a premium, responsive 'Cyberpunk/HUD' UI that feels engaging and modern.",
+                        "Bridged the gap between passive reading and active assessment for specialized academic texts.",
                     ]
                     : foundProject.title === "Deeplearning-Practice"
                         ? [
@@ -115,14 +144,39 @@ function ProjectDetailContent() {
                             "Educational resource for understanding deep learning concepts",
                             "Organized structure by application domains",
                         ]
-                        : [
-                            "Successfully deployed and available for public use",
-                            "Positive user feedback on functionality and design",
-                            "Continuous improvement based on community input",
-                        ],
+                        : foundProject.title === "TwinSelf - Digital Twin Chatbot"
+                            ? [
+                                "Successfully integrated as the core intelligence of this portfolio's chatbot assistant.",
+                                "Created a high-fidelity digital twin capable of authentic, personality-aware interactions.",
+                                "Established a full MLOps loop with real-time performance tracking in MLflow.",
+                                "Achieved high 'Faithfulness' and 'Relevancy' scores across diverse testing scenarios using DeepEval.",
+                                "Successfully implemented a modular memory system that is fully evolvable and version-controlled.",
+                                "Deployed a production-ready system with sub-second retrieval and generation times.",
+                            ]
+                            : foundProject.title === "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing"
+                                ? [
+                                    "Achieved 93.75% average recognition accuracy across 15 participants.",
+                                    "Successfully identified 100% of printed and phone-based spoofing attacks in well-lit conditions.",
+                                    "Reduced intra-class variation significantly through standardized facial alignment preprocessing.",
+                                    "Maintained acceptable system latency of 1-2 seconds for practical kiosk deployment.",
+                                    "Validated that preprocessing (Quality Gate) is a critical bottleneck for real-world biometric stability.",
+                                ]
+                                : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
+                                    ? [
+                                        "Near-perfect preservation of document structure during PDF to Markdown conversion.",
+                                        "Significant reduction in hallucination by grounding chatbot answers in both vector and graph context.",
+                                        "Automated knowledge base creation that surfaces hidden relationships between distinct data points.",
+                                        "High retrieval precision by combining semantic search with structural reasoning.",
+                                        "Demonstrated flexibility across multiple LLM providers, including local and cloud models.",
+                                    ]
+                                    : [
+                                        "Successfully deployed and available for public use",
+                                "Positive user feedback on functionality and design",
+                                "Continuous improvement based on community input",
+                            ],
             technologies:
-                foundProject.title === "SciHorizone - IELTS Exam Generator"
-                    ? ["Next.js", "FastAPI", "Google Gemini AI", "Python", "TypeScript", "Tailwind CSS", "Docker", "docling-serve"]
+                foundProject.title === "AcaRead: AI-Powered Academic Assessment System"
+                    ? ["Next.js 15", "FastAPI", "Gemini 2.5 Flash", "Python", "SQLite", "Tailwind CSS", "Docker", "Docling", "PyMuPDF"]
                     : foundProject.title === "EzClip"
                         ? ["JavaScript", "Electron.js", "HTML", "CSS", "Node.js"]
                         : foundProject.title === "Deeplearning-Practice"
@@ -130,6 +184,36 @@ function ProjectDetailContent() {
                                 "Python",
                                 "PyTorch",
                                 "Wandb",
+                            ]
+                        : foundProject.title === "TwinSelf - Digital Twin Chatbot"
+                            ? [
+                                "Python",
+                                "Google Gemini",
+                                "FastAPI",
+                                "Qdrant",
+                                "MLflow",
+                                "DeepEval",
+                            ]
+                        : foundProject.title === "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing"
+                            ? [
+                                "Python",
+                                "OpenCV",
+                                "InsightFace",
+                                "MediaPipe",
+                                "PyTorch",
+                                "FastAPI",
+                            ]
+                        : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
+                            ? [
+                                "Python",
+                                "Qdrant",
+                                "NetworkX",
+                                "Google Gemini",
+                                "OpenAI",
+                                "Ollama",
+                                "LangChain",
+                                "PyMuPDF",
+                                "Docling",
                             ]
                             : [
                                 "Python",
@@ -145,6 +229,27 @@ function ProjectDetailContent() {
         setProject(projectData);
         setLoading(false);
     }, [searchParams, router]);
+
+    // Fetch all images for this project from the filesystem via API
+    useEffect(() => {
+        if (!project?.image) return;
+
+        // Extract slug from the image path: /images/projects/{slug}/hero.jpg
+        const match = project.image.match(/\/images\/projects\/([^/]+)\//);
+        if (!match) return;
+        const slug = match[1];
+
+        fetch(`/api/project-images?slug=${slug}`)
+            .then((res) => res.json())
+            .then((data: { images?: string[] }) => {
+                if (data.images && data.images.length > 0) {
+                    setProjectImages(data.images);
+                }
+            })
+            .catch(() => {
+                // Silently fall back to empty gallery
+            });
+    }, [project?.image]);
 
     if (loading) {
         return (
@@ -335,7 +440,7 @@ function ProjectDetailContent() {
                             )}
                         </motion.section>
 
-                        {project.images && project.images.length > 0 && (
+                        {projectImages.length > 0 && (
                             <motion.section
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -346,7 +451,7 @@ function ProjectDetailContent() {
                                     Project Images
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {project.images.map((image, index) => (
+                                    {projectImages.map((image, index) => (
                                         <motion.div
                                             key={index}
                                             initial={{ opacity: 0, scale: 0.9 }}
@@ -356,13 +461,14 @@ function ProjectDetailContent() {
                                                 delay: 0.3 + index * 0.1,
                                             }}
                                             whileHover={{ scale: 1.03 }}
-                                            className="relative aspect-video rounded-xl overflow-hidden shadow-lg"
+                                            className="relative aspect-video rounded-xl overflow-hidden shadow-lg cursor-pointer"
+                                            onClick={() => setSelectedImage(image)}
                                         >
                                             <Image
                                                 src={image}
                                                 alt={`${project.title} - Image ${index + 1}`}
                                                 fill
-                                                className="object-cover object-center"
+                                                className="object-cover object-center transition-transform duration-500 hover:scale-110"
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             />
                                         </motion.div>
@@ -451,6 +557,49 @@ function ProjectDetailContent() {
                     </div>
                 </div>
             </div>
+
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSelectedImage(null)}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/95 backdrop-blur-md"
+                    >
+                        <motion.button
+                            initial={{ scale: 0, rotate: -90 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            className="absolute top-6 right-6 text-white text-3xl z-50 hover:text-primary transition-colors bg-gray-800/50 p-2 rounded-full"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedImage(null);
+                            }}
+                        >
+                            <FiX />
+                        </motion.button>
+                        
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            className="relative w-full max-w-6xl aspect-video rounded-xl overflow-hidden shadow-2xl border border-gray-700/50"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <Image
+                                src={selectedImage}
+                                alt="Selected Project Image"
+                                fill
+                                className="object-contain"
+                                sizes="90vw"
+                                priority
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 }

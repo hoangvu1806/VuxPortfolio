@@ -1,4 +1,5 @@
 import { ImagePaths } from "@/utils/image-paths";
+import { Project } from "@/types/project";
 
 // Project slug mapping for consistent paths
 const projectSlugs = {
@@ -8,8 +9,11 @@ const projectSlugs = {
     "Deeplearning-Practice": "deeplearning-practice",
     EzClip: "ezclip",
     "Decision Tree Visualization": "decision-tree-visualization",
-    "SciHorizone": "scihorizone",
-    "PlugAgentX": "plugagentx"
+    "AcaRead": "acaread",
+    "PlugAgentX": "plugagentx",
+    "TwinSelf": "twinself",
+    "Face Attendance": "face-attendance",
+    "Ready4RAG": "ready4rag"
 };
 
 // Helper function to get project image path 
@@ -84,45 +88,160 @@ export const profile = {
             status: "Completed" as const,
         },
         {
-            title: "SciHorizone - IELTS Exam Generator",
-            type: "AI & ML",
+            title: "AcaRead: AI-Powered Academic Assessment System",
+            type: "Web App, AI",
             description:
-                "AI-powered application that converts scientific papers (PDF) into IELTS/TOEIC reading comprehension exams using Google Gemini AI. Features intelligent PDF processing, automated question generation, and interactive exam interface.",
+                "An advanced educational platform that transforms academic papers (PDFs) into interactive IELTS-style reading exams using Gemini 2.5 Flash, bridging passive reading and active comprehension assessment.",
             details: [
-                "Google Gemini AI integration for intelligent question generation",
-                "Advanced PDF processing with docling-serve and fallback methods",
-                "Support for IELTS (band 4.0-9.0) and TOEIC (400-900 points) formats",
-                "Interactive exam interface with timer and navigation system",
-                "Automated grading with detailed explanations and analysis",
-                "Multiple question types: Multiple choice, True/False/Not Given, Matching, Fill in blanks",
-                "Professional exam simulation with responsive design",
-                "Real-time PDF extraction from uploads or URLs",
-                "Comprehensive result analysis with improvement recommendations",
-                "Production deployment with Docker containerization",
+                "AI-Driven Exam Generation: Utilizes LLM to analyze text logic, arguments, and generate distractor-based questions.",
+                "Authentic Material Processing: Handles complex PDF layouts including multi-column structures and citations via Docling and PyMuPDF.",
+                "Interactive Exam Engine: Features a split-screen 'Focused Mode' for distraction-free reading and real-time state management.",
+                "Scientific Validation: Implements a multi-level evaluation framework based on CEFR B2-C1 standards and NLP metrics.",
+                "Modern Cyberpunk UI: Designed with glassmorphism, neon accents, and micro-animations for a premium user experience.",
             ],
-            image: ImagePaths.project.hero(projectSlugs["SciHorizone"]),
+            image: ImagePaths.project.hero(projectSlugs["AcaRead"]),
             thumbnail: ImagePaths.project.thumbnail(
-                projectSlugs["SciHorizone"]
+                projectSlugs["AcaRead"]
             ),
-            githubUrl: "https://github.com/hoangvu1806/SciHorizone",
-            // demoUrl: "https://scihorizone.hoangvu.id.vn", // Temporarily disabled - domain not accessible
+            images: [
+                ImagePaths.project.hero(projectSlugs["AcaRead"]),
+                ImagePaths.project.thumbnail(projectSlugs["AcaRead"]),
+            ],
+            githubUrl: "https://github.com/hoangvu1806/AcaRead", // Assuming renamed repo based on context, otherwise keep SciHorizone link if unchanged. Let's start with this.
+            // demoUrl: "https://acaread.hoangvu.id.vn", 
             featured: true,
             status: "Completed" as const,
             techStack: [
-                "Python",
-                "Google Gemini AI",
+                "Next.js 15",
                 "FastAPI",
-                "Next.js",
-                "TypeScript",
+                "Python",
                 "Tailwind CSS",
                 "Docker",
             ],
             highlights: [
-                "🤖 AI-powered exam generation using Google Gemini API",
-                "📄 Intelligent PDF processing with multiple extraction methods",
-                "🎯 Professional exam simulation interface",
-                "📊 Automated grading with detailed analysis",
-                "🌐 Full-stack application with modern tech stack",
+                "Autonomous Exam Generation with LLM",
+                "Structural Compliance Analysis for PDFs",
+                "IELTS-Standard Question Synthesis",
+                "Real-time Grading & Feedback Engine",
+                "Futuristic Cyberpunk/HUD Design System",
+            ],
+        },
+        {
+            title: "TwinSelf - Digital Twin Chatbot",
+            type: "AI & ML, MLOps",
+            description:
+                "A sophisticated RAG-based chatbot system using a triple-memory architecture (Semantic, Episodic, Procedural). This system serves as the intelligence behind the AI Chatbot on this portfolio, providing an authentic digital twin experience.",
+            details: [
+                "Portfolio Integration: Currently acting as the core engine for this website's personal chatbot assistant.",
+                "Cognitive Memory System: Implements Semantic (facts), Episodic (experience), and Procedural (behavioral rules) memory layers.",
+                "Vector Search: Highly efficient retrieval using Qdrant vector database and specialized Vietnamese document embeddings.",
+                "MLOps Integration: Comprehensive tracking with MLflow and automated response quality evaluation using DeepEval.",
+                "Version Control: Robust data management system supporting snapshots, versioning, and rollback of knowledge bases.",
+            ],
+            image: ImagePaths.project.hero(projectSlugs["TwinSelf"]),
+            thumbnail: ImagePaths.project.thumbnail(
+                projectSlugs["TwinSelf"]
+            ),
+            images: [
+                ImagePaths.project.hero(projectSlugs["TwinSelf"]),
+                ImagePaths.project.thumbnail(projectSlugs["TwinSelf"]),
+            ],
+            githubUrl: "https://github.com/hoangvu1806/TwinSelf",
+            featured: true,
+            status: "Completed" as const,
+            techStack: [
+                "Python",
+                "Google Gemini",
+                "FastAPI",
+                "Qdrant",
+                "MLflow",
+                "DeepEval",
+            ],
+            highlights: [
+                "Core Engine: Currently integrated into this portfolio's Chatbot",
+                "Cognitive Architecture inspired by human memory",
+                "Data Versioning & Rollback support",
+                "Integrated MLOps with MLflow & DeepEval",
+                "Production-ready async streaming server",
+            ],
+        },
+        {
+            title: "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing",
+            type: "AI & ML, Computer Vision",
+            description:
+                "A modular kiosk-based face recognition system for attendance and access control, featuring facial alignment, quality gating, and anti-spoofing mechanisms for near real-time biometric verification.",
+            details: [
+                "Modular Vision Pipeline: Integrates face detection, 2D similarity transform alignment, and identity matching into a unified flow.",
+                "Quality Gate System: Automatically filters frames affected by blur, low contrast, or poor lighting to maintain high embedding accuracy.",
+                "Anti-Spoofing Mechanism: Implements verification layers to detect printed or digital attack attempts in various lighting conditions.",
+                "High Performance: Optimized to run on limited hardware with a latency of 1-2 seconds from subject detection to result.",
+                "Robust Data Processing: Standardizes input via similarity transforms, significantly reducing intra-class variation for stable recognition.",
+            ],
+            image: ImagePaths.project.hero(projectSlugs["Face Attendance"]),
+            thumbnail: ImagePaths.project.thumbnail(
+                projectSlugs["Face Attendance"]
+            ),
+            images: [
+                ImagePaths.project.hero(projectSlugs["Face Attendance"]),
+                ImagePaths.project.thumbnail(projectSlugs["Face Attendance"]),
+            ],
+            githubUrl: "https://github.com/hoangvu1806/FaceAttendance", 
+            featured: true,
+            status: "Completed" as const,
+            techStack: [
+                "Python",
+                "OpenCV",
+                "InsightFace",
+                "MediaPipe",
+                "PyTorch",
+                "FastAPI",
+            ],
+            highlights: [
+                "Biometric pipeline with 93.75% average accuracy",
+                "Facial Alignment via 2D Similarity Transform",
+                "Quality Gate filtering for motion & blur",
+                "100% spoofing detection in optimal lighting",
+                "Near real-time 1-2s system latency",
+            ],
+        },
+        {
+            title: "Ready4RAG: High-Precision Dual-Layer RAG Pipeline",
+            type: "AI & ML, RAG",
+            description:
+                "A next-generation ingestion system converting complex PDFs into value using Vision LLMs and Hybrid Memory (Vector + Graph) for grounded, high-precision answers.",
+            details: [
+                "Vision-Powered Extraction: Converts PDF to Markdown with near-perfect layout preservation using multimodal Vision LLMs.",
+                "Dual-Layer Memory: Hybrid storage system using Qdrant for vector similarity and NetworkX for graph-based reasoning.",
+                "Auto-Graph Construction: Automatically extracts entities (People, Locations, Concepts) and relationships to build a knowledge graph.",
+                "Hybrid Chatbot Engine: Interactive interface that retrieves and merges context from both vector and graph layers.",
+                "Multi-Provider Infrastructure: Plug-and-play support for Google Gemini, OpenAI, Groq, and local Ollama models.",
+            ],
+            status: "Completed" as const,
+            image: ImagePaths.project.hero(projectSlugs["Ready4RAG"]),
+            thumbnail: ImagePaths.project.thumbnail(
+                projectSlugs["Ready4RAG"]
+            ),
+            images: [
+                ImagePaths.project.hero(projectSlugs["Ready4RAG"]),
+                ImagePaths.project.thumbnail(projectSlugs["Ready4RAG"]),
+            ],
+            githubUrl: "https://github.com/hoangvu1806/Ready4RAG",
+            featured: true,
+            techStack: [
+                "Python",
+                "Qdrant",
+                "NetworkX",
+                "Google Gemini",
+                "OpenAI",
+                "Ollama",
+                "LangChain",
+            ],
+            highlights: [
+                "Vision-Powered PDF to Markdown conversion",
+                "Hybrid Memory: Vector + Knowledge Graph",
+                "Automatic Entity & Relationship Extraction",
+                "Multi-Model Support (Gemini, OpenAI, Groq)",
+                "Interactive Hybrid Context Chatbot",
             ],
         },
         {
@@ -138,12 +257,23 @@ export const profile = {
                 "Classification models for Vietnamese news articles",
                 "All implementations feature clean, well-documented code with detailed explanations",
             ],
+            status: "Completed" as const,
+            techStack: ["PyTorch", "Python", "WandB", "NumPy", "Scikit-Learn"],
+            highlights: [
+                "From-scratch Neural Network Implementations",
+                "Experimental Tracking with WandB",
+                "Domain-specific model fine-tuning",
+            ],
             image: ImagePaths.project.hero(
                 projectSlugs["Deeplearning-Practice"]
             ),
             thumbnail: ImagePaths.project.thumbnail(
                 projectSlugs["Deeplearning-Practice"]
             ),
+            images: [
+                ImagePaths.project.hero(projectSlugs["Deeplearning-Practice"]),
+                ImagePaths.project.thumbnail(projectSlugs["Deeplearning-Practice"]),
+            ],
             githubUrl: "https://github.com/hoangvu1806/Deeplearning-Practice",
             featured: true,
         },
@@ -159,8 +289,19 @@ export const profile = {
                 "Offline functionality - no server required",
                 "Built with Electron.js for cross-platform compatibility",
             ],
+            status: "Completed" as const,
+            techStack: ["Electron.js", "Node.js", "JavaScript", "FFmpeg", "HTML/CSS"],
+            highlights: [
+                "Cross-platform Desktop Core",
+                "Native Hardware Acceleration",
+                "Offline-first Architecture",
+            ],
             image: ImagePaths.project.hero(projectSlugs["EzClip"]),
             thumbnail: ImagePaths.project.thumbnail(projectSlugs["EzClip"]),
+            images: [
+                ImagePaths.project.hero(projectSlugs["EzClip"]),
+                ImagePaths.project.thumbnail(projectSlugs["EzClip"]),
+            ],
             githubUrl: "https://github.com/hoangvu1806/EzClip",
             featured: true,
         },
@@ -176,12 +317,23 @@ export const profile = {
                 "Visualizes decision trees as hierarchical structures",
                 "Calculates and displays model evaluation metrics",
             ],
+            status: "Completed" as const,
+            techStack: ["Python", "FastAPI", "Scikit-Learn", "Tailwind CSS", "JavaScript"],
+            highlights: [
+                "Dynamic Tree Graph Rendering",
+                "Real-time Hyperparameter Tuning",
+                "Educational Dataset Analysis",
+            ],
             image: ImagePaths.project.hero(
                 projectSlugs["Decision Tree Visualization"]
             ),
             thumbnail: ImagePaths.project.thumbnail(
                 projectSlugs["Decision Tree Visualization"]
             ),
+            images: [
+                ImagePaths.project.hero(projectSlugs["Decision Tree Visualization"]),
+                ImagePaths.project.thumbnail(projectSlugs["Decision Tree Visualization"]),
+            ],
             githubUrl:
                 "https://github.com/hoangvu1806/Decision-Tree-Visualization",
             featured: true,
@@ -220,7 +372,7 @@ export const profile = {
             ],
             status: "Completed" as const,
         },
-    ],
+    ] as Project[],
     skills: {
         technical: [
             {
