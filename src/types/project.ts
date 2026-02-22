@@ -14,6 +14,11 @@ export interface BaseProject {
     githubUrl?: string | null;
     techStack?: string[];
     highlights?: string[];
+    role?: string;
+    projectType?: "personal project" | "team project" | "competition project" | "research project" | "educational project";
+    startDate?: string;
+    endDate?: string;
+    achievement?: string;
     [key: string]: any; // Allow additional properties
 }
 

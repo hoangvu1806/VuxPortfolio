@@ -16,6 +16,10 @@ import {
     FiFeather,
     FiArrowRight,
     FiStar,
+    FiUser,
+    FiCalendar,
+    FiBriefcase,
+    FiAward,
 } from "react-icons/fi";
 import Link from "next/link";
 import { useState, useRef } from "react";
@@ -34,6 +38,11 @@ export default function ProjectsPage() {
             id: "research",
             label: "Research",
             icon: <FiFeather className="mr-2" />,
+        },
+        {
+            id: "competition",
+            label: "Competition",
+            icon: <FiAward className="mr-2" />,
         },
     ];
 
@@ -251,10 +260,10 @@ export default function ProjectsPage() {
                                                             {/* Cinematic gradient overlay */}
                                                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
 
-                                                            {/* Floating type badge */}
-                                                            <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+                                                            {/* Floating type badge — max-w prevents collision with status badge on mobile */}
+                                                            <div className="absolute top-4 left-4 z-10 max-w-[55%]">
                                                                 {project.type && (
-                                                                    <span className="inline-flex items-center gap-1.5 bg-gray-900/80 backdrop-blur-md text-primary text-xs font-semibold px-3 py-1.5 rounded-full border border-primary/30">
+                                                                    <span className="inline-flex items-center gap-1.5 bg-gray-900/80 backdrop-blur-md text-primary text-xs font-semibold px-3 py-1.5 rounded-full border border-primary/30 truncate max-w-full">
                                                                         {
                                                                             project.type
                                                                         }
@@ -289,12 +298,13 @@ export default function ProjectsPage() {
                                                             {/* Title overlay on image */}
                                                             <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
                                                                 <h2
-                                                                    className={`font-bold text-white leading-tight drop-shadow-lg ${
+                                                                    className={`font-bold text-white leading-tight line-clamp-2 ${
                                                                         index ===
                                                                         0
-                                                                            ? "text-2xl md:text-3xl"
-                                                                            : "text-xl"
+                                                                            ? "text-xl md:text-3xl"
+                                                                            : "text-lg md:text-xl"
                                                                     }`}
+                                                                    style={{ textShadow: "0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,1)" }}
                                                                 >
                                                                     {
                                                                         project.title
@@ -305,11 +315,31 @@ export default function ProjectsPage() {
 
                                                         {/* ── Content body ── */}
                                                         <div className="p-5 flex flex-col gap-4">
-                                                            <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
-                                                                {
-                                                                    project.description
-                                                                }
-                                                            </p>
+
+                                                            {/* Metadata row: role, timeline, project type */}
+                                                            {(project.role || project.startDate || project.projectType) && (
+                                                                <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-400">
+                                                                    {project.role && (
+                                                                        <span className="flex items-center gap-1">
+                                                                            <FiUser className="shrink-0 text-primary" />
+                                                                            {project.role}
+                                                                        </span>
+                                                                    )}
+                                                                    {(project.startDate || project.endDate) && (
+                                                                        <span className="flex items-center gap-1">
+                                                                            <FiCalendar className="shrink-0 text-primary" />
+                                                                            {project.startDate ?? "—"}
+                                                                            {project.endDate ? ` → ${project.endDate}` : " → Present"}
+                                                                        </span>
+                                                                    )}
+                                                                    {project.projectType && (
+                                                                        <span className="flex items-center gap-1 capitalize">
+                                                                            <FiBriefcase className="shrink-0 text-primary" />
+                                                                            {project.projectType}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            )}
 
                                                             <div className="flex flex-wrap gap-3 items-start">
                                                                 {/* Tech Stack pills */}
@@ -494,11 +524,6 @@ export default function ProjectsPage() {
                                                                 )}
                                                             </div>
 
-                                                            <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 flex-1">
-                                                                {
-                                                                    project.description
-                                                                }
-                                                            </p>
 
                                                             {"status" in
                                                                 project &&
@@ -514,6 +539,31 @@ export default function ProjectsPage() {
                                                                         }
                                                                     </span>
                                                                 )}
+
+                                                            {/* Metadata row for compact cards */}
+                                                            {(project.role || project.startDate || project.projectType) && (
+                                                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-gray-500">
+                                                                    {project.role && (
+                                                                        <span className="flex items-center gap-1">
+                                                                            <FiUser className="shrink-0 text-primary/70" />
+                                                                            {project.role}
+                                                                        </span>
+                                                                    )}
+                                                                    {(project.startDate || project.endDate) && (
+                                                                        <span className="flex items-center gap-1">
+                                                                            <FiCalendar className="shrink-0 text-primary/70" />
+                                                                            {project.startDate ?? "—"}
+                                                                            {project.endDate ? ` → ${project.endDate}` : " → Present"}
+                                                                        </span>
+                                                                    )}
+                                                                    {project.projectType && (
+                                                                        <span className="flex items-center gap-1 capitalize">
+                                                                            <FiBriefcase className="shrink-0 text-primary/70" />
+                                                                            {project.projectType}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            )}
 
                                                             <div className="flex gap-2 pt-2 border-t border-gray-700/40 mt-auto">
                                                                 {(

@@ -9,6 +9,10 @@ import {
     FiTag,
     FiLayers,
     FiX,
+    FiUser,
+    FiAward,
+    FiCalendar,
+    FiBriefcase,
 } from "react-icons/fi";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -67,7 +71,10 @@ function ProjectDetailContent() {
                 foundProject.title !== "AcaRead: AI-Powered Academic Assessment System" &&
                 foundProject.title !== "TwinSelf - Digital Twin Chatbot" &&
                 foundProject.title !== "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing" &&
-                foundProject.title !== "Ready4RAG: High-Precision Dual-Layer RAG Pipeline")
+                foundProject.title !== "Ready4RAG: High-Precision Dual-Layer RAG Pipeline" &&
+                foundProject.title !== "Viettel AI Race 2025" &&
+                foundProject.title !== "AIC25 Competition" &&
+                foundProject.title !== "TARS: SOICT 2025")
         ) {
             router.push("/projects");
             return;
@@ -78,8 +85,13 @@ function ProjectDetailContent() {
             ...foundProject,
             longDescription: foundProject.description,
             coverImage: foundProject.image,
-            images: [],  // populated by API call below
+            images: [],
             features: foundProject.details || [],
+            role: foundProject.role,
+            projectType: foundProject.projectType,
+            startDate: foundProject.startDate,
+            endDate: foundProject.endDate,
+            achievement: foundProject.achievement,
             challenges:
                 foundProject.title === "AcaRead: AI-Powered Academic Assessment System"
                     ? [
@@ -113,16 +125,37 @@ function ProjectDetailContent() {
                                     "Quality Control: Building a 'Quality Gate' to filter out blurry or low-contrast frames before embedding extraction.",
                                     "System Latency: Optimizing the modular pipeline to maintain a 1-2 second response time in a real-time kiosk environment.",
                                 ]
-                                : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
-                                    ? [
-                                        "Complex Layout Extraction: Handling multi-column research papers and complex tables using Vision LLMs without losing structural integrity.",
-                                        "Graph-Vector Fusion: Designing a retrieval mechanism that effectively merges similarity scores from Qdrant with relationship weights from NetworkX.",
-                                        "Entity Disambiguation: Ensuring the auto-graph construction doesn't create duplicate nodes for the same entity mentioned in different contexts.",
-                                        "Scalability: Managing the computational cost of using Vision LLMs for large-scale document ingestion pipelines.",
-                                        "Context Noise: Filtering out irrelevant retrieved chunks and nodes to maintain high precision in generated answers.",
-                                    ]
-                                    : [
-                                        "Building an intuitive user interface",
+                                 : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
+                                     ? [
+                                         "Complex Layout Extraction: Handling multi-column research papers and complex tables using Vision LLMs without losing structural integrity.",
+                                         "Graph-Vector Fusion: Designing a retrieval mechanism that effectively merges similarity scores from Qdrant with relationship weights from NetworkX.",
+                                         "Entity Disambiguation: Ensuring the auto-graph construction doesn't create duplicate nodes for the same entity mentioned in different contexts.",
+                                         "Scalability: Managing the computational cost of using Vision LLMs for large-scale document ingestion pipelines.",
+                                         "Context Noise: Filtering out irrelevant retrieved chunks and nodes to maintain high precision in generated answers.",
+                                     ]
+                                     : foundProject.title === "Viettel AI Race 2025"
+                                         ? [
+                                             "PDF Table Complexity: Reconstructing merged cells and multi-level headers from raw coordinate-based PDF text spans.",
+                                             "Numeric Normalization: Handling mixed formatting (commas, decimal points, percentage signs, negative values) across diverse document types.",
+                                             "Distractor Robustness: Multiple-choice options crafted with near-correct numerical values requiring high extraction precision to distinguish.",
+                                             "Solo Constraint: Competing against full teams without the benefit of parallel specialization across pipeline stages.",
+                                         ]
+                                         : foundProject.title === "AIC25 Competition"
+                                             ? [
+                                                 "Order-Inconsistency: Global similarity retrieves visually plausible but temporally incorrect matches that satisfy semantic similarity while failing the ordering requirement.",
+                                                 "Training Cost vs. Robustness: Learned temporal encoders improve ordering but degrade under domain shift and require dataset-specific training.",
+                                                 "Alignment Scalability: Computing fine-grained frame-subevent alignment for large video collections within practical latency budgets.",
+                                                 "Query Decomposition Accuracy: LLM-based sub-event extraction must produce semantically correct and appropriately granular temporal components.",
+                                             ]
+                                             : foundProject.title === "TARS: SOICT 2025"
+                                                 ? [
+                                                     "Order-Aware Retrieval: Designing a training-free mechanism that enforces strict temporal ordering without learning it from data.",
+                                                     "Computational Efficiency: Achieving O(nm) alignment complexity to make the approach viable for large-scale video corpora.",
+                                                     "Query Granularity: Determining appropriate sub-event decomposition granularity to maximize alignment discriminability.",
+                                                     "Encoder Complementarity: Selecting and combining vision-language encoders to maximize coverage across diverse event semantics.",
+                                                 ]
+                                                 : [
+                                                     "Building an intuitive user interface",
                                 "Ensuring cross-platform compatibility",
                                 "Optimizing performance for all users",
                             ],
@@ -161,19 +194,40 @@ function ProjectDetailContent() {
                                     "Maintained acceptable system latency of 1-2 seconds for practical kiosk deployment.",
                                     "Validated that preprocessing (Quality Gate) is a critical bottleneck for real-world biometric stability.",
                                 ]
-                                : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
-                                    ? [
-                                        "Near-perfect preservation of document structure during PDF to Markdown conversion.",
-                                        "Significant reduction in hallucination by grounding chatbot answers in both vector and graph context.",
-                                        "Automated knowledge base creation that surfaces hidden relationships between distinct data points.",
-                                        "High retrieval precision by combining semantic search with structural reasoning.",
-                                        "Demonstrated flexibility across multiple LLM providers, including local and cloud models.",
-                                    ]
-                                    : [
-                                        "Successfully deployed and available for public use",
-                                "Positive user feedback on functionality and design",
-                                "Continuous improvement based on community input",
-                            ],
+                                 : foundProject.title === "Ready4RAG: High-Precision Dual-Layer RAG Pipeline"
+                                     ? [
+                                         "Near-perfect preservation of document structure during PDF to Markdown conversion.",
+                                         "Significant reduction in hallucination by grounding chatbot answers in both vector and graph context.",
+                                         "Automated knowledge base creation that surfaces hidden relationships between distinct data points.",
+                                         "High retrieval precision by combining semantic search with structural reasoning.",
+                                         "Demonstrated flexibility across multiple LLM providers, including local and cloud models.",
+                                     ]
+                                     : foundProject.title === "Viettel AI Race 2025"
+                                         ? [
+                                             "Achieved Top 5 in Round 1 as a solo competitor against team-based entries.",
+                                             "Built a complete PDF-to-QA pipeline covering table extraction, normalization, LLM reasoning, and constrained answer selection.",
+                                             "Validated coordinate-based table reconstruction on diverse financial and technical PDF formats.",
+                                             "Demonstrated chain-of-thought prompting as an effective strategy for multi-step numerical reasoning in closed QA.",
+                                         ]
+                                         : foundProject.title === "AIC25 Competition"
+                                             ? [
+                                                 "93.15% accuracy on the Ho Chi Minh City AI Challenge 2025 benchmark.",
+                                                 "Successfully deployed TARS as a training-free system requiring no additional model training beyond base encoders.",
+                                                 "Demonstrated clean integration of monotonic DP alignment with standard FAISS-based retrieval pipelines.",
+                                                 "Led team SIU Cerberus through the full pipeline from system design to final submission.",
+                                             ]
+                                             : foundProject.title === "TARS: SOICT 2025"
+                                                 ? [
+                                                     "Paper accepted at SOICT 2025, validating the training-free temporal alignment approach through peer review.",
+                                                     "93.15% accuracy on the Ho Chi Minh City AI Challenge 2025 benchmark, outperforming sequence-level embedding baselines.",
+                                                     "O(nm) alignment complexity verified analytically and empirically, enabling large-scale deployment within retrieval latency constraints.",
+                                                     "Framework generalizes to any vision-language encoders without retraining, confirmed across multiple encoder combinations.",
+                                                 ]
+                                                 : [
+                                                     "Successfully deployed and available for public use",
+                                                     "Positive user feedback on functionality and design",
+                                                     "Continuous improvement based on community input",
+                                                 ],
             technologies:
                 foundProject.title === "AcaRead: AI-Powered Academic Assessment System"
                     ? ["Next.js 15", "FastAPI", "Gemini 2.5 Flash", "Python", "SQLite", "Tailwind CSS", "Docker", "Docling", "PyMuPDF"]
@@ -215,15 +269,17 @@ function ProjectDetailContent() {
                                 "PyMuPDF",
                                 "Docling",
                             ]
-                            : [
-                                "Python",
-                                "FastAPI",
-                                "scikit-learn",
-                                "HTML",
-                                "CSS",
-                                "JavaScript",
-                                "TailwindCSS",
-                            ],
+                            : foundProject.techStack && foundProject.techStack.length > 0
+                                ? foundProject.techStack
+                                : [
+                                    "Python",
+                                    "FastAPI",
+                                    "scikit-learn",
+                                    "HTML",
+                                    "CSS",
+                                    "JavaScript",
+                                    "TailwindCSS",
+                                ],
         };
 
         setProject(projectData);
@@ -486,7 +542,7 @@ function ProjectDetailContent() {
                             </h3>
 
                             <div className="space-y-4">
-                                {project.type && (
+                            {project.type && (
                                     <div className="flex items-start">
                                         <div className="text-primary mr-3 mt-1">
                                             <FiTag />
@@ -497,6 +553,71 @@ function ProjectDetailContent() {
                                             </h4>
                                             <p className="text-gray-200">
                                                 {project.type}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {project.role && (
+                                    <div className="flex items-start">
+                                        <div className="text-primary mr-3 mt-1">
+                                            <FiUser />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm text-gray-400 mb-1">
+                                                Role
+                                            </h4>
+                                            <p className="text-gray-200">
+                                                {project.role}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {project.projectType && (
+                                    <div className="flex items-start">
+                                        <div className="text-primary mr-3 mt-1">
+                                            <FiBriefcase />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm text-gray-400 mb-1">
+                                                Project Type
+                                            </h4>
+                                            <p className="text-gray-200 capitalize">
+                                                {project.projectType}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {(project.startDate || project.endDate) && (
+                                    <div className="flex items-start">
+                                        <div className="text-primary mr-3 mt-1">
+                                            <FiCalendar />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm text-gray-400 mb-1">
+                                                Timeline
+                                            </h4>
+                                            <p className="text-gray-200">
+                                                {project.startDate ?? "—"}{" "}
+                                                {project.endDate ? `→ ${project.endDate}` : "→ Present"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {project.achievement && (
+                                    <div className="flex items-start">
+                                        <div className="text-primary mr-3 mt-1">
+                                            <FiAward />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm text-gray-400 mb-1">
+                                                Achievement
+                                            </h4>
+                                            <p className="text-gray-200">
+                                                {project.achievement}
                                             </p>
                                         </div>
                                     </div>
