@@ -27,8 +27,22 @@ export function Footer() {
     };
 
     return (
-        <footer className="bg-gray-900 py-16 mt-16 border-t border-gray-800">
-            <div className="container mx-auto px-4 md:px-6">
+        <footer className="relative overflow-hidden py-16">
+            {/* Background image */}
+            <Image
+                src="/images/ui/footer.png"
+                alt=""
+                fill
+                className="object-cover object-center opacity-55"
+                priority={false}
+                aria-hidden="true"
+            />
+            {/* Top fade — blends footer into the body background with no hard line */}
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#080b14] to-transparent pointer-events-none z-10" />
+            {/* Bottom & side darkening overlay for text legibility */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/60 pointer-events-none z-10" />
+
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                     <div className="md:col-span-5">
                         <div className="flex items-center mb-6 gap-2">
@@ -48,7 +62,7 @@ export function Footer() {
                                 </span>
                             </div>
                         </div>
-                        <p className="text-gray-400 mb-6 max-w-md">
+                        <p className="text-gray-200 mb-6 max-w-md drop-shadow-md">
                             Researching and engineering intelligent systems with
                             Generative AI, AI Agents, and Computer Vision to
                             drive innovation and real-world impact
@@ -58,7 +72,7 @@ export function Footer() {
                                 href={profile.social.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-200 hover:text-primary transition-colors"
                                 aria-label="GitHub"
                             >
                                 <FiGithub size={18} />
@@ -83,14 +97,14 @@ export function Footer() {
                     </div>
 
                     <div className="md:col-span-3">
-                        <h4 className="font-semibold text-lg mb-6 text-gray-100">
+                        <h4 className="font-bold text-lg mb-6 text-white text-shadow-sm">
                             Menu
                         </h4>
                         <ul className="space-y-4">
                             <li>
                                 <Link
                                     href="/"
-                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
                                 >
                                     <FiHome size={16} />
                                     <span>Home</span>
@@ -99,7 +113,7 @@ export function Footer() {
                             <li>
                                 <Link
                                     href="/about"
-                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
                                 >
                                     <FiUser size={16} />
                                     <span>About</span>
@@ -108,7 +122,7 @@ export function Footer() {
                             <li>
                                 <Link
                                     href="/projects"
-                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
                                 >
                                     <FiBriefcase size={16} />
                                     <span>Projects</span>
@@ -117,7 +131,7 @@ export function Footer() {
                             <li>
                                 <Link
                                     href="/resume"
-                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
                                 >
                                     <FiFileText size={16} />
                                     <span>Resume</span>
@@ -136,11 +150,11 @@ export function Footer() {
                     </div>
 
                     <div className="md:col-span-4">
-                        <h4 className="font-semibold text-lg mb-6 text-gray-100">
+                        <h4 className="font-bold text-lg mb-6 text-white text-shadow-sm">
                             Contact
                         </h4>
                         <ul className="space-y-4">
-                            <li className="text-gray-400 flex items-start gap-2">
+                            <li className="text-gray-200 flex items-start gap-2 drop-shadow-sm">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-5 w-5 mt-0.5 flex-shrink-0"
@@ -170,7 +184,7 @@ export function Footer() {
                                     {profile.location.country}
                                 </div>
                             </li>
-                            <li className="text-gray-400 flex items-center gap-2">
+                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-5 w-5 flex-shrink-0"
@@ -192,7 +206,7 @@ export function Footer() {
                                     {profile.email}
                                 </Link>
                             </li>
-                            <li className="text-gray-400 flex items-center gap-2">
+                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-5 w-5 flex-shrink-0"
@@ -214,7 +228,7 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-400 text-sm mb-4 md:mb-0">
+                    <p className="text-gray-300 text-sm mb-4 md:mb-0 drop-shadow-sm">
                         © {new Date().getFullYear()} Do Hoang Vu. All Rights
                         Reserved.
                     </p>
