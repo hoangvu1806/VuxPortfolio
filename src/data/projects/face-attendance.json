@@ -1,0 +1,35 @@
+{
+    "title": "Face Attendance: Kiosk-Based Recognition & Anti-Spoofing",
+    "slug": "face-attendance",
+    "type": "AI & ML, Computer Vision",
+    "description": "A modular kiosk-based face recognition system for attendance and access control, featuring facial alignment, quality gating, and anti-spoofing mechanisms for near real-time biometric verification.",
+    "details": [
+        "Modular Vision Pipeline: Integrates face detection, 2D similarity transform alignment, and identity matching into a unified flow.",
+        "Quality Gate System: Automatically filters frames affected by blur, low contrast, or poor lighting to maintain high embedding accuracy.",
+        "Anti-Spoofing Mechanism: Implements verification layers to detect printed or digital attack attempts in various lighting conditions.",
+        "High Performance: Optimized to run on limited hardware with a latency of 1-2 seconds from subject detection to result.",
+        "Robust Data Processing: Standardizes input via similarity transforms, significantly reducing intra-class variation for stable recognition."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "AI/Vision Engineer",
+    "projectType": "personal project",
+    "startDate": "11/2025",
+    "endDate": "12/2025",
+    "githubUrl": "https://github.com/hoangvu1806/FaceAttendance",
+    "techStack": [
+        "Python",
+        "OpenCV",
+        "InsightFace",
+        "MediaPipe",
+        "PyTorch",
+        "FastAPI"
+    ],
+    "highlights": [
+        "Biometric pipeline with 93.75% average accuracy",
+        "Facial Alignment via 2D Similarity Transform",
+        "Quality Gate filtering for motion & blur",
+        "100% spoofing detection in optimal lighting",
+        "Near real-time 1-2s system latency"
+    ]
+}

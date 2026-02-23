@@ -1,0 +1,14 @@
+{
+    "title": "AIC24 COMPETITION",
+    "slug": "aic24-competition",
+    "type": "Competition",
+    "description": "Developed scalable video understanding pipelines for event retrieval, leveraging contrastive learning and multimodal embeddings to enhance temporal-semantic alignment in untrimmed video datasets.",
+    "details": [
+        "Integrated multi-head self-attention, temporal convolutional networks, and cross-modal fusion to improve mAP and retrieval latency in benchmark datasets."
+    ],
+    "status": "Completed",
+    "role": "Team Member",
+    "projectType": "competition project",
+    "startDate": "09/2024",
+    "endDate": "12/2024"
+}

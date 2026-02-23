@@ -1,0 +1,32 @@
+{
+    "title": "Decision Tree Visualization",
+    "slug": "decision-tree-visualization",
+    "type": "AI & ML",
+    "description": "A web application for building and visualizing decision trees from CSV data. Features include customizing model parameters, interactive visualization of decision trees, and performance metrics calculation.",
+    "details": [
+        "Built with Python, FastAPI, and scikit-learn for the backend",
+        "Interactive UI with HTML, CSS, JavaScript, and TailwindCSS",
+        "Supports custom model parameters (max depth, min samples split, criterion)",
+        "Visualizes decision trees as hierarchical structures",
+        "Calculates and displays model evaluation metrics"
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Principal AI Engineer",
+    "projectType": "personal project",
+    "startDate": "09/2024",
+    "endDate": "10/2024",
+    "githubUrl": "https://github.com/hoangvu1806/Decision-Tree-Visualization",
+    "techStack": [
+        "Python",
+        "FastAPI",
+        "Scikit-Learn",
+        "Tailwind CSS",
+        "JavaScript"
+    ],
+    "highlights": [
+        "Dynamic Tree Graph Rendering",
+        "Real-time Hyperparameter Tuning",
+        "Educational Dataset Analysis"
+    ]
+}

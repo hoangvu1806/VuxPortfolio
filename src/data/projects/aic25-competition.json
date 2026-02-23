@@ -1,0 +1,33 @@
+{
+    "title": "AIC25 COMPETITION",
+    "slug": "aic25-competition",
+    "type": "Competition",
+    "description": "Led team SIU Cerberus at Ho Chi Minh City AI Challenge 2025, deploying the TARS (Temporal Alignment Retrieval System) framework for order-aware video event retrieval. Achieved 93.15% accuracy on the benchmark with a training-free monotonic DP alignment approach.",
+    "details": [
+        "Designed and led implementation of TARS: a training-free, order-aware video retrieval system decomposing queries into ordered sub-event sequences.",
+        "Monotonic dynamic-programming alignment enforcing strict temporal ordering at inference time with O(nm) time and O(m) memory complexity.",
+        "Complementary vision-language encoders reducing sensitivity to individual encoder weaknesses across diverse query types.",
+        "Two-stage retrieve-then-rerank pipeline: FAISS coarse retrieval followed by TARS re-ranking for precision-latency balance."
+    ],
+    "status": "Completed",
+    "role": "Team Leader",
+    "projectType": "competition project",
+    "startDate": "09/2025",
+    "endDate": "12/2025",
+    "achievement": "93.15% accuracy on HCM AI Challenge 2025 benchmark",
+    "techStack": [
+        "Python",
+        "PyTorch",
+        "FAISS",
+        "CLIP",
+        "Google Gemini",
+        "NumPy",
+        "FFmpeg"
+    ],
+    "highlights": [
+        "93.15% accuracy on HCM AI Challenge 2025",
+        "Training-free temporal alignment via monotonic DP",
+        "Query decomposed into ordered sub-event sequences",
+        "O(nm) time complexity per video shot"
+    ]
+}

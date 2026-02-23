@@ -1,0 +1,33 @@
+{
+    "title": "Deeplearning-Practice",
+    "slug": "deeplearning-practice",
+    "type": "AI & ML",
+    "description": "A comprehensive collection of deep learning implementations coded from scratch, covering everything from computer vision to natural language processing. This repository showcases high-quality implementations of fundamental and advanced deep learning algorithms.",
+    "details": [
+        "Computer Vision models including CNN architectures and ResNet implementations",
+        "Natural Language Processing models including LSTM with attention mechanisms",
+        "Regression models with detailed logging for housing price prediction",
+        "Sentiment analysis on IMDb reviews with deep learning approaches",
+        "Classification models for Vietnamese news articles",
+        "All implementations feature clean, well-documented code with detailed explanations"
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Principal AI Researcher",
+    "projectType": "personal project",
+    "startDate": "11/2024",
+    "endDate": "05/2025",
+    "githubUrl": "https://github.com/hoangvu1806/Deeplearning-Practice",
+    "techStack": [
+        "PyTorch",
+        "Python",
+        "WandB",
+        "NumPy",
+        "Scikit-Learn"
+    ],
+    "highlights": [
+        "From-scratch Neural Network Implementations",
+        "Experimental Tracking with WandB",
+        "Domain-specific model fine-tuning"
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "title": "ZALO AI CHALLENGE 2023",
+    "slug": "zalo-ai-challenge-2023",
+    "type": "Competition",
+    "description": "Built deep generative models for symbolic and audio-based music generation using Transformer-based architectures. Fine-tuned temporal coherence and structural consistency to align with evaluation metrics in generative audio tasks.",
+    "status": "Completed",
+    "role": "Team Member",
+    "projectType": "competition project",
+    "startDate": "10/2023",
+    "endDate": "12/2023"
+}

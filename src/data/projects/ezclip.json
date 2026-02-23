@@ -1,0 +1,32 @@
+{
+    "title": "EzClip",
+    "slug": "ezclip",
+    "type": "Web App",
+    "description": "A powerful desktop application designed to effortlessly download videos from various online platforms including YouTube, Facebook, and TikTok. Built with Electron.js and leverages yt-dlp for wide format support.",
+    "details": [
+        "Support for multiple platforms including YouTube, Facebook, TikTok",
+        "Download videos in various formats and resolutions",
+        "Simple and intuitive user interface with modern design",
+        "Offline functionality - no server required",
+        "Built with Electron.js for cross-platform compatibility"
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Principal Software Engineer",
+    "projectType": "personal project",
+    "startDate": "02/2024",
+    "endDate": "04/2024",
+    "githubUrl": "https://github.com/hoangvu1806/EzClip",
+    "techStack": [
+        "Electron.js",
+        "Node.js",
+        "JavaScript",
+        "FFmpeg",
+        "HTML/CSS"
+    ],
+    "highlights": [
+        "Cross-platform Desktop Core",
+        "Native Hardware Acceleration",
+        "Offline-first Architecture"
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "title": "Viettel AI Race 2025",
+    "slug": "viettel-ai-race-2025",
+    "type": "Competition",
+    "description": "Competed solo in the NLP track of Viettel AI Race 2025, building a pipeline for complex PDF table extraction, numerical data retrieval, and multiple-choice QA. Achieved Top 5 in Round 1 as a solo competitor among team-based entries.",
+    "details": [
+        "Complex PDF table extraction preserving multi-level headers and merged cells via coordinate-based bounding box grouping.",
+        "Numeric normalization pipeline handling diverse formatting conventions across financial and technical document types.",
+        "Chain-of-thought prompting for multi-step numerical reasoning over extracted tabular data.",
+        "Constrained answer selection strategy reducing hallucination on borderline numerical comparisons."
+    ],
+    "status": "Completed",
+    "role": "Solo Competitor (1 of 3 individual slots)",
+    "projectType": "competition project",
+    "startDate": "10/2025",
+    "endDate": "12/2025",
+    "achievement": "Top 5 in Round 1",
+    "techStack": [
+        "Python",
+        "PyMuPDF",
+        "Google Gemini",
+        "LangChain",
+        "Pandas"
+    ],
+    "highlights": [
+        "Top 5 in Round 1 as a solo competitor",
+        "Complex PDF table reconstruction from coordinates",
+        "Chain-of-thought numerical reasoning"
+    ]
+}

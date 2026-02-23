@@ -1,0 +1,33 @@
+{
+    "title": "TARS: SOICT 2025",
+    "slug": "tars-soict25",
+    "type": "Research Paper",
+    "description": "Co-first authored a research paper accepted at SOICT 2025 presenting TARS (Temporal Alignment Retrieval System), a training-free order-aware framework for multi-segment video event retrieval using monotonic dynamic programming alignment over vision-language encoders.",
+    "details": [
+        "Query decomposed into ordered sub-event sequences embedded by complementary vision-language encoders.",
+        "Monotonic DP alignment finds the best ordered path on the frame-subevent similarity matrix with O(nm) time and O(m) memory.",
+        "Training-free design requires no additional dataset-specific training beyond base encoders, ensuring robustness under domain shift.",
+        "Integrates cleanly with standard two-stage candidate retrieval and re-ranking pipelines.",
+        "Demonstrated 93.15% accuracy on the Ho Chi Minh City AI Challenge 2025 benchmark."
+    ],
+    "status": "Completed",
+    "role": "Co-first Author",
+    "projectType": "research project",
+    "startDate": "10/2025",
+    "endDate": "12/2025",
+    "achievement": "Accepted at SOICT 2025 | 93.15% benchmark accuracy",
+    "techStack": [
+        "Python",
+        "PyTorch",
+        "CLIP",
+        "FAISS",
+        "NumPy",
+        "Google Gemini"
+    ],
+    "highlights": [
+        "Accepted at SOICT 2025",
+        "Training-free temporal reasoning at inference time",
+        "Monotonic DP with O(nm) time, O(m) memory",
+        "93.15% accuracy on competition benchmark"
+    ]
+}

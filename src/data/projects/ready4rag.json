@@ -1,0 +1,36 @@
+{
+    "title": "Ready4RAG: High-Precision Dual-Layer RAG Pipeline",
+    "slug": "ready4rag",
+    "type": "AI & ML, RAG",
+    "description": "A next-generation ingestion system converting complex PDFs into value using Vision LLMs and Hybrid Memory (Vector + Graph) for grounded, high-precision answers.",
+    "details": [
+        "Vision-Powered Extraction: Converts PDF to Markdown with near-perfect layout preservation using multimodal Vision LLMs.",
+        "Dual-Layer Memory: Hybrid storage system using Qdrant for vector similarity and NetworkX for graph-based reasoning.",
+        "Auto-Graph Construction: Automatically extracts entities (People, Locations, Concepts) and relationships to build a knowledge graph.",
+        "Hybrid Chatbot Engine: Interactive interface that retrieves and merges context from both vector and graph layers.",
+        "Multi-Provider Infrastructure: Plug-and-play support for Google Gemini, OpenAI, Groq, and local Ollama models."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Principal AI Engineer",
+    "projectType": "personal project",
+    "startDate": "01/2026",
+    "endDate": "02/2026",
+    "githubUrl": "https://github.com/hoangvu1806/Ready4RAG",
+    "techStack": [
+        "Python",
+        "Qdrant",
+        "NetworkX",
+        "Google Gemini",
+        "OpenAI",
+        "Ollama",
+        "LangChain"
+    ],
+    "highlights": [
+        "Vision-Powered PDF to Markdown conversion",
+        "Hybrid Memory: Vector + Knowledge Graph",
+        "Automatic Entity & Relationship Extraction",
+        "Multi-Model Support (Gemini, OpenAI, Groq)",
+        "Interactive Hybrid Context Chatbot"
+    ]
+}

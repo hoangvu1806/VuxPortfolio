@@ -1,0 +1,34 @@
+{
+    "title": "AcaRead: AI-Powered Academic Assessment System",
+    "slug": "acaread",
+    "type": "Web App, AI",
+    "description": "An advanced educational platform that transforms academic papers (PDFs) into interactive IELTS-style reading exams using Gemini 2.5 Flash, bridging passive reading and active comprehension assessment.",
+    "details": [
+        "AI-Driven Exam Generation: Utilizes LLM to analyze text logic, arguments, and generate distractor-based questions.",
+        "Authentic Material Processing: Handles complex PDF layouts including multi-column structures and citations via Docling and PyMuPDF.",
+        "Interactive Exam Engine: Features a split-screen 'Focused Mode' for distraction-free reading and real-time state management.",
+        "Scientific Validation: Implements a multi-level evaluation framework based on CEFR B2-C1 standards and NLP metrics.",
+        "Modern Cyberpunk UI: Designed with glassmorphism, neon accents, and micro-animations for a premium user experience."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Technical Lead",
+    "projectType": "team project",
+    "startDate": "03/2025",
+    "endDate": "12/2025",
+    "githubUrl": "https://github.com/hoangvu1806/AcaRead",
+    "techStack": [
+        "Next.js 15",
+        "FastAPI",
+        "Python",
+        "Tailwind CSS",
+        "Docker"
+    ],
+    "highlights": [
+        "Autonomous Exam Generation with LLM",
+        "Structural Compliance Analysis for PDFs",
+        "IELTS-Standard Question Synthesis",
+        "Real-time Grading & Feedback Engine",
+        "Futuristic Cyberpunk/HUD Design System"
+    ]
+}

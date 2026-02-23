@@ -1,0 +1,35 @@
+{
+    "title": "TwinSelf - Digital Twin Chatbot",
+    "slug": "twinself",
+    "type": "AI & ML, MLOps",
+    "description": "A sophisticated RAG-based chatbot system using a triple-memory architecture (Semantic, Episodic, Procedural). This system serves as the intelligence behind the AI Chatbot on this portfolio, providing an authentic digital twin experience.",
+    "details": [
+        "Portfolio Integration: Currently acting as the core engine for this website's personal chatbot assistant.",
+        "Cognitive Memory System: Implements Semantic (facts), Episodic (experience), and Procedural (behavioral rules) memory layers.",
+        "Vector Search: Highly efficient retrieval using Qdrant vector database and specialized Vietnamese document embeddings.",
+        "MLOps Integration: Comprehensive tracking with MLflow and automated response quality evaluation using DeepEval.",
+        "Version Control: Robust data management system supporting snapshots, versioning, and rollback of knowledge bases."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Principal AI Engineer",
+    "projectType": "personal project",
+    "startDate": "09/2024",
+    "endDate": "12/2024",
+    "githubUrl": "https://github.com/hoangvu1806/TwinSelf",
+    "techStack": [
+        "Python",
+        "Google Gemini",
+        "FastAPI",
+        "Qdrant",
+        "MLflow",
+        "DeepEval"
+    ],
+    "highlights": [
+        "Core Engine: Currently integrated into this portfolio's Chatbot",
+        "Cognitive Architecture inspired by human memory",
+        "Data Versioning & Rollback support",
+        "Integrated MLOps with MLflow & DeepEval",
+        "Production-ready async streaming server"
+    ]
+}
