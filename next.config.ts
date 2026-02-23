@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    /* config options here */
     poweredByHeader: false,
     env: {
         PORT: process.env.NODE_ENV === "production" ? "8000" : "8001",
@@ -20,6 +19,14 @@ const nextConfig: NextConfig = {
     },
     typescript: {
         ignoreBuildErrors: true,
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "cdn.qwiklabs.com",
+            },
+        ],
     },
 };
 

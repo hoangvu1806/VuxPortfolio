@@ -473,6 +473,83 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            {/* Google Cloud Skill Badges */}
+            <section className="py-16">
+                <div className="container mx-auto px-4 md:px-6 mb-10">
+                    <motion.div
+                        className="text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h2 className="text-3xl font-bold mb-3">
+                            <span className="text-secondary text-shadow-secondary">
+                                Google Cloud Skill Badges
+                            </span>
+                        </h2>
+                        <p className="text-gray-400 text-sm">
+                            Verified credentials earned on Google Cloud Skills Boost
+                        </p>
+                    </motion.div>
+                </div>
+
+                {/* Marquee — clipped and faded within the container boundary */}
+                <div
+                    className="container mx-auto px-4 md:px-6 overflow-hidden"
+                    style={{
+                        maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+                        WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+                    }}
+                >
+                    <div
+                        className="flex"
+                        style={{
+                            gap: "64px",
+                            width: "max-content",
+                            animation: "marquee 28s linear infinite",
+                        }}
+                    >
+                        {[
+                            "https://cdn.qwiklabs.com/bBm0Xa704q%2B7D3OgWQF3GN2z8fnYiOiYf2uLhJ0ICcg%3D",
+                            "https://cdn.qwiklabs.com/MgEJopIn%2B0%2FRgVYyRdN9oKCXlBaCo109DBffcXaRQLw%3D",
+                            "https://cdn.qwiklabs.com/UBftucJEwdVxtDjjtdRGNUDHqrGta4rbgbfuZZzPST4%3D",
+                            "https://cdn.qwiklabs.com/R%2BYhbP40DQcgaBNwV5nSLyIehXVx2j9KZslV6rCb9K4%3D",
+                            "https://cdn.qwiklabs.com/LXKNPzUg6ccZ2XjPlMEPAPboNI4Mk6E%2FSXOz9Rd7EGo%3D",
+                            "https://cdn.qwiklabs.com/%2FvUnhNLXU3u4eWSxsIDrnnTYROA7NpzxNZgLJ5B3gVM%3D",
+                            "https://cdn.qwiklabs.com/pcY2o7HIWRjjwiJ6Vphnb4NkTe1BVJEZk9gVmEQijnk%3D",
+                            "https://cdn.qwiklabs.com/1f%2FoEwyOkH3Qc9LiPgj9Ru9vgSY5gJ7yW006hj1KBg0%3D",
+                            // duplicate for seamless loop
+                            "https://cdn.qwiklabs.com/bBm0Xa704q%2B7D3OgWQF3GN2z8fnYiOiYf2uLhJ0ICcg%3D",
+                            "https://cdn.qwiklabs.com/MgEJopIn%2B0%2FRgVYyRdN9oKCXlBaCo109DBffcXaRQLw%3D",
+                            "https://cdn.qwiklabs.com/UBftucJEwdVxtDjjtdRGNUDHqrGta4rbgbfuZZzPST4%3D",
+                            "https://cdn.qwiklabs.com/R%2BYhbP40DQcgaBNwV5nSLyIehXVx2j9KZslV6rCb9K4%3D",
+                            "https://cdn.qwiklabs.com/LXKNPzUg6ccZ2XjPlMEPAPboNI4Mk6E%2FSXOz9Rd7EGo%3D",
+                            "https://cdn.qwiklabs.com/%2FvUnhNLXU3u4eWSxsIDrnnTYROA7NpzxNZgLJ5B3gVM%3D",
+                            "https://cdn.qwiklabs.com/pcY2o7HIWRjjwiJ6Vphnb4NkTe1BVJEZk9gVmEQijnk%3D",
+                            "https://cdn.qwiklabs.com/1f%2FoEwyOkH3Qc9LiPgj9Ru9vgSY5gJ7yW006hj1KBg0%3D",
+                        ].map((src, i) => (
+                            <a
+                                key={i}
+                                href="https://www.skills.google/public_profiles/802d5f0c-216e-4500-9b99-b40a159c01b4"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="shrink-0 hover:opacity-80 hover:scale-105 transition-all duration-200"
+                            >
+                                <Image
+                                    src={src}
+                                    alt={`Google Cloud Skill Badge ${(i % 8) + 1}`}
+                                    width={240}
+                                    height={240}
+                                    className="object-contain"
+                                    style={{ width: 240, height: 240 }}
+                                    unoptimized
+                                />
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </section>
         </MainLayout>
     );
 }

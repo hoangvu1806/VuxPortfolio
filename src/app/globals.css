@@ -924,6 +924,15 @@ p {
     animation: moveInLeft 1s ease-out;
 }
 
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 /* Header */
 .header-blur {
     backdrop-filter: blur(12px);
