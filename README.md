@@ -3,7 +3,7 @@
   <h1>Do Hoang Vu — AI Engineer Portfolio</h1>
   <p>Polished, animated portfolio showcasing AI projects, research, and engineering craft.</p>
   
-  <p><strong>🌐 Live Website:</strong> <a href="https://hoangvu.id.vn">hoangvu.id.vn</a></p>
+  <p><strong>Live Website:</strong> <a href="https://hoangvu.id.vn">hoangvu.id.vn</a></p>
   
   <p>
     <a href="https://nextjs.org"><img alt="Next.js" src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=nextdotjs&logoColor=white" /></a>
