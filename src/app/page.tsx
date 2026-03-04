@@ -303,8 +303,7 @@ export default function Home() {
                                 </span>
                             </h2>
                             <p className="text-gray-300 max-w-2xl mx-auto backdrop-blur-sm bg-gray-900/30 p-4 rounded-lg">
-                                Skills and technologies I've mastered through
-                                years of learning and working.
+                                Skills and technologies I've gained experience in.
                             </p>
                         </motion.div>
                     </div>
