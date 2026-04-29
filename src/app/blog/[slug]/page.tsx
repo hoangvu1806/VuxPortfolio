@@ -1,6 +1,7 @@
 import { MainLayout } from "@/components/layout/main-layout";
 import { BlogService } from "@/lib/blog";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
@@ -12,6 +13,7 @@ import { BlogScrollIndicators } from "@/components/blog/blog-scroll-indicators";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { CustomScrollbar } from "@/components/blog/custom-scrollbar";
 import { MobileTocToggle } from "@/components/blog/mobile-toc-toggle";
+import { LanguageSwitcherWrapper } from "@/components/blog/language-switcher-wrapper";
 
 import { getBlogPostUrl } from "@/lib/url-utils";
 
@@ -19,13 +21,19 @@ interface BlogPostPageProps {
     params: Promise<{
         slug: string;
     }>;
+    searchParams: Promise<{
+        language?: string;
+    }>;
 }
 
 export async function generateMetadata({
     params,
+    searchParams,
 }: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
-    const post = await BlogService.getPostBySlug(slug);
+    const { language } = await searchParams;
+    const lang = language === "en" ? "en" : "vi";
+    const post = await BlogService.getPostBySlug(slug, lang);
 
     if (!post) {
         return {
@@ -65,20 +73,26 @@ export async function generateMetadata({
     };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({
+    params,
+    searchParams,
+}: BlogPostPageProps) {
     const { slug } = await params;
-    const post = await BlogService.getPostBySlug(slug);
+    const { language } = await searchParams;
+    const lang = language === "en" ? "en" : "vi";
+
+    const post = await BlogService.getPostBySlug(slug, lang);
 
     if (!post) {
         notFound();
     }
 
     const allPosts = await BlogService.getAllPosts();
-    const relatedPosts = BlogService.getRelatedPosts(post, allPosts, 4); // Increase to 4
+    const relatedPosts = BlogService.getRelatedPosts(post, allPosts, 4);
     const otherPosts = allPosts.filter(
         (p) =>
             p.slug !== post.slug &&
-            !relatedPosts.some((rp) => rp.slug === p.slug)
+            !relatedPosts.some((rp) => rp.slug === p.slug),
     );
 
     // Get current URL
@@ -88,18 +102,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <MainLayout>
             {/* Custom scrollbar only for blog pages */}
             <CustomScrollbar />
-            
+
             {/* Blog Scroll Indicators - Only progress bar */}
             <BlogScrollIndicators target="article" showScrollToTop={false} />
-            
-            {/* Mobile TOC Toggle */}
-            <MobileTocToggle />
-            
+
             {/* Fixed Table of Contents - Desktop only */}
             <div className="hidden xl:block">
-                <TableOfContents />
+                <Suspense fallback={null}>
+                    <TableOfContents />
+                </Suspense>
             </div>
-            
+
             <article className="min-h-screen">
                 {/* Header Section with improved spacing and design */}
                 <div className="relative bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-transparent">
@@ -142,7 +155,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 {post.description}
                             </p>
 
-                            <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
+                            <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
                                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6">
                                     <div className="flex items-center gap-2 hover:text-primary transition-colors text-sm sm:text-base">
                                         <FiUser
@@ -160,7 +173,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                         />
                                         <span>
                                             {new Date(
-                                                post.date
+                                                post.date,
                                             ).toLocaleDateString("en-US", {
                                                 year: "numeric",
                                                 month: "long",
@@ -169,11 +182,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                         </span>
                                     </div>
                                 </div>
-                                <ShareButton
-                                    url={currentUrl}
-                                    title={post.title}
-                                    description={post.description}
-                                />
+                                <div className="flex items-center gap-2">
+                                    <ShareButton
+                                        url={currentUrl}
+                                        title={post.title}
+                                        description={post.description}
+                                    />
+                                    <LanguageSwitcherWrapper
+                                        currentSlug={slug}
+                                    />
+                                </div>
                             </div>
 
                             <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -313,14 +331,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                                         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700/30">
                                                             <span className="text-xs text-gray-500">
                                                                 {new Date(
-                                                                    relatedPost.date
+                                                                    relatedPost.date,
                                                                 ).toLocaleDateString(
                                                                     "en-US",
                                                                     {
                                                                         month: "short",
                                                                         day: "numeric",
                                                                         year: "numeric",
-                                                                    }
+                                                                    },
                                                                 )}
                                                             </span>
                                                             <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">

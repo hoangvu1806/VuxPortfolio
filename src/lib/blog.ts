@@ -47,8 +47,15 @@ export class BlogService {
             }
 
             const fileNames = fs.readdirSync(this.postsDirectory);
-            const allPostsPromises = fileNames
-                .filter(fileName => fileName.endsWith('.md'))
+            // Filter out .en.md files - only get default language posts
+            const defaultFiles = fileNames.filter(fileName => {
+                if (!fileName.endsWith('.md')) return false;
+                // Skip English version files, only keep default
+                const nameWithoutExt = fileName.replace(/\.md$/, '');
+                return !nameWithoutExt.endsWith('.en');
+            });
+            
+            const allPostsPromises = defaultFiles
                 .map(async fileName => {
                     const slug = this.generateSlug(fileName);
                     return await this.getPostBySlug(slug);
@@ -56,8 +63,17 @@ export class BlogService {
 
             const allPosts = await Promise.all(allPostsPromises);
 
-            return allPosts
+            // Remove duplicates by slug (keep first occurrence)
+            const seenSlugs = new Set<string>();
+            const uniquePosts = allPosts
                 .filter((post): post is BlogPost => post !== null)
+                .filter(post => {
+                    if (seenSlugs.has(post.slug)) return false;
+                    seenSlugs.add(post.slug);
+                    return true;
+                });
+
+            return uniquePosts
                 .filter(post => post.published === 'published')
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         } catch (error) {
@@ -66,9 +82,11 @@ export class BlogService {
         }
     }
 
-    static async getPostBySlug(slug: string): Promise<BlogPost | null> {
+    static async getPostBySlug(slug: string, language: 'vi' | 'en' = 'vi'): Promise<BlogPost | null> {
         try {
-            const fileName = this.findFileBySlug(slug);
+            // Try to find language-specific file first (e.g., slug.en.md)
+            // Then fall back to default file
+            const fileName = this.findFileBySlug(slug, language);
             if (!fileName) return null;
 
             const filePath = path.join(this.postsDirectory, fileName);
@@ -179,9 +197,11 @@ export class BlogService {
 
     // Utilities
     static generateSlug(filename: string): string {
-        // Remove .md extension and date prefix (YYYY-MM-DD-)
-        const nameWithoutExt = filename.replace('.md', '');
-        const slug = nameWithoutExt.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+        // Remove .md extension, date prefix (YYYY-MM-DD-), and .en suffix
+        const nameWithoutExt = filename.replace(/\.md$/, '');
+        const nameWithoutDate = nameWithoutExt.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+        // Also remove .en suffix if present (for English files)
+        const slug = nameWithoutDate.replace(/\.en$/, '');
         return slug;
     }
 
@@ -208,16 +228,34 @@ export class BlogService {
     }
 
     // Helper functions
-    private static findFileBySlug(slug: string): string | null {
+    private static findFileBySlug(slug: string, language: 'vi' | 'en' = 'vi'): string | null {
         try {
             if (!fs.existsSync(this.postsDirectory)) {
                 return null;
             }
 
             const files = fs.readdirSync(this.postsDirectory);
+
+            // For English, try to find .en.md file first
+            if (language === 'en') {
+                const enFile = files.find(file => {
+                    // Check if file matches: DATE-slug.en.md
+                    const nameWithoutExt = file.replace(/\.md$/, '');
+                    const isEnFile = nameWithoutExt.endsWith('.en');
+                    const baseSlug = isEnFile ? nameWithoutExt.replace(/\.en$/, '') : nameWithoutExt;
+                    const generatedSlug = baseSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+                    return generatedSlug === slug && isEnFile;
+                });
+                if (enFile) return enFile;
+            }
+
+            // Find default file (no .en suffix)
             const matchingFile = files.find(file => {
-                const fileSlug = this.generateSlug(file);
-                return fileSlug === slug;
+                const nameWithoutExt = file.replace(/\.md$/, '');
+                const isEnFile = nameWithoutExt.endsWith('.en');
+                if (isEnFile) return false; // Skip .en files for default
+                const generatedSlug = nameWithoutExt.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+                return generatedSlug === slug;
             });
 
             return matchingFile || null;

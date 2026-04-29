@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { FiList, FiX } from "react-icons/fi";
 import { TableOfContents } from "./table-of-contents";
 
@@ -34,7 +34,9 @@ export function MobileTocToggle() {
                             </button>
                         </div>
                         <div className="p-4 overflow-y-auto max-h-full">
-                            <TableOfContents className="sticky-none" />
+                            <Suspense fallback={null}>
+                                <TableOfContents className="sticky-none" />
+                            </Suspense>
                         </div>
                     </div>
                 </div>

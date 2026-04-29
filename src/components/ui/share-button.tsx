@@ -10,7 +10,7 @@ import {
     FiCopy,
     FiCheck,
     FiMail,
-    FiMessageCircle
+    FiMessageCircle,
 } from "react-icons/fi";
 import { ShareButtonMobile } from "./share-button-mobile";
 
@@ -21,7 +21,12 @@ interface ShareButtonProps {
     className?: string;
 }
 
-export function ShareButton({ url, title, description, className = "" }: ShareButtonProps) {
+export function ShareButton({
+    url,
+    title,
+    description,
+    className = "",
+}: ShareButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -32,15 +37,15 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
         };
 
         checkMobile();
-        window.addEventListener('resize', checkMobile);
+        window.addEventListener("resize", checkMobile);
 
-        return () => window.removeEventListener('resize', checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
     const shareData = {
         title,
         text: description || title,
-        url
+        url,
     };
 
     const handleNativeShare = async () => {
@@ -48,7 +53,7 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
             try {
                 await navigator.share(shareData);
             } catch (error) {
-                console.log('Error sharing:', error);
+                console.log("Error sharing:", error);
             }
         } else {
             setIsOpen(!isOpen);
@@ -61,7 +66,7 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (error) {
-            console.error('Failed to copy:', error);
+            console.error("Failed to copy:", error);
         }
     };
 
@@ -70,26 +75,26 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
             name: "Twitter",
             icon: FiTwitter,
             url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-            color: "hover:text-blue-400 hover:bg-blue-400/10"
+            color: "hover:text-blue-400 hover:bg-blue-400/10",
         },
         {
             name: "Facebook",
             icon: FiFacebook,
             url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-            color: "hover:text-blue-600 hover:bg-blue-600/10"
+            color: "hover:text-blue-600 hover:bg-blue-600/10",
         },
         {
             name: "LinkedIn",
             icon: FiLinkedin,
             url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-            color: "hover:text-blue-500 hover:bg-blue-500/10"
+            color: "hover:text-blue-500 hover:bg-blue-500/10",
         },
         {
             name: "Email",
             icon: FiMail,
             url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${title}\n\n${url}`)}`,
-            color: "hover:text-green-500 hover:bg-green-500/10"
-        }
+            color: "hover:text-green-500 hover:bg-green-500/10",
+        },
     ];
 
     // Use mobile version on small screens
@@ -112,7 +117,10 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
-                <FiShare2 size={16} className="group-hover:rotate-12 transition-transform duration-300" />
+                <FiShare2
+                    size={16}
+                    className="group-hover:rotate-12 transition-transform duration-300"
+                />
                 <span>Share</span>
             </motion.button>
 
@@ -140,7 +148,9 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
                                     whileHover={{ x: 4 }}
                                 >
                                     <link.icon size={16} />
-                                    <span className="text-sm font-medium">{link.name}</span>
+                                    <span className="text-sm font-medium">
+                                        {link.name}
+                                    </span>
                                 </motion.a>
                             ))}
 
@@ -155,13 +165,20 @@ export function ShareButton({ url, title, description, className = "" }: ShareBu
                             >
                                 {copied ? (
                                     <>
-                                        <FiCheck size={16} className="text-green-500" />
-                                        <span className="text-sm font-medium text-green-500">Copied!</span>
+                                        <FiCheck
+                                            size={16}
+                                            className="text-green-500"
+                                        />
+                                        <span className="text-sm font-medium text-green-500">
+                                            Copied!
+                                        </span>
                                     </>
                                 ) : (
                                     <>
                                         <FiCopy size={16} />
-                                        <span className="text-sm font-medium">Copy Link</span>
+                                        <span className="text-sm font-medium">
+                                            Copy Link
+                                        </span>
                                     </>
                                 )}
                             </motion.button>

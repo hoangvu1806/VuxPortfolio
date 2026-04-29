@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface TocItem {
     id: string;
@@ -16,6 +17,8 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
     const [activeId, setActiveId] = useState<string>("");
     const [isVisible, setIsVisible] = useState(false);
     const tocRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         // Generate TOC from h2 headings only
@@ -38,27 +41,30 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
         });
 
         setTocItems(items);
-    }, []);
+    }, [pathname, searchParams]);
 
     useEffect(() => {
         // Simplified visibility detection
         const handleScroll = () => {
             const blogContent = document.querySelector(".blog-content");
-            
+
             if (!blogContent) {
                 setIsVisible(false);
                 return;
             }
-            
+
             const blogRect = blogContent.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
-            
+
             // Show when blog content is visible
-            const inBlogArea = blogRect.top < viewportHeight * 0.5 && blogRect.bottom > 200;
-            
+            const inBlogArea =
+                blogRect.top < viewportHeight * 0.5 && blogRect.bottom > 200;
+
             // Simple check for end of content - hide when we're near the bottom
-            const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000;
-            
+            const nearBottom =
+                window.innerHeight + window.scrollY >=
+                document.body.offsetHeight - 1000;
+
             setIsVisible(inBlogArea && !nearBottom);
         };
 
@@ -74,7 +80,7 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
             {
                 rootMargin: "-20% 0% -35% 0%",
                 threshold: 0,
-            }
+            },
         );
 
         tocItems.forEach(({ id }) => {
@@ -83,7 +89,7 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
         });
 
         window.addEventListener("scroll", handleScroll, { passive: true });
-        
+
         // Delay initial check to ensure DOM is ready
         setTimeout(handleScroll, 100);
 
@@ -98,7 +104,8 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
         if (element) {
             const offset = 100;
             const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            const offsetPosition =
+                elementPosition + window.pageYOffset - offset;
 
             window.scrollTo({
                 top: offsetPosition,
@@ -109,35 +116,37 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
 
     // Don't render if no items
     if (tocItems.length === 0) return null;
-    
+
     // Always show initially, then let scroll handler control visibility
     const shouldRender = true;
 
     return (
-        <div 
+        <div
             ref={tocRef}
             className={`fixed left-8 top-32 z-30 w-52 transition-all duration-700 ease-in-out ${
-                isVisible 
-                    ? "opacity-100 translate-x-0 scale-100" 
+                isVisible
+                    ? "opacity-100 translate-x-0 scale-100"
                     : "opacity-0 -translate-x-8 scale-95 pointer-events-none"
             } ${className}`}
             style={{
-                transform: `translateX(${isVisible ? '0' : '-2rem'}) scale(${isVisible ? '1' : '0.95'})`,
+                transform: `translateX(${isVisible ? "0" : "-2rem"}) scale(${isVisible ? "1" : "0.95"})`,
                 opacity: isVisible ? 1 : 0,
-                transition: 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
+                transition: "all 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
         >
             {/* Contents Title with smooth animation */}
-            <div 
+            <div
                 className="transform transition-all duration-700 ease-out"
                 style={{
-                    transitionDelay: isVisible ? '100ms' : '0ms',
+                    transitionDelay: isVisible ? "100ms" : "0ms",
                     opacity: isVisible ? 1 : 0,
-                    transform: `translateY(${isVisible ? '0' : '-0.5rem'})`
+                    transform: `translateY(${isVisible ? "0" : "-0.5rem"})`,
                 }}
             >
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1 mb-4">
-                    <div className={`w-1 h-1 bg-primary rounded-full transition-all duration-500 ${isVisible ? 'animate-pulse' : 'opacity-0'}`}></div>
+                    <div
+                        className={`w-1 h-1 bg-primary rounded-full transition-all duration-500 ${isVisible ? "animate-pulse" : "opacity-0"}`}
+                    ></div>
                     Contents
                 </h3>
             </div>
@@ -147,16 +156,21 @@ export function TableOfContents({ className = "" }: TableOfContentsProps) {
                 <nav>
                     <ul className="space-y-1">
                         {tocItems.map(({ id, text }, index) => {
-                            const truncatedText = text.length > 30 ? text.substring(0, 30) + "..." : text;
+                            const truncatedText =
+                                text.length > 30
+                                    ? text.substring(0, 30) + "..."
+                                    : text;
 
                             return (
-                                <li 
+                                <li
                                     key={id}
                                     className="transform transition-all duration-500 ease-out"
-                                    style={{ 
-                                        transitionDelay: isVisible ? `${index * 80 + 200}ms` : '0ms',
+                                    style={{
+                                        transitionDelay: isVisible
+                                            ? `${index * 80 + 200}ms`
+                                            : "0ms",
                                         opacity: isVisible ? 1 : 0,
-                                        transform: `translateX(${isVisible ? '0' : '-1rem'}) translateY(${isVisible ? '0' : '0.5rem'})`
+                                        transform: `translateX(${isVisible ? "0" : "-1rem"}) translateY(${isVisible ? "0" : "0.5rem"})`,
                                     }}
                                 >
                                     <button

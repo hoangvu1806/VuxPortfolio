@@ -10,7 +10,7 @@ import {
     FiCopy,
     FiCheck,
     FiMail,
-    FiX
+    FiX,
 } from "react-icons/fi";
 
 interface ShareButtonMobileProps {
@@ -19,14 +19,18 @@ interface ShareButtonMobileProps {
     description?: string;
 }
 
-export function ShareButtonMobile({ url, title, description }: ShareButtonMobileProps) {
+export function ShareButtonMobile({
+    url,
+    title,
+    description,
+}: ShareButtonMobileProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const shareData = {
         title,
         text: description || title,
-        url
+        url,
     };
 
     const handleNativeShare = async () => {
@@ -34,7 +38,7 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
             try {
                 await navigator.share(shareData);
             } catch (error) {
-                console.log('Error sharing:', error);
+                console.log("Error sharing:", error);
             }
         } else {
             setIsOpen(true);
@@ -50,7 +54,7 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
                 setIsOpen(false);
             }, 1500);
         } catch (error) {
-            console.error('Failed to copy:', error);
+            console.error("Failed to copy:", error);
         }
     };
 
@@ -59,26 +63,26 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
             name: "Twitter",
             icon: FiTwitter,
             url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-            color: "bg-blue-500"
+            color: "bg-blue-500",
         },
         {
             name: "Facebook",
             icon: FiFacebook,
             url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-            color: "bg-blue-600"
+            color: "bg-blue-600",
         },
         {
             name: "LinkedIn",
             icon: FiLinkedin,
             url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-            color: "bg-blue-700"
+            color: "bg-blue-700",
         },
         {
             name: "Email",
             icon: FiMail,
             url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${title}\n\n${url}`)}`,
-            color: "bg-green-600"
-        }
+            color: "bg-green-600",
+        },
     ];
 
     return (
@@ -108,13 +112,19 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
                             initial={{ y: "100%", opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: "100%", opacity: 0 }}
-                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            transition={{
+                                type: "spring",
+                                damping: 25,
+                                stiffness: 300,
+                            }}
                             className="bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Header */}
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-lg font-semibold text-gray-100">Share Article</h3>
+                                <h3 className="text-lg font-semibold text-gray-100">
+                                    Share Article
+                                </h3>
                                 <button
                                     onClick={() => setIsOpen(false)}
                                     className="p-2 text-gray-400 hover:text-gray-200 transition-colors"
@@ -149,7 +159,9 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
                                         transition={{ delay: index * 0.1 }}
                                         onClick={() => setIsOpen(false)}
                                     >
-                                        <div className={`p-2 rounded-lg ${link.color} text-white`}>
+                                        <div
+                                            className={`p-2 rounded-lg ${link.color} text-white`}
+                                        >
                                             <link.icon size={16} />
                                         </div>
                                         <span className="text-gray-200 font-medium group-hover:text-white transition-colors">
@@ -164,13 +176,23 @@ export function ShareButtonMobile({ url, title, description }: ShareButtonMobile
                                     className="flex items-center gap-4 p-3 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 group w-full"
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: shareLinks.length * 0.1 }}
+                                    transition={{
+                                        delay: shareLinks.length * 0.1,
+                                    }}
                                 >
-                                    <div className={`p-2 rounded-lg ${copied ? 'bg-green-600' : 'bg-accent'} text-white`}>
-                                        {copied ? <FiCheck size={16} /> : <FiCopy size={16} />}
+                                    <div
+                                        className={`p-2 rounded-lg ${copied ? "bg-green-600" : "bg-accent"} text-white`}
+                                    >
+                                        {copied ? (
+                                            <FiCheck size={16} />
+                                        ) : (
+                                            <FiCopy size={16} />
+                                        )}
                                     </div>
-                                    <span className={`font-medium transition-colors ${copied ? 'text-green-400' : 'text-gray-200 group-hover:text-white'}`}>
-                                        {copied ? 'Link Copied!' : 'Copy Link'}
+                                    <span
+                                        className={`font-medium transition-colors ${copied ? "text-green-400" : "text-gray-200 group-hover:text-white"}`}
+                                    >
+                                        {copied ? "Link Copied!" : "Copy Link"}
                                     </span>
                                 </motion.button>
                             </div>
