@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiMenu, FiX, FiCode } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 import { ImagePaths } from "@/utils/image-paths";
 import Image from "next/image";
 
@@ -36,7 +36,7 @@ export function Header() {
                 }`}
         >
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex items-center justify-between">
+                <div className="relative flex items-center justify-between">
                     <Link href="/" className="relative z-10 flex items-center">
                         <motion.div
                             className="text-2xl font-bold flex items-center"
@@ -64,8 +64,8 @@ export function Header() {
                         </motion.div>
                     </Link>
 
-                    {/* Desktop Menu - Show on larger screens */}
-                    <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+                    {/* Centered Desktop / Tablet Menu */}
+                    <nav className="header-desktop-nav absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 items-center gap-4 lg:gap-6 xl:gap-8">
                         {navItems.map((item, index) => (
                             <motion.div
                                 key={item.name}
@@ -78,7 +78,7 @@ export function Header() {
                             >
                                 <Link
                                     href={item.path}
-                                    className={`relative text-sm font-medium transition-all duration-300 px-2 py-1 rounded-md ${pathname === item.path
+                                    className={`relative whitespace-nowrap text-xs lg:text-sm font-medium transition-all duration-300 px-2 py-1 rounded-md ${pathname === item.path
                                         ? "text-primary bg-primary/20 font-semibold"
                                         : "text-gray-100 hover:text-primary"
                                         }`}
@@ -86,44 +86,9 @@ export function Header() {
                                     {item.name}
                                     {pathname === item.path && (
                                         <motion.span
-                                            layoutId="desktop-underline"
+                                            layoutId="header-underline"
                                             className="absolute left-1/2 bottom-0 block h-[2px] bg-primary rounded-full transform -translate-x-1/2"
-                                            style={{ width: 'calc(100% - 1rem)' }}
-                                            initial={{ scaleX: 0 }}
-                                            animate={{ scaleX: 1 }}
-                                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                                        />
-                                    )}
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </nav>
-
-                    {/* Tablet Menu - Show on medium screens */}
-                    <nav className="hidden md:flex lg:hidden items-center gap-4">
-                        {navItems.map((item, index) => (
-                            <motion.div
-                                key={`tablet-${item.name}`}
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: index * 0.1,
-                                }}
-                            >
-                                <Link
-                                    href={item.path}
-                                    className={`relative text-xs font-medium transition-all duration-300 px-2 py-1 rounded-md ${pathname === item.path
-                                        ? "text-primary bg-primary/20 font-semibold"
-                                        : "text-gray-100 hover:text-primary"
-                                        }`}
-                                >
-                                    {item.name}
-                                    {pathname === item.path && (
-                                        <motion.span
-                                            layoutId="tablet-underline"
-                                            className="absolute left-1/2 bottom-0 block h-[2px] bg-primary rounded-full transform -translate-x-1/2"
-                                            style={{ width: 'calc(100% - 0.5rem)' }}
+                                            style={{ width: "calc(100% - 0.75rem)" }}
                                             initial={{ scaleX: 0 }}
                                             animate={{ scaleX: 1 }}
                                             transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -135,9 +100,9 @@ export function Header() {
                     </nav>
 
                     {/* Mobile Menu Toggle - Only show on small screens */}
-                    <div className="flex items-center md:hidden">
+                    <div className="header-mobile-toggle ml-auto items-center">
                         <button
-                            className="p-2 rounded-md bg-transparent text-gray-300 hover:bg-gray-800/50 transition-colors"
+                            className="inline-flex p-2 rounded-md bg-transparent text-gray-300 hover:bg-gray-800/50 transition-colors"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             aria-label={
                                 mobileMenuOpen ? "Close menu" : "Open menu"
@@ -159,7 +124,7 @@ export function Header() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="md:hidden bg-gray-900 py-4 px-4 shadow-lg border border-gray-700/50"
+                    className="header-mobile-menu bg-gray-900 py-4 px-4 shadow-lg border border-gray-700/50"
                 >
                     <nav className="flex flex-col space-y-2 py-4">
                         {navItems.map((item, index) => (
