@@ -1,60 +1,65 @@
-import { BlogService } from '@/lib/blog';
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+import { BlogService } from "@/lib/blog";
+import { getAllProjects } from "@/lib/projects";
+import { absoluteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    try {
-        // Get all URLs for sitemap using our BlogService
-        const urls = await BlogService.getSitemapUrls();
-        
-        // Convert to Next.js sitemap format
-        return urls.map(url => ({
-            url: url.url,
-            lastModified: new Date(url.lastModified),
-            changeFrequency: url.changeFrequency,
-            priority: url.priority,
+    const now = new Date();
+    const staticPages: MetadataRoute.Sitemap = [
+        {
+            url: absoluteUrl("/"),
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 1,
+        },
+        {
+            url: absoluteUrl("/projects"),
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.95,
+        },
+        {
+            url: absoluteUrl("/blog"),
+            lastModified: now,
+            changeFrequency: "daily",
+            priority: 0.92,
+        },
+        {
+            url: absoluteUrl("/about"),
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.82,
+        },
+        {
+            url: absoluteUrl("/resume"),
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.78,
+        },
+        {
+            url: absoluteUrl("/contact"),
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.74,
+        },
+    ];
+
+    const projectPages: MetadataRoute.Sitemap = getAllProjects()
+        .filter((project) => project.slug)
+        .map((project) => ({
+            url: absoluteUrl(`/projects/${project.slug}`),
+            lastModified: now,
+            changeFrequency: "monthly" as const,
+            priority: project.featured ? 0.9 : 0.8,
         }));
-    } catch (error) {
-        console.error('Error generating sitemap:', error);
-        
-        // Fallback sitemap with static pages only
-        const baseUrl = 'https://hoangvu.id.vn';
-        return [
-            {
-                url: baseUrl,
-                lastModified: new Date(),
-                changeFrequency: 'weekly',
-                priority: 1,
-            },
-            {
-                url: `${baseUrl}/about`,
-                lastModified: new Date(),
-                changeFrequency: 'monthly',
-                priority: 0.8,
-            },
-            {
-                url: `${baseUrl}/projects`,
-                lastModified: new Date(),
-                changeFrequency: 'weekly',
-                priority: 0.9,
-            },
-            {
-                url: `${baseUrl}/blog`,
-                lastModified: new Date(),
-                changeFrequency: 'daily',
-                priority: 0.9,
-            },
-            {
-                url: `${baseUrl}/contact`,
-                lastModified: new Date(),
-                changeFrequency: 'monthly',
-                priority: 0.7,
-            },
-            {
-                url: `${baseUrl}/resume`,
-                lastModified: new Date(),
-                changeFrequency: 'monthly',
-                priority: 0.6,
-            },
-        ];
-    }
+
+    const blogPosts = await BlogService.getAllPosts();
+    const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+        url: absoluteUrl(`/blog/${post.slug}`),
+        lastModified: new Date(post.date),
+        changeFrequency: "monthly",
+        priority: 0.88,
+    }));
+
+    return [...staticPages, ...projectPages, ...blogPages];
 }
