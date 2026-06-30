@@ -97,6 +97,11 @@ export class BlogService {
         }
     }
 
+    static hasLanguageVersion(slug: string, language: "vi" | "en"): boolean {
+        if (language === "vi") return true;
+        return this.findFileBySlug(slug, language) !== null;
+    }
+
     static async parseMarkdownFile(filePath: string, slug: string): Promise<BlogPost | null> {
         try {
             const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -114,8 +119,6 @@ export class BlogService {
             processedContent = processedContent.replace(/\\\(([\s\S]*?)\\\)/g, (match, p1) => {
                 return `$${p1}$`;
             });
-
-            console.log('Processed content sample:', processedContent.substring(0, 500));
 
             // Process markdown to HTML with enhanced features
             const unifiedContent = await unified()
@@ -142,8 +145,6 @@ export class BlogService {
                 .process(processedContent);
 
             const htmlContent = unifiedContent.toString();
-            console.log('HTML content sample:', htmlContent.substring(0, 500));
-
             return {
                 slug,
                 title: data.title || 'Untitled',
