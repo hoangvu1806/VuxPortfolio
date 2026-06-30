@@ -1,7 +1,7 @@
 {
-    "name": "VU HOANG Portfolio",
-    "short_name": "VU HOANG",
-    "description": "AI Engineer specializing in Generative AI, NLP, and Computer Vision",
+    "name": "Do Hoang Vu | AI Engineer Portfolio",
+    "short_name": "Do Hoang Vu",
+    "description": "Official portfolio of Do Hoang Vu, AI Engineer specializing in generative AI, LLMs, NLP, computer vision, RAG, and MLOps.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#030712",
