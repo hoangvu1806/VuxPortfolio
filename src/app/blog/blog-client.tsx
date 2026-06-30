@@ -132,7 +132,10 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                     className="mb-8"
                 >
                     <div className="relative max-w-2xl mx-auto">
-                        <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <FiSearch
+                            className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-gray-400"
+                            size={20}
+                        />
                         <input
                             type="text"
                             placeholder="Search articles..."
@@ -270,7 +273,12 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.5, delay: index * 0.1 }}
                                     >
-                                        <Link href={`/blog/${post.slug}`} className="group block h-full">
+                                        <Link
+                                            href={`/blog/${post.slug}`}
+                                            className="group block h-full"
+                                            aria-label={`Read ${post.title} by Do Hoang Vu on the AI blog`}
+                                            title={`${post.title} | Do Hoang Vu AI Blog`}
+                                        >
                                             <article className="h-full flex flex-col backdrop-blur-sm bg-gray-900/30 rounded-xl border border-gray-700/50 overflow-hidden hover:border-primary/50 transition-all duration-300 group-hover:transform group-hover:scale-105">
                                                 {post.image && (
                                                     <div className="aspect-video overflow-hidden flex-shrink-0">
@@ -303,6 +311,9 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                                             <span>{new Date(post.date).toLocaleDateString()}</span>
                                                         </div>
                                                         <CommentCount slug={post.slug}  />
+                                                    </div>
+                                                    <div className="mt-4 text-sm text-primary">
+                                                        Read Do Hoang Vu on {post.category} →
                                                     </div>
                                                 </div>
                                             </article>
