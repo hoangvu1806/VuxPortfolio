@@ -968,6 +968,28 @@ p {
     text-shadow: 0 0 8px rgba(0, 200, 255, 0.7), 0 0 15px rgba(0, 200, 255, 0.5);
 }
 
+/* Header-specific responsive controls.
+ * Keep these isolated from custom utility overrides below/above.
+ */
+.header-desktop-nav {
+    display: none;
+}
+
+.header-mobile-toggle {
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    .header-desktop-nav {
+        display: flex;
+    }
+
+    .header-mobile-toggle,
+    .header-mobile-menu {
+        display: none !important;
+    }
+}
+
 /* Sections */
 .hero-section {
     min-height: 100vh;
