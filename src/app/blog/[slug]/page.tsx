@@ -14,8 +14,10 @@ import { TableOfContents } from "@/components/blog/table-of-contents";
 import { CustomScrollbar } from "@/components/blog/custom-scrollbar";
 import { MobileTocToggle } from "@/components/blog/mobile-toc-toggle";
 import { LanguageSwitcherWrapper } from "@/components/blog/language-switcher-wrapper";
+import { JsonLd } from "@/components/seo/json-ld";
 
 import { getBlogPostUrl } from "@/lib/url-utils";
+import { absoluteUrl, brandKeywords, coreKeywords } from "@/lib/seo";
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -34,6 +36,7 @@ export async function generateMetadata({
     const { language } = await searchParams;
     const lang = language === "en" ? "en" : "vi";
     const post = await BlogService.getPostBySlug(slug, lang);
+    const hasEnglishVersion = BlogService.hasLanguageVersion(slug, "en");
 
     if (!post) {
         return {
@@ -43,12 +46,17 @@ export async function generateMetadata({
     }
 
     // Get current URL for metadata
-    const currentUrl = await getBlogPostUrl(slug);
+    const currentUrl =
+        lang === "en" && hasEnglishVersion
+            ? absoluteUrl(`/blog/${slug}?language=en`)
+            : await getBlogPostUrl(slug);
+    const canonicalDefault = absoluteUrl(`/blog/${slug}`);
+    const imageUrl = absoluteUrl(post.image);
 
     return {
-        title: `${post.title} | VU HOANG Blog`,
+        title: `${post.title} | Do Hoang Vu AI Blog`,
         description: post.description,
-        keywords: post.tags.join(", "),
+        keywords: [...brandKeywords, ...coreKeywords, post.title, ...post.tags],
         authors: [{ name: post.author }],
         openGraph: {
             title: post.title,
@@ -58,17 +66,23 @@ export async function generateMetadata({
             authors: [post.author],
             url: currentUrl,
             images: [
-                { url: post.image, width: 1200, height: 630, alt: post.title },
+                { url: imageUrl, width: 1200, height: 630, alt: post.title },
             ],
         },
         twitter: {
             card: "summary_large_image",
             title: post.title,
             description: post.description,
-            images: [post.image],
+            images: [imageUrl],
         },
         alternates: {
             canonical: currentUrl,
+            languages: hasEnglishVersion
+                ? {
+                      en: absoluteUrl(`/blog/${slug}?language=en`),
+                      vi: canonicalDefault,
+                  }
+                : undefined,
         },
     };
 }
@@ -96,10 +110,36 @@ export default async function BlogPostPage({
     );
 
     // Get current URL
-    const currentUrl = await getBlogPostUrl(post.slug);
+    const currentUrl =
+        lang === "en" && BlogService.hasLanguageVersion(post.slug, "en")
+            ? absoluteUrl(`/blog/${post.slug}?language=en`)
+            : await getBlogPostUrl(post.slug);
+    const postSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.description,
+        image: absoluteUrl(post.image),
+        datePublished: post.date,
+        dateModified: post.date,
+        mainEntityOfPage: currentUrl,
+        author: {
+            "@type": "Person",
+            name: post.author,
+            url: absoluteUrl("/"),
+        },
+        publisher: {
+            "@type": "Person",
+            name: "Do Hoang Vu",
+            url: absoluteUrl("/"),
+        },
+        inLanguage: lang,
+        keywords: post.tags,
+    };
 
     return (
         <MainLayout>
+            <JsonLd data={postSchema} />
             {/* Custom scrollbar only for blog pages */}
             <CustomScrollbar />
 
@@ -124,6 +164,17 @@ export default async function BlogPostPage({
                     <div className="container px-4 md:px-6 mx-auto relative z-10">
                         {/* Back Link - Fixed spacing to avoid header overlap */}
                         <div className="pt-24 md:pt-20 pb-6">
+                            <div className="mb-5 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                                <Link href="/" className="hover:text-primary transition-colors">
+                                    Do Hoang Vu AI Portfolio
+                                </Link>
+                                <span>/</span>
+                                <Link href="/blog" className="hover:text-primary transition-colors">
+                                    AI Blog
+                                </Link>
+                                <span>/</span>
+                                <span className="text-gray-400">{post.title}</span>
+                            </div>
                             <Link
                                 href="/blog"
                                 className="inline-flex items-center gap-2 text-gray-400 hover:text-primary transition-all duration-300 hover:gap-3 group"
@@ -256,6 +307,7 @@ export default async function BlogPostPage({
                                 [&_ol_ol_ol]:list-decimal [&_ol_ol_ol]:pl-10 [&_ul_ul_ul]:list-disc [&_ul_ul_ul]:pl-10
                                 [&_li_ol]:mt-2 [&_li_ul]:mt-2 [&_li_p]:mb-2"
                         />
+
                     </div>
                 </div>
 
@@ -291,6 +343,7 @@ export default async function BlogPostPage({
                                                 key={relatedPost.slug}
                                                 href={`/blog/${relatedPost.slug}`}
                                                 className="group"
+                                                aria-label={`Read related article ${relatedPost.title} by Do Hoang Vu`}
                                                 style={{
                                                     animationDelay: `${
                                                         index * 0.1
@@ -342,7 +395,7 @@ export default async function BlogPostPage({
                                                                 )}
                                                             </span>
                                                             <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                                Read more →
+                                                                Read Do Hoang Vu's article →
                                                             </span>
                                                         </div>
                                                     </div>
@@ -357,7 +410,7 @@ export default async function BlogPostPage({
                                             href="/blog"
                                             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border border-primary/30 rounded-xl font-semibold hover:from-primary/30 hover:to-secondary/30 hover:border-primary/50 hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-lg group"
                                         >
-                                            <span>View All Articles</span>
+                                            <span>Explore the full Do Hoang Vu AI blog</span>
                                             <span className="text-lg group-hover:translate-x-1 transition-transform duration-300">
                                                 →
                                             </span>
