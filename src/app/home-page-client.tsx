@@ -13,6 +13,7 @@ import {
     FiAward,
     FiBriefcase,
     FiGlobe,
+    FiCpu,
 } from "react-icons/fi";
 import Image from "next/image";
 import { profile } from "@/data/profile";
@@ -23,6 +24,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { DynamicBackground } from "@/components/ui/dynamic-background";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { useEffect, useState } from "react";
+
+const skillCategoryConfigs = [
+    {
+        icon: <FiServer className="text-accent text-2xl mt-1" />,
+        titleClass: "text-accent text-shadow-accent",
+        bulletClass: "bg-accent",
+    },
+    {
+        icon: <FiLayers className="text-secondary text-2xl mt-1" />,
+        titleClass: "text-secondary text-shadow-secondary",
+        bulletClass: "bg-secondary",
+    },
+    {
+        icon: <FiCode className="text-primary text-2xl mt-1" />,
+        titleClass: "text-primary text-shadow-primary",
+        bulletClass: "bg-primary",
+    },
+    {
+        icon: <FiCpu className="text-secondary text-2xl mt-1" />,
+        titleClass: "text-secondary text-shadow-secondary",
+        bulletClass: "bg-secondary",
+    },
+    {
+        icon: <FiGithub className="text-primary text-2xl mt-1" />,
+        titleClass: "text-primary text-shadow-primary",
+        bulletClass: "bg-primary",
+    },
+];
 
 export default function Home() {
     const [isAvatarHovered, setIsAvatarHovered] = useState(false);
@@ -70,7 +99,7 @@ export default function Home() {
 
                             <TypingAnimation
                                 texts={introTexts}
-                                className="block text-lg md:text-xl max-w-xl leading-relaxed mb-8 mt-2"
+                                className="block text-lg md:text-xl max-w-xl leading-relaxed mb-8 mt-2 min-h-[120px] sm:min-h-[96px] md:min-h-[84px] lg:min-h-[72px]"
                             />
 
                             <div className="flex flex-wrap gap-6 mb-12">
@@ -315,69 +344,43 @@ export default function Home() {
                             </p>
                         </motion.div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {profile.skills.technical.map((skill, index) => (
-                            <motion.div
-                                key={skill.category}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: index * 0.1,
-                                }}
-                                className="p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50"
-                            >
-                                <div className="flex items-start gap-4">
-                                    {index === 0 && (
-                                        <FiCode className="text-primary text-2xl mt-1" />
-                                    )}
-                                    {index === 1 && (
-                                        <FiLayers className="text-secondary text-2xl mt-1" />
-                                    )}
-                                    {index === 2 && (
-                                        <FiServer className="text-accent text-2xl mt-1" />
-                                    )}
-                                    {index === 3 && (
-                                        <FiGithub className="text-primary text-2xl mt-1" />
-                                    )}
-                                    <div>
-                                        <h3
-                                            className={`font-semibold text-xl mb-4 ${index === 0
-                                                ? "text-primary text-shadow-primary"
-                                                : index === 1
-                                                    ? "text-secondary text-shadow-secondary"
-                                                    : index === 2
-                                                        ? "text-accent text-shadow-accent"
-                                                        : "text-primary text-shadow-primary"
-                                                }`}
-                                        >
-                                            {skill.category}
-                                        </h3>
-                                        <ul className="space-y-3">
-                                            {skill.items.map((item) => (
-                                                <li
-                                                    key={item}
-                                                    className="text-gray-300 flex items-center gap-2"
-                                                >
-                                                    <span
-                                                        className={`w-2 h-2 rounded-full ${index === 0
-                                                            ? "bg-primary"
-                                                            : index === 1
-                                                                ? "bg-secondary"
-                                                                : index === 2
-                                                                    ? "bg-accent"
-                                                                    : "bg-primary"
-                                                            }`}
-                                                    ></span>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
+                    <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
+                        {profile.skills.technical.map((skill, index) => {
+                            const config = skillCategoryConfigs[index] || skillCategoryConfigs[0];
+                            return (
+                                <motion.div
+                                    key={skill.category}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{
+                                        duration: 0.5,
+                                        delay: index * 0.1,
+                                    }}
+                                    className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-20px)] xl:w-[calc(20%-26px)] min-w-[220px] max-w-[320px] lg:max-w-none p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 flex flex-col"
+                                >
+                                    <div className="flex items-start gap-4 h-full">
+                                        {config.icon}
+                                        <div className="flex-1 flex flex-col h-full">
+                                            <h3 className={`font-semibold text-xl mb-4 ${config.titleClass}`}>
+                                                {skill.category}
+                                            </h3>
+                                            <ul className="space-y-3">
+                                                {skill.items.map((item) => (
+                                                    <li
+                                                        key={item}
+                                                        className="text-gray-300 flex items-center gap-2"
+                                                    >
+                                                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${config.bulletClass}`}></span>
+                                                        <span className="break-words">{item}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
