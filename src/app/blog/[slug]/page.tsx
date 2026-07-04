@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import Image from "next/image";
 import { BlogService } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -267,10 +268,13 @@ export default async function BlogPostPage({
                     <div className="container px-4 md:px-6 mx-auto mb-12">
                         <div className="max-w-4xl mx-auto">
                             <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-700/50">
-                                <img
+                                <Image
                                     src={post.image}
                                     alt={post.title}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    priority
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+                                    className="object-cover"
                                 />
                             </div>
                         </div>
@@ -353,15 +357,17 @@ export default async function BlogPostPage({
                                                 <article className="h-full flex flex-col backdrop-blur-sm bg-gray-900/30 rounded-xl border border-gray-700/50 overflow-hidden hover:border-primary/50 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
                                                     {relatedPost.image && (
                                                         <div className="aspect-video overflow-hidden flex-shrink-0 relative">
-                                                            <img
-                                                                src={
-                                                                    relatedPost.image
-                                                                }
-                                                                alt={
-                                                                    relatedPost.title
-                                                                }
-                                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                                            />
+                                                            <Image
+                                                                 src={
+                                                                     relatedPost.image
+                                                                 }
+                                                                 alt={
+                                                                     relatedPost.title
+                                                                 }
+                                                                 fill
+                                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 250px"
+                                                                 className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                                             />
                                                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                         </div>
                                                     )}
