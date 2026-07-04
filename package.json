@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev --turbopack -p 8001",
-        "build": "next build",
+        "build": "node scripts/generate-llms-txt.js && next build",
         "start": "next start -p 8888",
         "lint": "next lint",
         "add-project": "node scripts/add-project.js",
