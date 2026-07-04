@@ -17,12 +17,11 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
             {/* Google Analytics Script */}
             <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-                strategy="afterInteractive"
-                async
+                strategy="lazyOnload"
             />
             <Script
                 id="google-analytics"
-                strategy="afterInteractive"
+                strategy="lazyOnload"
                 dangerouslySetInnerHTML={{
                     __html: `
                         window.dataLayer = window.dataLayer || [];
