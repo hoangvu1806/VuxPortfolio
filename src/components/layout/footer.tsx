@@ -97,9 +97,9 @@ export function Footer() {
                     </div>
 
                     <div className="md:col-span-3">
-                        <h4 className="font-bold text-lg mb-6 text-white text-shadow-sm">
+                        <h3 className="font-bold text-lg mb-6 text-white text-shadow-sm">
                             Menu
-                        </h4>
+                        </h3>
                         <ul className="space-y-4">
                             <li>
                                 <Link
@@ -150,9 +150,9 @@ export function Footer() {
                     </div>
 
                     <div className="md:col-span-4">
-                        <h4 className="font-bold text-lg mb-6 text-white text-shadow-sm">
+                        <h3 className="font-bold text-lg mb-6 text-white text-shadow-sm">
                             Contact
-                        </h4>
+                        </h3>
                         <ul className="space-y-4">
                             <li className="text-gray-200 flex items-start gap-2 drop-shadow-sm">
                                 <svg
