@@ -45,7 +45,7 @@ export const profile = {
     skills: {
         technical: [
             {
-                category: "Programming",
+                category: "LLM Frameworks",
                 items: [
                     "Python",
                     "LLM pipelines",
@@ -67,14 +67,13 @@ export const profile = {
             {
                 category: "LLM Frameworks",
                 items: [
-                    "LangChain",
-                    "LangGraph",
-                    "Google ADK",
+                    "Python",
+                    "LLM pipelines",
+                    "RAG systems",
+                    "Multi-agent systems",
+                    "Data ingestion pipelines",
+                    "Embedding pipelines",
                 ],
-            },
-            {
-                category: "Backend",
-                items: ["FastAPI", "Node.js"],
             },
             {
                 category: "MLOps / LMOps",
@@ -84,6 +83,10 @@ export const profile = {
                     "Docker",
                     "GitHub Actions",
                 ],
+            },
+            {
+                category: "Backend",
+                items: ["FastAPI", "Node.js"],
             },
         ],
         soft: [
