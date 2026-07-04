@@ -3,6 +3,8 @@ import Image from "next/image";
 import { BlogService } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/github-dark.css";
 import { Metadata } from "next";
 import Link from "next/link";
 import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";

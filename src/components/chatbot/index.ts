@@ -1,4 +1,5 @@
 export { ChatbotPopup } from "./chatbot-popup";
+export { ChatbotPopupLazy } from "./chatbot-popup-lazy";
 export { ChatMessage } from "./chat-message";
 export { ChatInput } from "./chat-input";
 export { ChatHeader } from "./chat-header";

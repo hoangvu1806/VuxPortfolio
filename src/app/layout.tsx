@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
-import { GoogleAnalytics } from "@/components/analytics/google-analytics";
-import { ChatbotPopup } from "@/components/chatbot";
 import { ChatbotContextProvider } from "@/contexts/ChatbotContext";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { absoluteUrl, siteDescription, siteTitle, siteUrl } from "@/lib/seo";
 import "./globals.css";
-import "katex/dist/katex.min.css";
-import "highlight.js/styles/github-dark.css";
+import { ChatbotPopupLazy } from "@/components/chatbot";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -121,7 +119,7 @@ export default function RootLayout({
                 />
                 <ChatbotContextProvider>
                     {children}
-                    <ChatbotPopup />
+                    <ChatbotPopupLazy />
                 </ChatbotContextProvider>
             </body>
         </html>
