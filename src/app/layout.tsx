@@ -5,6 +5,8 @@ import { ChatbotPopup } from "@/components/chatbot";
 import { ChatbotContextProvider } from "@/contexts/ChatbotContext";
 import { absoluteUrl, siteDescription, siteTitle, siteUrl } from "@/lib/seo";
 import "./globals.css";
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/github-dark.css";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -103,6 +105,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <link rel="preconnect" href="https://www.googletagmanager.com" />
+                <link rel="preconnect" href="https://www.google-analytics.com" />
+                <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+            </head>
             <body
                 className={`${inter.variable} ${robotoMono.variable} font-sans antialiased`}
             >
