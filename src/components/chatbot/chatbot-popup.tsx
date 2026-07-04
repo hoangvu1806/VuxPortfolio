@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 import { ChatMessage } from "./chat-message";
 import { ChatInput } from "./chat-input";
@@ -65,9 +66,11 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                         onClick={openChat}
                         className="relative w-14 h-14 rounded-full shadow-2xl hover:shadow-primary/25 transition-all duration-300 overflow-hidden border-3 border-primary/30"
                     >
-                        <img
+                        <Image
                             src="/images/profile/twinself.png"
                             alt="Open Chat"
+                            width={56}
+                            height={56}
                             className="w-full h-full object-cover"
                         />
 
@@ -143,9 +146,11 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                                     className="flex items-center space-x-2"
                                 >
                                     <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-primary/30">
-                                        <img
+                                        <Image
                                             src="/images/profile/twinself.png"
                                             alt="AI Assistant"
+                                            width={28}
+                                            height={28}
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
