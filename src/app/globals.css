@@ -1187,41 +1187,6 @@ p {
     }
 }
 
-@keyframes colorPulse {
-    0% {
-        text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-    }
-    25% {
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-    }
-    50% {
-        text-shadow: 0 0 10px rgba(255, 0, 228, 0.3);
-    }
-    75% {
-        text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
-    }
-    100% {
-        text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-    }
-}
-
-/* Electric border animation */
-@keyframes electricBorder {
-    0%,
-    100% {
-        background-position: 0% 0%;
-    }
-    25% {
-        background-position: 100% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
-    75% {
-        background-position: 0% 100%;
-    }
-}
-
 .animated-border-text {
     position: relative;
     display: inline-block;
@@ -1230,7 +1195,7 @@ p {
     -webkit-text-stroke: 2px rgba(255, 255, 255, 0.95);
     letter-spacing: 0.08em;
     padding: 0.25em 0em;
-    animation: colorPulse 8s ease infinite;
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
 }
 
@@ -1317,19 +1282,12 @@ p {
     animation: fadeIn 1s forwards;
 }
 
-/* Glowing cursor effect */
-@keyframes cursorGlow {
-    0% {
-        background-color: var(--primary);
-        box-shadow: 0 0 5px rgba(99, 102, 241, 0.7);
+@keyframes cursorBlink {
+    0%, 100% {
+        opacity: 1;
     }
     50% {
-        background-color: var(--secondary);
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-    }
-    100% {
-        background-color: var(--primary);
-        box-shadow: 0 0 5px rgba(99, 102, 241, 0.7);
+        opacity: 0.15;
     }
 }
 
@@ -1340,7 +1298,7 @@ p {
     background-color: var(--primary);
     margin-left: 2px;
     vertical-align: text-bottom;
-    animation: cursorGlow 2s infinite;
+    animation: cursorBlink 1s infinite;
     border-radius: 1px;
     box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
 }
@@ -1690,12 +1648,6 @@ img {
         rgba(168, 85, 247, 0.8)
     );
 }
-/* KaTeX styles for math rendering */
-@import "katex/dist/katex.min.css";
-
-/* Code highlighting styles */
-@import "highlight.js/styles/github-dark.css";
-
 /* Line clamp utilities */
 .line-clamp-2 {
     display: -webkit-box;
@@ -1710,11 +1662,6 @@ img {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-/* KaTeX styles for math rendering */
-@import "katex/dist/katex.min.css";
-
-/* Code highlighting styles */
-@import "highlight.js/styles/github-dark.css";
 
 /* Enhanced blog content styles */
 .blog-content {
