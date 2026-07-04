@@ -71,6 +71,7 @@ class ClientBlogService {
     }
 }
 import Link from "next/link";
+import Image from "next/image";
 
 interface BlogClientProps {
     initialPosts: BlogPost[];
@@ -281,11 +282,13 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                         >
                                             <article className="h-full flex flex-col backdrop-blur-sm bg-gray-900/30 rounded-xl border border-gray-700/50 overflow-hidden hover:border-primary/50 transition-all duration-300 group-hover:transform group-hover:scale-105">
                                                 {post.image && (
-                                                    <div className="aspect-video overflow-hidden flex-shrink-0">
-                                                        <img
+                                                    <div className="aspect-video overflow-hidden flex-shrink-0 relative">
+                                                        <Image
                                                             src={post.image}
                                                             alt={post.title}
-                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                            fill
+                                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                            className="object-cover group-hover:scale-110 transition-transform duration-300"
                                                         />
                                                     </div>
                                                 )}
