@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiUser, FiCopy, FiCheck } from 'react-icons/fi';
+import Image from 'next/image';
 import { MarkdownRenderer } from './markdown-renderer';
 import type { Message } from './chatbot-popup';
 
@@ -44,9 +45,11 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     {isUser ? (
                         <FiUser className="w-3.5 h-3.5 text-white" />
                     ) : (
-                        <img
+                        <Image
                             src="/images/profile/twinself.png"
                             alt="AI Assistant"
+                            width={28}
+                            height={28}
                             className="w-full h-full object-cover"
                         />
                     )}
