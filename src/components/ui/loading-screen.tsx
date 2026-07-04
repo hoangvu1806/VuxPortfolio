@@ -12,17 +12,6 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
     const [progress, setProgress] = useState(0);
     const [mounted, setMounted] = useState(false);
 
-    // Generate stable random values for particles
-    const particleData = Array.from({ length: 30 }, (_, i) => ({
-        id: i,
-        initialX: (i * 137.5) % 1920, // Golden ratio distribution
-        initialY: (i * 73.2) % 1080,
-        targetX: ((i + 15) * 137.5) % 1920,
-        targetY: ((i + 15) * 73.2) % 1080,
-        duration: 3 + (i % 4),
-        delay: (i % 10) * 0.2,
-    }));
-
     useEffect(() => {
         setMounted(true);
     }, []);
@@ -34,12 +23,12 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(progressInterval);
-                    setTimeout(onComplete, 500);
+                    setTimeout(onComplete, 500); // Exiting transition buffer
                     return 100;
                 }
-                return prev + 10 + prev * 0.1; // Deterministic progress
+                return prev + 12 + prev * 0.08;
             });
-        }, 150);
+        }, 110);
 
         return () => {
             clearInterval(progressInterval);
@@ -55,203 +44,144 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
             {isLoading && (
                 <motion.div
                     initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 1.1 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden"
+                    exit={{ opacity: 0, scale: 1.04 }}
+                    transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#030712] overflow-hidden"
                 >
-                    {/* Animated Background */}
-                    <div className="absolute inset-0">
-                        {/* Floating particles */}
-                        {mounted &&
-                            particleData.map((particle) => (
-                                <motion.div
-                                    key={particle.id}
-                                    className="absolute w-1 h-1 bg-primary rounded-full"
-                                    initial={{
-                                        x: particle.initialX,
-                                        y: particle.initialY,
-                                        opacity: 0,
-                                    }}
-                                    animate={{
-                                        x: particle.targetX,
-                                        y: particle.targetY,
-                                        opacity: [0, 1, 0],
-                                    }}
-                                    transition={{
-                                        duration: particle.duration,
-                                        repeat: Infinity,
-                                        delay: particle.delay,
-                                    }}
-                                />
-                            ))}
+                    {/* Tech-Grid Background */}
+                    <div 
+                        className="absolute inset-0 opacity-40 pointer-events-none"
+                        style={{
+                            backgroundSize: "40px 40px",
+                            backgroundImage: `
+                                linear-gradient(to right, rgba(99, 102, 241, 0.02) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(99, 102, 241, 0.02) 1px, transparent 1px)
+                            `
+                        }}
+                    />
 
-                        {/* Pulsing circles */}
-                        {mounted &&
-                            [...Array(5)].map((_, i) => (
-                                <motion.div
-                                    key={`circle-${i}`}
-                                    className="absolute rounded-full border border-secondary/20"
-                                    style={{
-                                        width: 100 + i * 50,
-                                        height: 100 + i * 50,
-                                        left: "50%",
-                                        top: "50%",
-                                        marginLeft: -(50 + i * 25),
-                                        marginTop: -(50 + i * 25),
-                                    }}
-                                    initial={{ scale: 0, opacity: 0 }}
-                                    animate={{
-                                        scale: [0, 1.2, 0],
-                                        opacity: [0, 0.3, 0],
-                                    }}
-                                    transition={{
-                                        duration: 3,
-                                        repeat: Infinity,
-                                        delay: i * 0.5,
-                                    }}
-                                />
-                            ))}
-
-                        {/* Grid pattern */}
-                        {mounted && (
-                            <div className="absolute inset-0 opacity-5">
-                                <div className="grid grid-cols-12 h-full">
-                                    {[...Array(12)].map((_, i) => (
-                                        <motion.div
-                                            key={i}
-                                            className="border-r border-primary/30"
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: [0, 0.5, 0] }}
-                                            transition={{
-                                                duration: 2,
-                                                repeat: Infinity,
-                                                delay: i * 0.1,
-                                            }}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                    {/* Ambient Glow Orbs */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        <motion.div
+                            animate={{
+                                x: [-20, 20, -20],
+                                y: [-20, 20, -20],
+                                scale: [1, 1.2, 1],
+                            }}
+                            transition={{
+                                duration: 8,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                            className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full filter blur-[100px]"
+                        />
+                        <motion.div
+                            animate={{
+                                x: [20, -20, 20],
+                                y: [20, -20, 20],
+                                scale: [1.2, 1, 1.2],
+                            }}
+                            transition={{
+                                duration: 10,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                            className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-accent/5 rounded-full filter blur-[120px]"
+                        />
                     </div>
 
-                    {/* Main Loading Content */}
-                    <div className="relative z-10 flex flex-col items-center">
-                        {/* Multiple rotating rings */}
-                        <div className="relative mb-8">
-                            {/* Outer ring */}
+                    {/* 3D Quantum Gyroscope Loader (Borderless) */}
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="relative w-56 h-56 flex items-center justify-center"
+                    >
+                        {/* Orbit Assembly with 3D Perspective */}
+                        <div className="relative w-40 h-40 flex items-center justify-center" style={{ perspective: 1000 }}>
+                            
+                            {/* Outer Orbit (Cyan) */}
                             <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{
-                                    duration: 4,
-                                    repeat: Infinity,
-                                    ease: "linear",
+                                style={{
+                                    position: "absolute",
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: "50%",
+                                    border: "1.8px solid rgba(6, 182, 212, 0.08)",
+                                    borderTopColor: "rgba(6, 182, 212, 0.75)",
+                                    borderRightColor: "rgba(6, 182, 212, 0.4)",
+                                    rotateX: 65,
+                                    rotateY: 20,
                                 }}
-                                className="w-32 h-32 border-2 border-primary/20 border-t-primary rounded-full"
-                            />
-
-                            {/* Middle ring */}
-                            <motion.div
-                                animate={{ rotate: -360 }}
+                                animate={{ rotateZ: 360 }}
                                 transition={{
                                     duration: 3,
                                     repeat: Infinity,
                                     ease: "linear",
                                 }}
-                                className="absolute inset-2 border-2 border-secondary/20 border-r-secondary rounded-full"
                             />
 
-                            {/* Inner ring */}
+                            {/* Middle Orbit (Purple) */}
                             <motion.div
-                                animate={{ rotate: 360 }}
+                                style={{
+                                    position: "absolute",
+                                    width: "78%",
+                                    height: "78%",
+                                    borderRadius: "50%",
+                                    border: "1.8px solid rgba(139, 92, 246, 0.08)",
+                                    borderBottomColor: "rgba(139, 92, 246, 0.75)",
+                                    borderLeftColor: "rgba(139, 92, 246, 0.4)",
+                                    rotateX: 65,
+                                    rotateY: -30,
+                                }}
+                                animate={{ rotateZ: -360 }}
+                                transition={{
+                                    duration: 2.5,
+                                    repeat: Infinity,
+                                    ease: "linear",
+                                }}
+                            />
+
+                            {/* Inner Orbit (Fuchsia) */}
+                            <motion.div
+                                style={{
+                                    position: "absolute",
+                                    width: "56%",
+                                    height: "56%",
+                                    borderRadius: "50%",
+                                    border: "1.8px solid rgba(236, 72, 153, 0.08)",
+                                    borderLeftColor: "rgba(236, 72, 153, 0.75)",
+                                    borderTopColor: "rgba(236, 72, 153, 0.4)",
+                                    rotateX: 30,
+                                    rotateY: 65,
+                                }}
+                                animate={{ rotateZ: 360 }}
                                 transition={{
                                     duration: 2,
                                     repeat: Infinity,
                                     ease: "linear",
                                 }}
-                                className="absolute inset-4 border-2 border-accent/20 border-b-accent rounded-full"
                             />
 
-                            {/* Center core */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <motion.div
-                                    animate={{
-                                        scale: [1, 1.3, 1],
-                                        rotate: [0, 180, 360],
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: "easeInOut",
-                                    }}
-                                    className="w-12 h-12 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-primary-glow"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Progress indicator */}
-                        <div className="w-64">
-                            <div className="w-full h-1 bg-gray-700/50 rounded-full overflow-hidden">
-                                <motion.div
-                                    className="h-full bg-gradient-to-r from-primary via-secondary to-accent rounded-full"
-                                    initial={{ width: 0 }}
-                                    animate={{
-                                        width: `${Math.min(progress, 100)}%`,
-                                    }}
-                                    transition={{
-                                        duration: 0.3,
-                                        ease: "easeOut",
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Completion effect */}
-                        {progress >= 100 && (
+                            {/* Pulsing Core */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
                                 animate={{
-                                    opacity: [0, 1, 0],
-                                    scale: [0, 2, 0],
+                                    scale: [0.92, 1.08, 0.92],
                                 }}
-                                transition={{ duration: 1 }}
-                                className="absolute inset-0 border-4 border-primary/30 rounded-full"
-                            />
-                        )}
-                    </div>
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                }}
+                                className="w-11 h-11 rounded-full bg-gradient-to-tr from-primary via-secondary to-accent flex items-center justify-center z-10 shadow-[0_0_20px_rgba(99,102,241,0.4)]"
+                            >
+                                <div className="w-6 h-6 rounded-full bg-[#030712]/90 backdrop-blur-md flex items-center justify-center">
+                                    <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
+                                </div>
+                            </motion.div>
 
-                    {/* Corner decorations */}
-                    <div className="absolute top-6 left-6">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className="w-12 h-12 border-l-2 border-t-2 border-primary/40"
-                        />
-                    </div>
-                    <div className="absolute top-6 right-6">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.7 }}
-                            className="w-12 h-12 border-r-2 border-t-2 border-secondary/40"
-                        />
-                    </div>
-                    <div className="absolute bottom-6 left-6">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.9 }}
-                            className="w-12 h-12 border-l-2 border-b-2 border-accent/40"
-                        />
-                    </div>
-                    <div className="absolute bottom-6 right-6">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 1.1 }}
-                            className="w-12 h-12 border-r-2 border-b-2 border-primary/40"
-                        />
-                    </div>
+                        </div>
+                    </motion.div>
                 </motion.div>
             )}
         </AnimatePresence>
