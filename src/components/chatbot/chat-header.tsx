@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FiX, FiLock, FiUnlock } from 'react-icons/fi';
+import Image from 'next/image';
 
 interface ChatHeaderProps {
     onClose: () => void;
@@ -25,9 +26,11 @@ export function ChatHeader({ onClose, isDragLocked = false, onToggleDragLock }: 
                 <div className="flex items-center space-x-3">
                     <div className="relative">
                         <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg">
-                            <img
+                            <Image
                                 src="/images/profile/twinself.png"
                                 alt="AI Assistant Avatar"
+                                width={44}
+                                height={44}
                                 className="w-full h-full object-cover"
                             />
                         </div>
