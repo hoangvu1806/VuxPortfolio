@@ -45,14 +45,14 @@ export const profile = {
     skills: {
         technical: [
             {
-                category: "LLM Frameworks",
+                category: "Programming",
                 items: [
                     "Python",
-                    "LLM pipelines",
-                    "RAG systems",
-                    "Multi-agent systems",
-                    "Data ingestion pipelines",
-                    "Embedding pipelines",
+                    "TypeScript",
+                    "RUST",
+                    "SQL",
+                    "Bash",
+                    "C / C++",
                 ],
             },
             {

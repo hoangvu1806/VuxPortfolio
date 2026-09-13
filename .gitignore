@@ -63,3 +63,8 @@ logs
 .dockerignore
 robots.txt
 llms.txt
+
+# vps notes
+note.vps.md
+*.vps.md
+

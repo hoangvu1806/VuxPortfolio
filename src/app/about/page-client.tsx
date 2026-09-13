@@ -45,14 +45,20 @@ export default function AboutPage() {
             icon: <FiCode className="text-primary text-2xl" />,
             accent: "from-primary to-secondary",
             titleClass: "text-primary",
-            items: profile.skills.technical[2]?.items ?? [],
+            items:
+                profile.skills.technical.find(
+                    (s) => s.category === "Programming"
+                )?.items ?? [],
         },
         {
             category: "Vector & Graph Databases",
             icon: <FiDatabase className="text-cyan-400 text-2xl" />,
             accent: "from-cyan-400 to-secondary",
             titleClass: "text-cyan-300",
-            items: profile.skills.technical[1]?.items ?? [],
+            items:
+                profile.skills.technical.find(
+                    (s) => s.category === "Vector & Graph Databases"
+                )?.items ?? [],
         },
         {
             category: "LLM Frameworks & Backend",
@@ -60,8 +66,12 @@ export default function AboutPage() {
             accent: "from-fuchsia-500 to-primary",
             titleClass: "text-fuchsia-300",
             items: [
-                ...(profile.skills.technical[0]?.items ?? []),
-                ...(profile.skills.technical[4]?.items ?? []),
+                ...(profile.skills.technical.find(
+                    (s) => s.category === "LLM Frameworks"
+                )?.items ?? []),
+                ...(profile.skills.technical.find(
+                    (s) => s.category === "Backend"
+                )?.items ?? []),
             ],
         },
         {
@@ -69,7 +79,10 @@ export default function AboutPage() {
             icon: <FiServer className="text-indigo-400 text-2xl" />,
             accent: "from-indigo-400 to-secondary",
             titleClass: "text-indigo-300",
-            items: profile.skills.technical[3]?.items ?? [],
+            items:
+                profile.skills.technical.find(
+                    (s) => s.category === "MLOps / LMOps"
+                )?.items ?? [],
         },
     ];
 

@@ -134,7 +134,7 @@ export class ChatbotAPI {
                                 return;
                             }
                             if (data) {
-                                yield data;
+                                yield JSON.parse(data);
                             }
                         } else if (!trimmedLine.startsWith("event:") && !trimmedLine.startsWith("id:")) {
                             // Handle raw text (not SSE metadata)
@@ -148,7 +148,7 @@ export class ChatbotAPI {
                 if (trimmed.startsWith("data: ")) {
                     const data = trimmed.slice(6);
                     if (data && data !== "[DONE]") {
-                        yield data;
+                        yield JSON.parse(data);
                     }
                 } else if (!trimmed.startsWith("event:") && !trimmed.startsWith("id:")) {
                     yield trimmed;
