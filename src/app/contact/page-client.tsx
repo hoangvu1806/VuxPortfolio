@@ -4,20 +4,34 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { profile } from "@/data/profile";
 import { motion } from "framer-motion";
 import {
-    FiMail,
-    FiPhone,
-    FiMapPin,
-    FiGithub,
-    FiLinkedin,
-    FiSend,
-    FiUser,
-    FiMessageSquare,
-    FiEdit,
-    FiAlertCircle,
-} from "react-icons/fi";
+    Mail,
+    MailOpen,
+    Phone,
+    PhoneCall,
+    MapPin,
+    Navigation,
+    Send,
+    Check,
+    User,
+    Smile,
+    MessageSquare,
+    MessageCircle,
+    Edit,
+    Pencil,
+    AlertCircle,
+    AlertTriangle,
+    GitBranch,
+    Share2,
+} from "lucide";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import Link from "next/link";
 import { useState } from "react";
-import { sendContactEmail, validateContactForm, type ContactFormData } from "@/utils/email";
+import {
+    sendContactEmail,
+    validateContactForm,
+    type ContactFormData,
+} from "@/utils/email";
 import { Toast } from "@/components/ui/toast";
 
 export default function ContactPage() {
@@ -36,7 +50,7 @@ export default function ContactPage() {
     const [showErrorToast, setShowErrorToast] = useState(false);
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         const { id, value } = e.target;
         setFormState((prev) => ({ ...prev, [id]: value }));
@@ -66,6 +80,7 @@ export default function ContactPage() {
 
         try {
             await sendContactEmail(formData);
+            setSubmitSuccess(true);
             setShowSuccessToast(true);
             setFormState({
                 name: "",
@@ -74,7 +89,12 @@ export default function ContactPage() {
                 message: "",
             });
         } catch (error) {
-            setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
+            console.error("Failed to send contact email:", error);
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "Failed to send message. Please try again later.";
+            setSubmitError(errorMessage);
             setShowErrorToast(true);
         } finally {
             setIsSubmitting(false);
@@ -83,7 +103,14 @@ export default function ContactPage() {
 
     const contactItems = [
         {
-            icon: <FiMail className="w-6 h-6 text-primary" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Mail}
+                    to={MailOpen}
+                    className="text-primary"
+                    size={24}
+                />
+            ),
             title: "Email",
             value: profile.email,
             link: `mailto:${profile.email}`,
@@ -91,7 +118,14 @@ export default function ContactPage() {
             delay: 0.2,
         },
         {
-            icon: <FiPhone className="w-6 h-6 text-secondary" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Phone}
+                    to={PhoneCall}
+                    className="text-secondary"
+                    size={24}
+                />
+            ),
             title: "Phone",
             value: profile.phone,
             link: `tel:${profile.phone}`,
@@ -99,7 +133,14 @@ export default function ContactPage() {
             delay: 0.3,
         },
         {
-            icon: <FiMapPin className="w-6 h-6 text-accent" />,
+            icon: (
+                <MorphIconWrapper
+                    from={MapPin}
+                    to={Navigation}
+                    className="text-accent"
+                    size={24}
+                />
+            ),
             title: "Address",
             value: `${profile.location.address}, ${profile.location.district}, ${profile.location.city}, ${profile.location.country}`,
             bgColor: "bg-accent/20 shadow-accent-glow",
@@ -221,7 +262,11 @@ export default function ContactPage() {
                                                         className="text-gray-400 hover:text-primary transition-colors duration-300"
                                                         aria-label="GitHub"
                                                     >
-                                                        <FiGithub className="w-8 h-8" />
+                                                        <MorphIconWrapper
+                                                            from={GithubIcon}
+                                                            to={GitBranch}
+                                                            size={32}
+                                                        />
                                                     </Link>
                                                 </motion.div>
                                                 <motion.div
@@ -245,7 +290,11 @@ export default function ContactPage() {
                                                         className="text-gray-400 hover:text-secondary transition-colors duration-300"
                                                         aria-label="LinkedIn"
                                                     >
-                                                        <FiLinkedin className="w-8 h-8" />
+                                                        <MorphIconWrapper
+                                                            from={LinkedinIcon}
+                                                            to={Share2}
+                                                            size={32}
+                                                        />
                                                     </Link>
                                                 </motion.div>
                                             </div>
@@ -265,7 +314,12 @@ export default function ContactPage() {
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent"></div>
                                     <div className="p-8">
                                         <h2 className="text-2xl font-bold mb-8 text-gray-100 flex items-center">
-                                            <FiMessageSquare className="mr-3 text-primary" />
+                                            <MorphIconWrapper
+                                                from={MessageSquare}
+                                                to={MessageCircle}
+                                                className="mr-3 text-primary"
+                                                size={24}
+                                            />
                                             Send a Message
                                         </h2>
 
@@ -277,13 +331,25 @@ export default function ContactPage() {
                                                 className="bg-red-900/30 border border-red-700/50 p-4 rounded-xl mb-6"
                                             >
                                                 <div className="flex items-center mb-2">
-                                                    <FiAlertCircle className="text-red-500 mr-2" />
-                                                    <h4 className="text-red-400 font-medium">Please fix the following errors:</h4>
+                                                    <MorphIconWrapper
+                                                        from={AlertCircle}
+                                                        to={AlertTriangle}
+                                                        className="text-red-500 mr-2"
+                                                        size={20}
+                                                    />
+                                                    <h4 className="text-red-400 font-medium">
+                                                        Please fix the following
+                                                        errors:
+                                                    </h4>
                                                 </div>
                                                 <ul className="text-red-300 text-sm space-y-1">
-                                                    {validationErrors.map((error, index) => (
-                                                        <li key={index}>• {error}</li>
-                                                    ))}
+                                                    {validationErrors.map(
+                                                        (error, index) => (
+                                                            <li key={index}>
+                                                                • {error}
+                                                            </li>
+                                                        ),
+                                                    )}
                                                 </ul>
                                             </motion.div>
                                         )}
@@ -299,18 +365,19 @@ export default function ContactPage() {
                                                         htmlFor="name"
                                                         className="flex items-center text-sm font-medium text-gray-300 mb-2"
                                                     >
-                                                        <FiUser className="mr-2 text-primary" />
+                                                        <MorphIconWrapper
+                                                            from={User}
+                                                            to={Smile}
+                                                            className="mr-2 text-primary"
+                                                            size={16}
+                                                        />
                                                         Your Name
                                                     </label>
                                                     <input
                                                         type="text"
                                                         id="name"
-                                                        value={
-                                                            formState.name
-                                                        }
-                                                        onChange={
-                                                            handleChange
-                                                        }
+                                                        value={formState.name}
+                                                        onChange={handleChange}
                                                         className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-800/50 text-gray-100 backdrop-blur-sm transition-all"
                                                         placeholder="Enter your name"
                                                         required
@@ -322,18 +389,19 @@ export default function ContactPage() {
                                                         htmlFor="email"
                                                         className="flex items-center text-sm font-medium text-gray-300 mb-2"
                                                     >
-                                                        <FiMail className="mr-2 text-primary" />
+                                                        <MorphIconWrapper
+                                                            from={Mail}
+                                                            to={MailOpen}
+                                                            className="mr-2 text-primary"
+                                                            size={16}
+                                                        />
                                                         Email
                                                     </label>
                                                     <input
                                                         type="email"
                                                         id="email"
-                                                        value={
-                                                            formState.email
-                                                        }
-                                                        onChange={
-                                                            handleChange
-                                                        }
+                                                        value={formState.email}
+                                                        onChange={handleChange}
                                                         className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-800/50 text-gray-100 backdrop-blur-sm transition-all"
                                                         placeholder="your.email@example.com"
                                                         required
@@ -346,15 +414,18 @@ export default function ContactPage() {
                                                     htmlFor="subject"
                                                     className="flex items-center text-sm font-medium text-gray-300 mb-2"
                                                 >
-                                                    <FiEdit className="mr-2 text-primary" />
+                                                    <MorphIconWrapper
+                                                        from={Edit}
+                                                        to={Pencil}
+                                                        className="mr-2 text-primary"
+                                                        size={16}
+                                                    />
                                                     Subject
                                                 </label>
                                                 <input
                                                     type="text"
                                                     id="subject"
-                                                    value={
-                                                        formState.subject
-                                                    }
+                                                    value={formState.subject}
                                                     onChange={handleChange}
                                                     className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-800/50 text-gray-100 backdrop-blur-sm transition-all"
                                                     placeholder="Enter message subject"
@@ -366,15 +437,18 @@ export default function ContactPage() {
                                                     htmlFor="message"
                                                     className="flex items-center text-sm font-medium text-gray-300 mb-2"
                                                 >
-                                                    <FiMessageSquare className="mr-2 text-primary" />
+                                                    <MorphIconWrapper
+                                                        from={MessageSquare}
+                                                        to={MessageCircle}
+                                                        className="mr-2 text-primary"
+                                                        size={16}
+                                                    />
                                                     Message
                                                 </label>
                                                 <textarea
                                                     id="message"
                                                     rows={5}
-                                                    value={
-                                                        formState.message
-                                                    }
+                                                    value={formState.message}
                                                     onChange={handleChange}
                                                     className="w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-800/50 text-gray-100 backdrop-blur-sm transition-all"
                                                     placeholder="Enter your message"
@@ -392,10 +466,11 @@ export default function ContactPage() {
                                                     whileTap={{
                                                         scale: 0.98,
                                                     }}
-                                                    className={`w-full inline-flex justify-center items-center py-3 px-6 text-base font-medium rounded-lg shadow-lg transition-all duration-300 ${isSubmitting
-                                                        ? "bg-gray-700 text-gray-300 cursor-not-allowed"
-                                                        : "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-primary-glow"
-                                                        }`}
+                                                    className={`w-full inline-flex justify-center items-center py-3 px-6 text-base font-medium rounded-lg shadow-lg transition-all duration-300 ${
+                                                        isSubmitting
+                                                            ? "bg-gray-700 text-gray-300 cursor-not-allowed"
+                                                            : "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-primary-glow"
+                                                    }`}
                                                 >
                                                     {isSubmitting ? (
                                                         <>
@@ -424,7 +499,12 @@ export default function ContactPage() {
                                                     ) : (
                                                         <>
                                                             Send Message{" "}
-                                                            <FiSend className="ml-2" />
+                                                            <MorphIconWrapper
+                                                                from={Send}
+                                                                to={Check}
+                                                                className="ml-2"
+                                                                size={18}
+                                                            />
                                                         </>
                                                     )}
                                                 </motion.button>
@@ -450,7 +530,10 @@ export default function ContactPage() {
             <Toast
                 type="error"
                 title="Failed to Send Message"
-                message={submitError || "An unexpected error occurred. Please try again."}
+                message={
+                    submitError ||
+                    "An unexpected error occurred. Please try again."
+                }
                 isVisible={showErrorToast}
                 onClose={() => setShowErrorToast(false)}
             />

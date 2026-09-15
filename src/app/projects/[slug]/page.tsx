@@ -1,19 +1,32 @@
+import fs from "fs";
+import path from "path";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-    FiArrowLeft,
-    FiAward,
-    FiBriefcase,
-    FiCalendar,
-    FiExternalLink,
-    FiGithub,
-    FiLayers,
-    FiTag,
-    FiUser,
-} from "react-icons/fi";
+    ArrowLeft,
+    MoveLeft,
+    Award,
+    Trophy,
+    Briefcase,
+    FolderGit2,
+    Calendar,
+    Clock,
+    ExternalLink,
+    ArrowUpRight,
+    Layers,
+    LayoutGrid,
+    Tag,
+    Sparkles,
+    User,
+    Smile,
+    GitBranch,
+} from "lucide";
+import { GithubIcon } from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { MainLayout } from "@/components/layout/main-layout";
+import { ProjectGallery } from "@/components/ui/project-gallery";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
     getAllProjects,
@@ -67,6 +80,20 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         notFound();
     }
 
+    const projectDir = path.join(
+        process.cwd(),
+        "public",
+        "images",
+        "projects",
+        slug,
+    );
+    const galleryImages = fs.existsSync(projectDir)
+        ? fs
+              .readdirSync(projectDir)
+              .filter((file) => /\.(jpg|jpeg|png|webp|svg)$/i.test(file))
+              .map((file) => `/images/projects/${slug}/${file}`)
+        : project.images || [];
+
     const projectUrl = getProjectUrl(slug);
     const projectSchema = {
         "@context": "https://schema.org",
@@ -96,7 +123,11 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                             href="/projects"
                             className="mb-8 inline-flex items-center gap-2 text-gray-400 transition-colors hover:text-primary"
                         >
-                            <FiArrowLeft />
+                            <MorphIconWrapper
+                                from={ArrowLeft}
+                                to={MoveLeft}
+                                size={16}
+                            />
                             Back to Projects
                         </Link>
 
@@ -105,7 +136,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                 <div className="mb-5 flex flex-wrap gap-3">
                                     {project.type && (
                                         <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-                                            <FiTag className="mr-2" />
+                                            <MorphIconWrapper
+                                                from={Tag}
+                                                to={Sparkles}
+                                                className="mr-2"
+                                                size={14}
+                                            />
                                             {project.type}
                                         </span>
                                     )}
@@ -131,27 +167,50 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                 <div className="space-y-4 text-sm text-gray-300">
                                     {project.role && (
                                         <div className="flex items-start gap-3">
-                                            <FiUser className="mt-0.5 text-primary" />
+                                            <MorphIconWrapper
+                                                from={User}
+                                                to={Smile}
+                                                className="mt-0.5 text-primary"
+                                                size={16}
+                                            />
                                             <div>
-                                                <div className="text-gray-500">Role</div>
+                                                <div className="text-gray-500">
+                                                    Role
+                                                </div>
                                                 <div>{project.role}</div>
                                             </div>
                                         </div>
                                     )}
                                     {project.projectType && (
                                         <div className="flex items-start gap-3">
-                                            <FiBriefcase className="mt-0.5 text-primary" />
+                                            <MorphIconWrapper
+                                                from={Briefcase}
+                                                to={FolderGit2}
+                                                className="mt-0.5 text-primary"
+                                                size={16}
+                                            />
                                             <div>
-                                                <div className="text-gray-500">Project Type</div>
-                                                <div className="capitalize">{project.projectType}</div>
+                                                <div className="text-gray-500">
+                                                    Project Type
+                                                </div>
+                                                <div className="capitalize">
+                                                    {project.projectType}
+                                                </div>
                                             </div>
                                         </div>
                                     )}
                                     {(project.startDate || project.endDate) && (
                                         <div className="flex items-start gap-3">
-                                            <FiCalendar className="mt-0.5 text-primary" />
+                                            <MorphIconWrapper
+                                                from={Calendar}
+                                                to={Clock}
+                                                className="mt-0.5 text-primary"
+                                                size={16}
+                                            />
                                             <div>
-                                                <div className="text-gray-500">Timeline</div>
+                                                <div className="text-gray-500">
+                                                    Timeline
+                                                </div>
                                                 <div>
                                                     {project.startDate ?? "—"}
                                                     {project.endDate
@@ -163,9 +222,16 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                     )}
                                     {project.achievement && (
                                         <div className="flex items-start gap-3">
-                                            <FiAward className="mt-0.5 text-primary" />
+                                            <MorphIconWrapper
+                                                from={Award}
+                                                to={Trophy}
+                                                className="mt-0.5 text-primary"
+                                                size={16}
+                                            />
                                             <div>
-                                                <div className="text-gray-500">Achievement</div>
+                                                <div className="text-gray-500">
+                                                    Achievement
+                                                </div>
                                                 <div>{project.achievement}</div>
                                             </div>
                                         </div>
@@ -180,7 +246,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center justify-center rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 font-medium text-gray-100 transition-colors hover:bg-gray-700"
                                         >
-                                            <FiGithub className="mr-2" />
+                                            <MorphIconWrapper
+                                                from={GithubIcon}
+                                                to={GitBranch}
+                                                className="mr-2"
+                                                size={16}
+                                            />
                                             View GitHub
                                         </a>
                                     )}
@@ -191,7 +262,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-primary to-secondary px-4 py-3 font-medium text-white transition-opacity hover:opacity-90"
                                         >
-                                            <FiExternalLink className="mr-2" />
+                                            <MorphIconWrapper
+                                                from={ExternalLink}
+                                                to={ArrowUpRight}
+                                                className="mr-2"
+                                                size={16}
+                                            />
                                             Open Demo
                                         </a>
                                     )}
@@ -237,47 +313,63 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                                 </section>
                             )}
 
-                            {project.highlights && project.highlights.length > 0 && (
-                                <section>
-                                    <h2 className="mb-6 text-2xl font-semibold text-white">
-                                        Highlights
-                                    </h2>
-                                    <ul className="space-y-3 text-gray-300">
-                                        {project.highlights.map((highlight) => (
-                                            <li
-                                                key={highlight}
-                                                className="flex rounded-xl border border-gray-700/40 bg-gray-900/20 p-4"
-                                            >
-                                                <span className="mr-3 text-primary">•</span>
-                                                <span>{highlight}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </section>
-                            )}
+                            {project.highlights &&
+                                project.highlights.length > 0 && (
+                                    <section>
+                                        <h2 className="mb-4 text-2xl font-semibold text-white">
+                                            Highlights
+                                        </h2>
+                                        <div className="grid gap-2.5 sm:grid-cols-2">
+                                            {project.highlights.map(
+                                                (highlight) => (
+                                                    <div
+                                                        key={highlight}
+                                                        className="flex items-start gap-2.5 rounded-lg border border-gray-700/40 bg-gray-900/30 px-3.5 py-2.5 text-sm text-gray-300 transition-colors hover:border-primary/40 hover:bg-gray-800/30"
+                                                    >
+                                                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                                                        <span className="leading-snug">
+                                                            {highlight}
+                                                        </span>
+                                                    </div>
+                                                ),
+                                            )}
+                                        </div>
+                                    </section>
+                                )}
                         </div>
 
                         <div>
-                            {project.techStack && project.techStack.length > 0 && (
-                                <section className="rounded-2xl border border-gray-700/50 bg-gray-900/30 p-6">
-                                    <h2 className="mb-5 flex items-center text-xl font-semibold text-white">
-                                        <FiLayers className="mr-2 text-primary" />
-                                        Technologies
-                                    </h2>
-                                    <div className="flex flex-wrap gap-2">
-                                        {project.techStack.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className="rounded-full border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-200"
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </section>
-                            )}
+                            {project.techStack &&
+                                project.techStack.length > 0 && (
+                                    <section className="rounded-2xl border border-gray-700/50 bg-gray-900/30 p-6">
+                                        <h2 className="mb-5 flex items-center text-xl font-semibold text-white">
+                                            <MorphIconWrapper
+                                                from={Layers}
+                                                to={LayoutGrid}
+                                                className="mr-2 text-primary"
+                                                size={20}
+                                            />
+                                            Technologies
+                                        </h2>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.techStack.map((tech) => (
+                                                <span
+                                                    key={tech}
+                                                    className="rounded-full border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-200"
+                                                >
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </section>
+                                )}
                         </div>
                     </div>
+
+                    <ProjectGallery
+                        images={galleryImages}
+                        title={project.title}
+                    />
                 </div>
             </article>
         </MainLayout>

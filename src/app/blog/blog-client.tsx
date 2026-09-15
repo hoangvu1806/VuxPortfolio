@@ -2,9 +2,24 @@
 
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
-import { FiSearch, FiTag, FiX, FiCalendar, FiUser, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+    Search,
+    Sparkles,
+    Tag,
+    X,
+    Minus,
+    Calendar,
+    Clock,
+    User,
+    Smile,
+    ChevronLeft,
+    ChevronsLeft,
+    ChevronRight,
+    ChevronsRight,
+} from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { useState, useEffect } from "react";
-import  CommentCount  from "@/components/ui/comment-count";
+import CommentCount from "@/components/ui/comment-count";
 import { blogCategories } from "@/data/blog/config";
 
 // Types
@@ -23,39 +38,49 @@ export interface BlogPost {
 
 // Client-side filtering logic (no file system access)
 class ClientBlogService {
-    static filterPosts(posts: BlogPost[], filters: {
-        category?: string;
-        tag?: string;
-        search?: string;
-    }): BlogPost[] {
+    static filterPosts(
+        posts: BlogPost[],
+        filters: {
+            category?: string;
+            tag?: string;
+            search?: string;
+        },
+    ): BlogPost[] {
         let filteredPosts = [...posts];
 
         if (filters.category) {
-            filteredPosts = filteredPosts.filter(post =>
-                post.category === filters.category
+            filteredPosts = filteredPosts.filter(
+                (post) => post.category === filters.category,
             );
         }
 
         if (filters.tag) {
-            filteredPosts = filteredPosts.filter(post =>
-                post.tags.includes(filters.tag!)
+            filteredPosts = filteredPosts.filter((post) =>
+                post.tags.includes(filters.tag!),
             );
         }
 
         if (filters.search) {
             const searchTerm = filters.search.toLowerCase();
-            filteredPosts = filteredPosts.filter(post =>
-                post.title.toLowerCase().includes(searchTerm) ||
-                post.description.toLowerCase().includes(searchTerm) ||
-                post.content.toLowerCase().includes(searchTerm) ||
-                post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            filteredPosts = filteredPosts.filter(
+                (post) =>
+                    post.title.toLowerCase().includes(searchTerm) ||
+                    post.description.toLowerCase().includes(searchTerm) ||
+                    post.content.toLowerCase().includes(searchTerm) ||
+                    post.tags.some((tag) =>
+                        tag.toLowerCase().includes(searchTerm),
+                    ),
             );
         }
 
         return filteredPosts;
     }
 
-    static paginatePosts(posts: BlogPost[], page: number = 1, limit: number = 6) {
+    static paginatePosts(
+        posts: BlogPost[],
+        page: number = 1,
+        limit: number = 6,
+    ) {
         const startIndex = (page - 1) * limit;
         const endIndex = startIndex + limit;
         const paginatedPosts = posts.slice(startIndex, endIndex);
@@ -66,7 +91,7 @@ class ClientBlogService {
             totalPages: Math.ceil(posts.length / limit),
             totalPosts: posts.length,
             hasNextPage: endIndex < posts.length,
-            hasPrevPage: page > 1
+            hasPrevPage: page > 1,
         };
     }
 }
@@ -80,7 +105,8 @@ interface BlogClientProps {
 export default function BlogClient({ initialPosts }: BlogClientProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(initialPosts);
+    const [filteredPosts, setFilteredPosts] =
+        useState<BlogPost[]>(initialPosts);
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 6;
 
@@ -90,7 +116,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
     useEffect(() => {
         let filtered = ClientBlogService.filterPosts(initialPosts, {
             category: selectedCategory || undefined,
-            search: searchQuery || undefined
+            search: searchQuery || undefined,
         });
         setFilteredPosts(filtered);
         setCurrentPage(1); // Reset to first page when filters change
@@ -119,7 +145,8 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                         Blog
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-                        Thoughts and insights on AI, machine learning, and technology trends.
+                        Thoughts and insights on AI, machine learning, and
+                        technology trends.
                     </p>
                 </motion.div>
             </section>
@@ -133,7 +160,9 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                     className="mb-8"
                 >
                     <div className="relative max-w-2xl mx-auto">
-                        <FiSearch
+                        <MorphIconWrapper
+                            from={Search}
+                            to={Sparkles}
                             className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-gray-400"
                             size={20}
                         />
@@ -157,10 +186,11 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                     <div className="flex flex-wrap justify-center gap-3">
                         <button
                             onClick={() => setSelectedCategory("")}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${!selectedCategory
-                                ? "bg-primary text-white shadow-primary-glow"
-                                : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50"
-                                }`}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                !selectedCategory
+                                    ? "bg-primary text-white shadow-primary-glow"
+                                    : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50"
+                            }`}
                         >
                             All Categories
                         </button>
@@ -168,10 +198,11 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === category
-                                    ? "bg-secondary text-gray-900 shadow-secondary-glow"
-                                    : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50"
-                                    }`}
+                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                    selectedCategory === category
+                                        ? "bg-secondary text-gray-900 shadow-secondary-glow"
+                                        : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50"
+                                }`}
                             >
                                 {category}
                             </button>
@@ -187,7 +218,9 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                         className="mb-8"
                     >
                         <div className="flex flex-wrap items-center justify-center gap-3">
-                            <span className="text-sm text-gray-400">Active filters:</span>
+                            <span className="text-sm text-gray-400">
+                                Active filters:
+                            </span>
                             {searchQuery && (
                                 <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm border border-primary/30 flex items-center gap-2">
                                     Search: "{searchQuery}"
@@ -195,7 +228,11 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                         onClick={() => setSearchQuery("")}
                                         className="hover:text-primary-300 transition-colors"
                                     >
-                                        <FiX size={14} />
+                                        <MorphIconWrapper
+                                            from={X}
+                                            to={Minus}
+                                            size={14}
+                                        />
                                     </button>
                                 </span>
                             )}
@@ -206,7 +243,11 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                         onClick={() => setSelectedCategory("")}
                                         className="hover:text-secondary-300 transition-colors"
                                     >
-                                        <FiX size={14} />
+                                        <MorphIconWrapper
+                                            from={X}
+                                            to={Minus}
+                                            size={14}
+                                        />
                                     </button>
                                 </span>
                             )}
@@ -231,16 +272,22 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                 className="backdrop-blur-sm bg-gray-900/30 rounded-2xl border border-gray-700/50 p-12 max-w-2xl mx-auto"
                             >
                                 <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-6 shadow-primary-glow">
-                                    <FiSearch className="text-3xl text-primary" />
+                                    <MorphIconWrapper
+                                        from={Search}
+                                        to={Sparkles}
+                                        className="text-primary"
+                                        size={32}
+                                    />
                                 </div>
                                 <h3 className="text-2xl font-bold mb-4 text-gray-200">
-                                    {searchQuery || selectedCategory ? "No articles found" : "Coming Soon"}
+                                    {searchQuery || selectedCategory
+                                        ? "No articles found"
+                                        : "Coming Soon"}
                                 </h3>
                                 <p className="text-gray-300 mb-6 leading-relaxed">
                                     {searchQuery || selectedCategory
                                         ? "Try adjusting your search or filter criteria."
-                                        : "I'm working on creating valuable content about AI, machine learning, and technology. Check back soon for insightful articles and tutorials."
-                                    }
+                                        : "I'm working on creating valuable content about AI, machine learning, and technology. Check back soon for insightful articles and tutorials."}
                                 </p>
                                 {(searchQuery || selectedCategory) && (
                                     <button
@@ -261,7 +308,9 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                             {/* Results Summary */}
                             <div className="mb-8 text-center">
                                 <p className="text-gray-400">
-                                    Showing {startIndex + 1}-{Math.min(endIndex, filteredPosts.length)} of {filteredPosts.length} articles
+                                    Showing {startIndex + 1}-
+                                    {Math.min(endIndex, filteredPosts.length)}{" "}
+                                    of {filteredPosts.length} articles
                                 </p>
                             </div>
 
@@ -272,7 +321,10 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                         key={post.slug}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                                        transition={{
+                                            duration: 0.5,
+                                            delay: index * 0.1,
+                                        }}
                                     >
                                         <Link
                                             href={`/blog/${post.slug}`}
@@ -306,17 +358,34 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                                     </p>
                                                     <div className="flex items-center gap-4 text-xs text-gray-500 pt-2 border-t border-gray-700/30">
                                                         <div className="flex items-center gap-1">
-                                                            <FiUser size={12} />
-                                                            <span>{post.author}</span>
+                                                            <MorphIconWrapper
+                                                                from={User}
+                                                                to={Smile}
+                                                                size={12}
+                                                            />
+                                                            <span>
+                                                                {post.author}
+                                                            </span>
                                                         </div>
                                                         <div className="flex items-center gap-1">
-                                                            <FiCalendar size={12} />
-                                                            <span>{new Date(post.date).toLocaleDateString()}</span>
+                                                            <MorphIconWrapper
+                                                                from={Calendar}
+                                                                to={Clock}
+                                                                size={12}
+                                                            />
+                                                            <span>
+                                                                {new Date(
+                                                                    post.date,
+                                                                ).toLocaleDateString()}
+                                                            </span>
                                                         </div>
-                                                        <CommentCount slug={post.slug}  />
+                                                        <CommentCount
+                                                            slug={post.slug}
+                                                        />
                                                     </div>
                                                     <div className="mt-4 text-sm text-primary">
-                                                        Read Do Hoang Vu on {post.category} →
+                                                        Read Do Hoang Vu on{" "}
+                                                        {post.category} →
                                                     </div>
                                                 </div>
                                             </article>
@@ -329,23 +398,37 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                             {totalPages > 1 && (
                                 <div className="flex justify-center items-center gap-4">
                                     <button
-                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                        onClick={() =>
+                                            setCurrentPage((prev) =>
+                                                Math.max(prev - 1, 1),
+                                            )
+                                        }
                                         disabled={currentPage === 1}
                                         className="flex items-center gap-2 px-4 py-2 bg-gray-800/50 text-gray-300 rounded-lg border border-gray-700/50 hover:bg-gray-700/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                                     >
-                                        <FiChevronLeft size={16} />
+                                        <MorphIconWrapper
+                                            from={ChevronLeft}
+                                            to={ChevronsLeft}
+                                            size={16}
+                                        />
                                         Previous
                                     </button>
 
                                     <div className="flex items-center gap-2">
-                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                        {Array.from(
+                                            { length: totalPages },
+                                            (_, i) => i + 1,
+                                        ).map((page) => (
                                             <button
                                                 key={page}
-                                                onClick={() => setCurrentPage(page)}
-                                                className={`w-10 h-10 rounded-lg font-medium transition-all duration-300 ${currentPage === page
-                                                    ? 'bg-primary text-white shadow-primary-glow'
-                                                    : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50'
-                                                    }`}
+                                                onClick={() =>
+                                                    setCurrentPage(page)
+                                                }
+                                                className={`w-10 h-10 rounded-lg font-medium transition-all duration-300 ${
+                                                    currentPage === page
+                                                        ? "bg-primary text-white shadow-primary-glow"
+                                                        : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50"
+                                                }`}
                                             >
                                                 {page}
                                             </button>
@@ -353,12 +436,20 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                                     </div>
 
                                     <button
-                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                        onClick={() =>
+                                            setCurrentPage((prev) =>
+                                                Math.min(prev + 1, totalPages),
+                                            )
+                                        }
                                         disabled={currentPage === totalPages}
                                         className="flex items-center gap-2 px-4 py-2 bg-gray-800/50 text-gray-300 rounded-lg border border-gray-700/50 hover:bg-gray-700/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                                     >
                                         Next
-                                        <FiChevronRight size={16} />
+                                        <MorphIconWrapper
+                                            from={ChevronRight}
+                                            to={ChevronsRight}
+                                            size={16}
+                                        />
                                     </button>
                                 </div>
                             )}

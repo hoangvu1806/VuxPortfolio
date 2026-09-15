@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiMenu, FiX } from "react-icons/fi";
+import { Menu, X } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { ImagePaths } from "@/utils/image-paths";
 import Image from "next/image";
 
@@ -32,8 +33,9 @@ export function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "header-blur py-3 shadow-sm" : "bg-transparent py-5"
-                }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+                scrolled ? "header-blur py-3 shadow-sm" : "bg-transparent py-5"
+            }`}
         >
             <div className="container mx-auto px-4 md:px-6">
                 <div className="relative flex items-center justify-between">
@@ -78,20 +80,26 @@ export function Header() {
                             >
                                 <Link
                                     href={item.path}
-                                    className={`relative whitespace-nowrap text-xs lg:text-sm font-medium transition-all duration-300 px-2 py-1 rounded-md ${pathname === item.path
-                                        ? "text-primary bg-primary/20 font-semibold"
-                                        : "text-gray-100 hover:text-primary"
-                                        }`}
+                                    className={`relative whitespace-nowrap text-xs lg:text-sm font-medium transition-all duration-300 px-2 py-1 rounded-md ${
+                                        pathname === item.path
+                                            ? "text-primary bg-primary/20 font-semibold"
+                                            : "text-gray-100 hover:text-primary"
+                                    }`}
                                 >
                                     {item.name}
                                     {pathname === item.path && (
                                         <motion.span
                                             layoutId="header-underline"
                                             className="absolute left-1/2 bottom-0 block h-[2px] bg-primary rounded-full transform -translate-x-1/2"
-                                            style={{ width: "calc(100% - 0.75rem)" }}
+                                            style={{
+                                                width: "calc(100% - 0.75rem)",
+                                            }}
                                             initial={{ scaleX: 0 }}
                                             animate={{ scaleX: 1 }}
-                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            transition={{
+                                                duration: 0.3,
+                                                ease: "easeInOut",
+                                            }}
                                         />
                                     )}
                                 </Link>
@@ -108,11 +116,13 @@ export function Header() {
                                 mobileMenuOpen ? "Close menu" : "Open menu"
                             }
                         >
-                            {mobileMenuOpen ? (
-                                <FiX size={20} />
-                            ) : (
-                                <FiMenu size={20} />
-                            )}
+                            <MorphIconWrapper
+                                from={Menu}
+                                to={X}
+                                active={mobileMenuOpen}
+                                trigger="controlled"
+                                size={20}
+                            />
                         </button>
                     </div>
                 </div>
@@ -132,18 +142,24 @@ export function Header() {
                                 key={`mobile-${item.name}`}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                                transition={{
+                                    duration: 0.3,
+                                    delay: index * 0.1,
+                                }}
                             >
                                 <Link
                                     href={item.path}
-                                    className={`relative text-base flex items-center py-3 px-4 rounded-lg transition-all duration-300 ${pathname === item.path
-                                        ? "text-primary bg-primary/20 font-medium border-l-4 border-primary"
-                                        : "text-gray-100 hover:bg-gray-800 hover:translate-x-1"
-                                        }`}
+                                    className={`relative text-base flex items-center py-3 px-4 rounded-lg transition-all duration-300 ${
+                                        pathname === item.path
+                                            ? "text-primary bg-primary/20 font-medium border-l-4 border-primary"
+                                            : "text-gray-100 hover:bg-gray-800 hover:translate-x-1"
+                                    }`}
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
-                                    <span className={`mr-3 transition-colors duration-300 ${pathname === item.path ? 'text-primary' : 'text-gray-500'}`}>
-                                        {pathname === item.path ? '●' : '○'}
+                                    <span
+                                        className={`mr-3 transition-colors duration-300 ${pathname === item.path ? "text-primary" : "text-gray-500"}`}
+                                    >
+                                        {pathname === item.path ? "●" : "○"}
                                     </span>
                                     {item.name}
                                     {pathname === item.path && (

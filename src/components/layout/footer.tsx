@@ -2,17 +2,29 @@
 
 import Link from "next/link";
 import {
-    FiGithub,
-    FiLinkedin,
-    FiMail,
-    FiArrowUp,
-    FiCode,
-    FiHome,
-    FiUser,
-    FiBriefcase,
-    FiFileText,
-    FiBookOpen,
-} from "react-icons/fi";
+    GitBranch,
+    Share2,
+    Mail,
+    MailOpen,
+    ArrowUp,
+    ChevronsUp,
+    Home,
+    Sparkles,
+    User,
+    Smile,
+    Briefcase,
+    FolderGit2,
+    FileText,
+    Scroll,
+    BookOpen,
+    BookMarked,
+    MapPin,
+    Navigation,
+    Phone,
+    PhoneCall,
+} from "lucide";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { profile } from "@/data/profile";
 import { ImagePaths } from "@/utils/image-paths";
 import { motion } from "framer-motion";
@@ -72,26 +84,41 @@ export function Footer() {
                                 href={profile.social.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-200 hover:text-primary transition-colors"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-200 hover:text-primary transition-colors group"
                                 aria-label="GitHub"
                             >
-                                <FiGithub size={18} />
+                                <MorphIconWrapper
+                                    from={GithubIcon}
+                                    to={GitBranch}
+                                    trigger="hover"
+                                    size={18}
+                                />
                             </Link>
                             <Link
                                 href={profile.social.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors group"
                                 aria-label="LinkedIn"
                             >
-                                <FiLinkedin size={18} />
+                                <MorphIconWrapper
+                                    from={LinkedinIcon}
+                                    to={Share2}
+                                    trigger="hover"
+                                    size={18}
+                                />
                             </Link>
                             <Link
                                 href={`mailto:${profile.email}`}
-                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors group"
                                 aria-label="Email"
                             >
-                                <FiMail size={18} />
+                                <MorphIconWrapper
+                                    from={Mail}
+                                    to={MailOpen}
+                                    trigger="hover"
+                                    size={18}
+                                />
                             </Link>
                         </div>
                     </div>
@@ -104,45 +131,70 @@ export function Footer() {
                             <li>
                                 <Link
                                     href="/"
-                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2 group"
                                 >
-                                    <FiHome size={16} />
+                                    <MorphIconWrapper
+                                        from={Home}
+                                        to={Sparkles}
+                                        trigger="hover"
+                                        size={16}
+                                    />
                                     <span>Home</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/about"
-                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2 group"
                                 >
-                                    <FiUser size={16} />
+                                    <MorphIconWrapper
+                                        from={User}
+                                        to={Smile}
+                                        trigger="hover"
+                                        size={16}
+                                    />
                                     <span>About</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/projects"
-                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2 group"
                                 >
-                                    <FiBriefcase size={16} />
+                                    <MorphIconWrapper
+                                        from={Briefcase}
+                                        to={FolderGit2}
+                                        trigger="hover"
+                                        size={16}
+                                    />
                                     <span>Projects</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/resume"
-                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-300 hover:text-primary transition-colors flex items-center gap-2 group"
                                 >
-                                    <FiFileText size={16} />
+                                    <MorphIconWrapper
+                                        from={FileText}
+                                        to={Scroll}
+                                        trigger="hover"
+                                        size={16}
+                                    />
                                     <span>Resume</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/blog"
-                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"
+                                    className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 group"
                                 >
-                                    <FiBookOpen size={16} />
+                                    <MorphIconWrapper
+                                        from={BookOpen}
+                                        to={BookMarked}
+                                        trigger="hover"
+                                        size={16}
+                                    />
                                     <span>Blog</span>
                                 </Link>
                             </li>
@@ -155,26 +207,13 @@ export function Footer() {
                         </h3>
                         <ul className="space-y-4">
                             <li className="text-gray-200 flex items-start gap-2 drop-shadow-sm">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 mt-0.5 flex-shrink-0"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                    />
-                                </svg>
+                                <MorphIconWrapper
+                                    from={MapPin}
+                                    to={Navigation}
+                                    trigger="hover"
+                                    size={18}
+                                    className="mt-0.5 text-primary"
+                                />
                                 <div>
                                     {profile.location.address}
                                     <br />
@@ -184,21 +223,14 @@ export function Footer() {
                                     {profile.location.country}
                                 </div>
                             </li>
-                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 flex-shrink-0"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
+                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm group">
+                                <MorphIconWrapper
+                                    from={Mail}
+                                    to={MailOpen}
+                                    trigger="hover"
+                                    size={18}
+                                    className="text-primary"
+                                />
                                 <Link
                                     href={`mailto:${profile.email}`}
                                     className="hover:text-primary transition-colors"
@@ -206,21 +238,14 @@ export function Footer() {
                                     {profile.email}
                                 </Link>
                             </li>
-                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 flex-shrink-0"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                    />
-                                </svg>
+                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm group">
+                                <MorphIconWrapper
+                                    from={Phone}
+                                    to={PhoneCall}
+                                    trigger="hover"
+                                    size={18}
+                                    className="text-primary"
+                                />
                                 <span>{profile.phone}</span>
                             </li>
                         </ul>
@@ -234,11 +259,16 @@ export function Footer() {
                     </p>
                     <motion.button
                         onClick={scrollToTop}
-                        className="p-3 bg-gray-800 hover:bg-primary hover:text-white rounded-full shadow-md transition-colors"
+                        className="p-3 bg-gray-800 hover:bg-primary hover:text-white rounded-full shadow-md transition-colors group"
                         whileHover={{ y: -5 }}
                         aria-label="Back to top"
                     >
-                        <FiArrowUp size={18} />
+                        <MorphIconWrapper
+                            from={ArrowUp}
+                            to={ChevronsUp}
+                            trigger="hover"
+                            size={18}
+                        />
                     </motion.button>
                 </div>
             </div>

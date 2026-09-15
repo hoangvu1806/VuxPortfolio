@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { FiList, FiX } from "react-icons/fi";
+import { List, X, Minus } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { TableOfContents } from "./table-of-contents";
 
 export function MobileTocToggle() {
@@ -15,7 +16,13 @@ export function MobileTocToggle() {
                 className="lg:hidden fixed top-20 right-4 z-50 w-10 h-10 bg-gray-900/80 backdrop-blur-sm border border-gray-700/50 rounded-lg flex items-center justify-center text-gray-300 hover:text-primary hover:border-primary/50 transition-all duration-300 shadow-lg"
                 aria-label="Toggle table of contents"
             >
-                <FiList size={16} />
+                <MorphIconWrapper
+                    from={List}
+                    to={X}
+                    active={isOpen}
+                    trigger="controlled"
+                    size={18}
+                />
             </button>
 
             {/* Mobile TOC Overlay */}
@@ -30,7 +37,11 @@ export function MobileTocToggle() {
                                 onClick={() => setIsOpen(false)}
                                 className="text-gray-400 hover:text-gray-300 transition-colors"
                             >
-                                <FiX size={18} />
+                                <MorphIconWrapper
+                                    from={X}
+                                    to={Minus}
+                                    size={18}
+                                />
                             </button>
                         </div>
                         <div className="p-4 overflow-y-auto max-h-full">

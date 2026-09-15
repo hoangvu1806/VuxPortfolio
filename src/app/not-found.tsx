@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiHome, FiArrowLeft, FiAlertCircle } from "react-icons/fi";
+import {
+    AlertCircle,
+    AlertTriangle,
+    Home,
+    Sparkles,
+    ArrowLeft,
+    MoveLeft,
+} from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
 export default function NotFound() {
     return (
@@ -27,8 +35,12 @@ export default function NotFound() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="mb-6"
                 >
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-500/10 border border-red-500/20 mb-6">
-                        <FiAlertCircle className="w-10 h-10 text-red-400" />
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-500/10 border border-red-500/20 mb-6 text-red-400">
+                        <MorphIconWrapper
+                            from={AlertCircle}
+                            to={AlertTriangle}
+                            size={40}
+                        />
                     </div>
                 </motion.div>
 
@@ -43,8 +55,9 @@ export default function NotFound() {
                         Page does not exist
                     </h2>
                     <p className="text-gray-400 text-lg max-w-lg mx-auto leading-relaxed">
-                        Sorry, the page you are looking for does not exist or has been moved.
-                        Please check the URL or go back to the home page.
+                        Sorry, the page you are looking for does not exist or
+                        has been moved. Please check the URL or go back to the
+                        home page.
                     </p>
                 </motion.div>
 
@@ -61,7 +74,11 @@ export default function NotFound() {
                             whileTap={{ scale: 0.95 }}
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                         >
-                            <FiHome className="w-5 h-5" />
+                            <MorphIconWrapper
+                                from={Home}
+                                to={Sparkles}
+                                size={20}
+                            />
                             Back to home
                         </motion.button>
                     </Link>
@@ -72,7 +89,11 @@ export default function NotFound() {
                         onClick={() => window.history.back()}
                         className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 text-gray-300 rounded-lg font-medium hover:bg-gray-700 hover:text-white transition-all duration-300 border border-gray-700 hover:border-gray-600"
                     >
-                        <FiArrowLeft className="w-5 h-5" />
+                        <MorphIconWrapper
+                            from={ArrowLeft}
+                            to={MoveLeft}
+                            size={20}
+                        />
                         Back
                     </motion.button>
                 </motion.div>
@@ -84,9 +105,7 @@ export default function NotFound() {
                     transition={{ duration: 0.6, delay: 0.8 }}
                     className="mt-12 pt-8 border-t border-gray-800"
                 >
-                    <p className="text-gray-500 mb-4">
-                        Or you can explore:
-                    </p>
+                    <p className="text-gray-500 mb-4">Or you can explore:</p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
                             href="/about"

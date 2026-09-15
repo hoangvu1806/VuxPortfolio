@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { FiX, FiLock, FiUnlock } from 'react-icons/fi';
-import Image from 'next/image';
+import { motion } from "framer-motion";
+import { Lock, Unlock, X, Minus } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
+import Image from "next/image";
 
 interface ChatHeaderProps {
     onClose: () => void;
@@ -10,16 +11,20 @@ interface ChatHeaderProps {
     onToggleDragLock?: () => void;
 }
 
-export function ChatHeader({ onClose, isDragLocked = false, onToggleDragLock }: ChatHeaderProps) {
+export function ChatHeader({
+    onClose,
+    isDragLocked = false,
+    onToggleDragLock,
+}: ChatHeaderProps) {
     return (
         <div
-            className={`px-4 py-3 text-white flex-shrink-0 select-none ${isDragLocked ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}`}
+            className={`px-4 py-3 text-white flex-shrink-0 select-none ${isDragLocked ? "cursor-default" : "cursor-grab active:cursor-grabbing"}`}
             style={{
-                background: 'rgba(17, 24, 39, 0.4)',
-                backdropFilter: 'blur(25px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(25px) saturate(180%)',
-                borderBottom: '1px solid rgba(75, 85, 99, 0.4)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                background: "rgba(17, 24, 39, 0.4)",
+                backdropFilter: "blur(25px) saturate(180%)",
+                WebkitBackdropFilter: "blur(25px) saturate(180%)",
+                borderBottom: "1px solid rgba(75, 85, 99, 0.4)",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
             }}
         >
             <div className="flex items-center justify-between">
@@ -42,9 +47,20 @@ export function ChatHeader({ onClose, isDragLocked = false, onToggleDragLock }: 
                         />
                     </div>
 
-                    <div className="flex flex-col justify-center" style={{ gap: '1px' }}>
-                        <h4 className="font-semibold text-base" style={{ lineHeight: '1.1', margin: 0 }}>Vu Hoang AI</h4>
-                        <div className="flex items-center text-xs text-gray-400" style={{ gap: '4px' }}>
+                    <div
+                        className="flex flex-col justify-center"
+                        style={{ gap: "1px" }}
+                    >
+                        <h4
+                            className="font-semibold text-base"
+                            style={{ lineHeight: "1.1", margin: 0 }}
+                        >
+                            Vu Hoang AI
+                        </h4>
+                        <div
+                            className="flex items-center text-xs text-gray-400"
+                            style={{ gap: "4px" }}
+                        >
                             <span className="font-normal">Online</span>
                         </div>
                     </div>
@@ -58,13 +74,19 @@ export function ChatHeader({ onClose, isDragLocked = false, onToggleDragLock }: 
                             whileTap={{ scale: 0.9 }}
                             onClick={onToggleDragLock}
                             className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
-                            title={isDragLocked ? "Unlock dragging" : "Lock position"}
+                            title={
+                                isDragLocked
+                                    ? "Unlock dragging"
+                                    : "Lock position"
+                            }
                         >
-                            {isDragLocked ? (
-                                <FiLock className="w-3.5 h-3.5" />
-                            ) : (
-                                <FiUnlock className="w-3.5 h-3.5" />
-                            )}
+                            <MorphIconWrapper
+                                from={Unlock}
+                                to={Lock}
+                                active={isDragLocked}
+                                trigger="controlled"
+                                size={14}
+                            />
                         </motion.button>
                     )}
 
@@ -75,7 +97,7 @@ export function ChatHeader({ onClose, isDragLocked = false, onToggleDragLock }: 
                         onClick={onClose}
                         className="p-2 hover:bg-white/10 rounded-full transition-colors"
                     >
-                        <FiX className="w-5 h-5" />
+                        <MorphIconWrapper from={X} to={Minus} size={20} />
                     </motion.button>
                 </div>
             </div>

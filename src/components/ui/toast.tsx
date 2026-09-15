@@ -1,7 +1,17 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { FiCheckCircle, FiXCircle, FiAlertCircle, FiX } from "react-icons/fi";
+import {
+    CheckCircle,
+    Check,
+    CircleX,
+    AlertOctagon,
+    AlertCircle,
+    AlertTriangle,
+    X,
+    Minus,
+} from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { useEffect } from "react";
 
 export type ToastType = "success" | "error" | "warning";
@@ -38,11 +48,32 @@ export function Toast({
     const getIcon = () => {
         switch (type) {
             case "success":
-                return <FiCheckCircle className="w-5 h-5 text-green-500" />;
+                return (
+                    <MorphIconWrapper
+                        from={CheckCircle}
+                        to={Check}
+                        className="w-5 h-5 text-green-500"
+                        size={20}
+                    />
+                );
             case "error":
-                return <FiXCircle className="w-5 h-5 text-red-500" />;
+                return (
+                    <MorphIconWrapper
+                        from={CircleX}
+                        to={AlertOctagon}
+                        className="w-5 h-5 text-red-500"
+                        size={20}
+                    />
+                );
             case "warning":
-                return <FiAlertCircle className="w-5 h-5 text-yellow-500" />;
+                return (
+                    <MorphIconWrapper
+                        from={AlertCircle}
+                        to={AlertTriangle}
+                        className="w-5 h-5 text-yellow-500"
+                        size={20}
+                    />
+                );
         }
     };
 
@@ -75,14 +106,20 @@ export function Toast({
                             <div className="ml-3 flex-1">
                                 <h4 className="font-medium">{title}</h4>
                                 {message && (
-                                    <p className="mt-1 text-sm opacity-90">{message}</p>
+                                    <p className="mt-1 text-sm opacity-90">
+                                        {message}
+                                    </p>
                                 )}
                             </div>
                             <button
                                 onClick={onClose}
                                 className="flex-shrink-0 ml-4 text-gray-400 hover:text-gray-200 transition-colors"
                             >
-                                <FiX className="w-4 h-4" />
+                                <MorphIconWrapper
+                                    from={X}
+                                    to={Minus}
+                                    size={16}
+                                />
                             </button>
                         </div>
                     </div>

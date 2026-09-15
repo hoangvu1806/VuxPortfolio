@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiUser, FiCopy, FiCheck } from 'react-icons/fi';
-import Image from 'next/image';
-import { MarkdownRenderer } from './markdown-renderer';
-import type { Message } from './chatbot-popup';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { User, Smile, Copy, Check } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
+import Image from "next/image";
+import { MarkdownRenderer } from "./markdown-renderer";
+import type { Message } from "./chatbot-popup";
 
 interface ChatMessageProps {
     message: Message;
@@ -23,27 +24,37 @@ export function ChatMessage({ message }: ChatMessageProps) {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
-            console.error('Failed to copy text:', err);
+            console.error("Failed to copy text:", err);
         }
     };
 
-    const isUser = message.role === 'user';
+    const isUser = message.role === "user";
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className={`flex ${isUser ? 'justify-end' : 'justify-start'} group`}
+            className={`flex ${isUser ? "justify-end" : "justify-start"} group`}
         >
-            <div className={`flex items-start space-x-2 max-w-[85%] ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
+            <div
+                className={`flex items-start space-x-2 max-w-[85%] ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
+            >
                 {/* Avatar */}
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${isUser
-                    ? 'bg-gradient-to-r from-accent to-accent-light'
-                    : 'border-2 border-primary/30'
-                    }`}>
+                <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                        isUser
+                            ? "bg-gradient-to-r from-accent to-accent-light"
+                            : "border-2 border-primary/30"
+                    }`}
+                >
                     {isUser ? (
-                        <FiUser className="w-3.5 h-3.5 text-white" />
+                        <MorphIconWrapper
+                            from={User}
+                            to={Smile}
+                            size={14}
+                            className="text-white"
+                        />
                     ) : (
                         <Image
                             src="/images/profile/twinself.png"
@@ -56,11 +67,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
                 </div>
 
                 {/* Message Content */}
-                <div className={`relative ${isUser ? 'text-right' : 'text-left'}`}>
-                    <div className={`rounded-2xl px-4 py-3 ${isUser
-                        ? 'bg-gradient-to-r from-accent to-accent-light text-white'
-                        : 'bg-gray-800 text-gray-100'
-                        }`}>
+                <div
+                    className={`relative ${isUser ? "text-right" : "text-left"}`}
+                >
+                    <div
+                        className={`rounded-2xl px-4 py-3 ${
+                            isUser
+                                ? "bg-gradient-to-r from-accent to-accent-light text-white"
+                                : "bg-gray-800 text-gray-100"
+                        }`}
+                    >
                         {isUser ? (
                             <div className="chatbot-message-user">
                                 {displayedContent}
@@ -74,7 +90,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                                         transition={{
                                             repeat: Infinity,
                                             duration: 0.8,
-                                            ease: "easeInOut"
+                                            ease: "easeInOut",
                                         }}
                                         className="inline-block w-0.5 h-4 bg-gray-300 ml-0.5 align-text-bottom"
                                     />
@@ -93,19 +109,26 @@ export function ChatMessage({ message }: ChatMessageProps) {
                             onClick={handleCopy}
                             className="absolute -right-8 top-2 p-1.5 bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                            {copied ? (
-                                <FiCheck className="w-3 h-3 text-green-500" />
-                            ) : (
-                                <FiCopy className="w-3 h-3 text-gray-400" />
-                            )}
+                            <MorphIconWrapper
+                                from={Copy}
+                                to={Check}
+                                active={copied}
+                                trigger="controlled"
+                                size={12}
+                                className={
+                                    copied ? "text-green-500" : "text-gray-400"
+                                }
+                            />
                         </motion.button>
                     )}
 
                     {/* Timestamp */}
-                    <div className={`chatbot-timestamp text-gray-400 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
-                        {message.timestamp.toLocaleTimeString('vi-VN', {
-                            hour: '2-digit',
-                            minute: '2-digit'
+                    <div
+                        className={`chatbot-timestamp text-gray-400 mt-1 ${isUser ? "text-right" : "text-left"}`}
+                    >
+                        {message.timestamp.toLocaleTimeString("vi-VN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
                         })}
                     </div>
                 </div>

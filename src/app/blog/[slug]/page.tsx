@@ -7,7 +7,8 @@ import "katex/dist/katex.min.css";
 import "highlight.js/styles/github-dark.css";
 import { Metadata } from "next";
 import Link from "next/link";
-import { FiCalendar, FiUser, FiArrowLeft } from "react-icons/fi";
+import { ArrowLeft, MoveLeft, Calendar, Clock, User, Smile } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { GiscusComments } from "@/components/ui/giscus-comments";
 import { GiscusFallback } from "@/components/ui/giscus-fallback";
 import { ShareButton } from "@/components/ui/share-button";
@@ -168,21 +169,31 @@ export default async function BlogPostPage({
                         {/* Back Link - Fixed spacing to avoid header overlap */}
                         <div className="pt-24 md:pt-20 pb-6">
                             <div className="mb-5 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                                <Link href="/" className="hover:text-primary transition-colors">
+                                <Link
+                                    href="/"
+                                    className="hover:text-primary transition-colors"
+                                >
                                     Do Hoang Vu AI Portfolio
                                 </Link>
                                 <span>/</span>
-                                <Link href="/blog" className="hover:text-primary transition-colors">
+                                <Link
+                                    href="/blog"
+                                    className="hover:text-primary transition-colors"
+                                >
                                     AI Blog
                                 </Link>
                                 <span>/</span>
-                                <span className="text-gray-400">{post.title}</span>
+                                <span className="text-gray-400">
+                                    {post.title}
+                                </span>
                             </div>
                             <Link
                                 href="/blog"
                                 className="inline-flex items-center gap-2 text-gray-400 hover:text-primary transition-all duration-300 hover:gap-3 group"
                             >
-                                <FiArrowLeft
+                                <MorphIconWrapper
+                                    from={ArrowLeft}
+                                    to={MoveLeft}
                                     size={16}
                                     className="group-hover:-translate-x-1 transition-transform duration-300"
                                 />
@@ -212,7 +223,9 @@ export default async function BlogPostPage({
                             <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 text-gray-400 mb-6 md:mb-8 p-3 sm:p-4 bg-gray-800/30 rounded-xl border border-gray-700/30 backdrop-blur-sm">
                                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6">
                                     <div className="flex items-center gap-2 hover:text-primary transition-colors text-sm sm:text-base">
-                                        <FiUser
+                                        <MorphIconWrapper
+                                            from={User}
+                                            to={Smile}
                                             size={14}
                                             className="text-primary sm:w-4 sm:h-4"
                                         />
@@ -221,7 +234,9 @@ export default async function BlogPostPage({
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2 hover:text-secondary transition-colors text-sm sm:text-base">
-                                        <FiCalendar
+                                        <MorphIconWrapper
+                                            from={Calendar}
+                                            to={Clock}
                                             size={14}
                                             className="text-secondary sm:w-4 sm:h-4"
                                         />
@@ -313,7 +328,6 @@ export default async function BlogPostPage({
                                 [&_ol_ol_ol]:list-decimal [&_ol_ol_ol]:pl-10 [&_ul_ul_ul]:list-disc [&_ul_ul_ul]:pl-10
                                 [&_li_ol]:mt-2 [&_li_ul]:mt-2 [&_li_p]:mb-2"
                         />
-
                     </div>
                 </div>
 
@@ -360,16 +374,16 @@ export default async function BlogPostPage({
                                                     {relatedPost.image && (
                                                         <div className="aspect-video overflow-hidden flex-shrink-0 relative">
                                                             <Image
-                                                                 src={
-                                                                     relatedPost.image
-                                                                 }
-                                                                 alt={
-                                                                     relatedPost.title
-                                                                 }
-                                                                 fill
-                                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 250px"
-                                                                 className="object-cover group-hover:scale-110 transition-transform duration-300"
-                                                             />
+                                                                src={
+                                                                    relatedPost.image
+                                                                }
+                                                                alt={
+                                                                    relatedPost.title
+                                                                }
+                                                                fill
+                                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 250px"
+                                                                className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                                            />
                                                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                         </div>
                                                     )}
@@ -403,7 +417,8 @@ export default async function BlogPostPage({
                                                                 )}
                                                             </span>
                                                             <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                                Read Do Hoang Vu's article →
+                                                                Read Do Hoang
+                                                                Vu's article →
                                                             </span>
                                                         </div>
                                                     </div>
@@ -418,7 +433,10 @@ export default async function BlogPostPage({
                                             href="/blog"
                                             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border border-primary/30 rounded-xl font-semibold hover:from-primary/30 hover:to-secondary/30 hover:border-primary/50 hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-lg group"
                                         >
-                                            <span>Explore the full Do Hoang Vu AI blog</span>
+                                            <span>
+                                                Explore the full Do Hoang Vu AI
+                                                blog
+                                            </span>
                                             <span className="text-lg group-hover:translate-x-1 transition-transform duration-300">
                                                 →
                                             </span>

@@ -2,6 +2,7 @@ import { ImagePaths } from "@/utils/image-paths";
 import { Project } from "@/types/project";
 
 // --- Raw JSON imports (one file per project) ---
+import meetrack from "./projects/meetrack.json";
 import acaread from "./projects/acaread.json";
 import twinself from "./projects/twinself.json";
 import faceAttendance from "./projects/face-attendance.json";
@@ -36,6 +37,7 @@ function withImages(raw: Record<string, unknown>): Project {
 
 // Ordered list — order determines display order on the projects page.
 export const projects: Project[] = [
+    withImages(meetrack),
     withImages(acaread),
     withImages(twinself),
     withImages(faceAttendance),

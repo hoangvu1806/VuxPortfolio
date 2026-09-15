@@ -2,19 +2,29 @@
 
 import { MainLayout } from "@/components/layout/main-layout";
 import {
-    FiArrowRight,
-    FiGithub,
-    FiLinkedin,
-    FiMail,
-    FiCode,
-    FiLayers,
-    FiServer,
-    FiUser,
-    FiAward,
-    FiBriefcase,
-    FiGlobe,
-    FiCpu,
-} from "react-icons/fi";
+    ArrowRight,
+    ArrowUpRight,
+    Mail,
+    MailOpen,
+    Code,
+    Terminal,
+    Layers,
+    LayoutGrid,
+    Server,
+    Database,
+    Cpu,
+    Sparkles,
+    Award,
+    Trophy,
+    Briefcase,
+    FolderGit2,
+    Globe,
+    Languages,
+    GitBranch,
+    Share2,
+} from "lucide";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import Image from "next/image";
 import { profile } from "@/data/profile";
 import { ImagePaths } from "@/utils/image-paths";
@@ -27,27 +37,62 @@ import { useEffect, useState } from "react";
 
 const skillCategoryConfigs = [
     {
-        icon: <FiServer className="text-accent text-2xl mt-1" />,
+        icon: (
+            <MorphIconWrapper
+                from={Server}
+                to={Database}
+                className="text-accent mt-1"
+                size={24}
+            />
+        ),
         titleClass: "text-accent text-shadow-accent",
         bulletClass: "bg-accent",
     },
     {
-        icon: <FiLayers className="text-secondary text-2xl mt-1" />,
+        icon: (
+            <MorphIconWrapper
+                from={Layers}
+                to={LayoutGrid}
+                className="text-secondary mt-1"
+                size={24}
+            />
+        ),
         titleClass: "text-secondary text-shadow-secondary",
         bulletClass: "bg-secondary",
     },
     {
-        icon: <FiCode className="text-primary text-2xl mt-1" />,
+        icon: (
+            <MorphIconWrapper
+                from={Code}
+                to={Terminal}
+                className="text-primary mt-1"
+                size={24}
+            />
+        ),
         titleClass: "text-primary text-shadow-primary",
         bulletClass: "bg-primary",
     },
     {
-        icon: <FiCpu className="text-secondary text-2xl mt-1" />,
+        icon: (
+            <MorphIconWrapper
+                from={Cpu}
+                to={Sparkles}
+                className="text-secondary mt-1"
+                size={24}
+            />
+        ),
         titleClass: "text-secondary text-shadow-secondary",
         bulletClass: "bg-secondary",
     },
     {
-        icon: <FiGithub className="text-primary text-2xl mt-1" />,
+        icon: (
+            <MorphIconWrapper
+                from={GithubIcon}
+                to={GitBranch}
+                className="text-primary mt-1"
+                size={24}
+            />
+        ),
         titleClass: "text-primary text-shadow-primary",
         bulletClass: "bg-primary",
     },
@@ -105,10 +150,15 @@ export default function Home() {
                             <div className="flex flex-wrap gap-6 mb-12">
                                 <Link
                                     href="/projects"
-                                    className="btn btn-primary"
+                                    className="btn btn-primary group"
                                 >
                                     View Projects
-                                    <FiArrowRight className="ml-2" />
+                                    <MorphIconWrapper
+                                        from={ArrowRight}
+                                        to={ArrowUpRight}
+                                        className="ml-2"
+                                        size={18}
+                                    />
                                 </Link>
                                 <Link
                                     href="/resume"
@@ -126,7 +176,11 @@ export default function Home() {
                                     aria-label="GitHub"
                                     className="text-gray-400 hover:text-primary transition-colors w-10 h-10 rounded-full flex items-center justify-center border border-gray-700 hover:border-primary"
                                 >
-                                    <FiGithub size={20} />
+                                    <MorphIconWrapper
+                                        from={GithubIcon}
+                                        to={GitBranch}
+                                        size={20}
+                                    />
                                 </Link>
                                 <Link
                                     href={profile.social.linkedin}
@@ -135,14 +189,22 @@ export default function Home() {
                                     aria-label="LinkedIn"
                                     className="text-gray-400 hover:text-primary transition-colors w-10 h-10 rounded-full flex items-center justify-center border border-gray-700 hover:border-primary"
                                 >
-                                    <FiLinkedin size={20} />
+                                    <MorphIconWrapper
+                                        from={LinkedinIcon}
+                                        to={Share2}
+                                        size={20}
+                                    />
                                 </Link>
                                 <Link
                                     href={`mailto:${profile.email}`}
                                     aria-label="Email"
                                     className="text-gray-400 hover:text-primary transition-colors w-10 h-10 rounded-full flex items-center justify-center border border-gray-700 hover:border-primary"
                                 >
-                                    <FiMail size={20} />
+                                    <MorphIconWrapper
+                                        from={Mail}
+                                        to={MailOpen}
+                                        size={20}
+                                    />
                                 </Link>
                             </div>
                         </motion.div>
@@ -171,9 +233,7 @@ export default function Home() {
                                 <motion.div
                                     className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/40 to-secondary/40 z-10"
                                     animate={{
-                                        opacity: isAvatarHovered
-                                            ? 0.7
-                                            : 0.5,
+                                        opacity: isAvatarHovered ? 0.7 : 0.5,
                                     }}
                                     transition={{ duration: 0.5 }}
                                 ></motion.div>
@@ -200,12 +260,8 @@ export default function Home() {
                                 <motion.div
                                     className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30 blur-sm -z-10"
                                     animate={{
-                                        opacity: isAvatarHovered
-                                            ? 0.85
-                                            : 0.7,
-                                        scale: isAvatarHovered
-                                            ? 1.03
-                                            : 1,
+                                        opacity: isAvatarHovered ? 0.85 : 0.7,
+                                        scale: isAvatarHovered ? 1.03 : 1,
                                     }}
                                     transition={{ duration: 0.5 }}
                                 ></motion.div>
@@ -246,7 +302,12 @@ export default function Home() {
                             transition={{ duration: 0.6 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-primary/30 flex items-center justify-center mb-4 shadow-primary-glow">
-                                <FiAward className="text-2xl text-primary" />
+                                <MorphIconWrapper
+                                    from={Award}
+                                    to={Trophy}
+                                    className="text-primary"
+                                    size={24}
+                                />
                             </div>
                             <h3 className="text-xl font-bold mb-4 text-shadow-primary">
                                 Education
@@ -269,7 +330,12 @@ export default function Home() {
                             transition={{ duration: 0.6, delay: 0.1 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-secondary/30 flex items-center justify-center mb-4 shadow-secondary-glow">
-                                <FiBriefcase className="text-2xl text-secondary" />
+                                <MorphIconWrapper
+                                    from={Briefcase}
+                                    to={FolderGit2}
+                                    className="text-secondary"
+                                    size={24}
+                                />
                             </div>
                             <h3 className="text-xl font-bold mb-4 text-shadow-secondary">
                                 Certifications
@@ -278,7 +344,12 @@ export default function Home() {
                                 {featuredCertifications.map((cert, idx) => (
                                     <div
                                         key={`${cert.title}-${cert.issuer}`}
-                                        className={idx < featuredCertifications.length - 1 ? "mb-4" : ""}
+                                        className={
+                                            idx <
+                                            featuredCertifications.length - 1
+                                                ? "mb-4"
+                                                : ""
+                                        }
                                     >
                                         <p className="text-gray-300 mb-1">
                                             {cert.title}
@@ -299,7 +370,12 @@ export default function Home() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4 shadow-accent-glow">
-                                <FiGlobe className="text-2xl text-accent" />
+                                <MorphIconWrapper
+                                    from={Globe}
+                                    to={Languages}
+                                    className="text-accent"
+                                    size={24}
+                                />
                             </div>
                             <h3 className="text-xl font-bold mb-4 text-shadow-accent">
                                 Languages
@@ -309,14 +385,15 @@ export default function Home() {
                                     (lang, index, arr) => (
                                         <p
                                             key={index}
-                                            className={`text-gray-300 ${index < arr.length - 1
-                                                ? "mb-3"
-                                                : ""
-                                                }`}
+                                            className={`text-gray-300 ${
+                                                index < arr.length - 1
+                                                    ? "mb-3"
+                                                    : ""
+                                            }`}
                                         >
                                             {lang.language} - {lang.level}
                                         </p>
-                                    )
+                                    ),
                                 )}
                             </div>
                         </motion.div>
@@ -340,13 +417,16 @@ export default function Home() {
                                 </span>
                             </h2>
                             <p className="text-gray-300 max-w-2xl mx-auto backdrop-blur-sm bg-gray-900/30 p-4 rounded-lg">
-                                Skills and technologies I've gained experience in.
+                                Skills and technologies I've gained experience
+                                in.
                             </p>
                         </motion.div>
                     </div>
                     <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
                         {profile.skills.technical.map((skill, index) => {
-                            const config = skillCategoryConfigs[index] || skillCategoryConfigs[0];
+                            const config =
+                                skillCategoryConfigs[index] ||
+                                skillCategoryConfigs[0];
                             return (
                                 <motion.div
                                     key={skill.category}
@@ -362,7 +442,9 @@ export default function Home() {
                                     <div className="flex items-start gap-4 h-full">
                                         {config.icon}
                                         <div className="flex-1 flex flex-col h-full">
-                                            <h3 className={`font-semibold text-xl mb-4 ${config.titleClass}`}>
+                                            <h3
+                                                className={`font-semibold text-xl mb-4 ${config.titleClass}`}
+                                            >
                                                 {skill.category}
                                             </h3>
                                             <ul className="space-y-3">
@@ -371,8 +453,12 @@ export default function Home() {
                                                         key={item}
                                                         className="text-gray-300 flex items-center gap-2"
                                                     >
-                                                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${config.bulletClass}`}></span>
-                                                        <span className="break-words">{item}</span>
+                                                        <span
+                                                            className={`w-2 h-2 rounded-full flex-shrink-0 ${config.bulletClass}`}
+                                                        ></span>
+                                                        <span className="break-words">
+                                                            {item}
+                                                        </span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -434,12 +520,13 @@ export default function Home() {
                                 </div>
                                 <div className="p-6">
                                     <h3
-                                        className={`font-semibold text-xl mb-3 ${index === 0
-                                            ? "text-primary text-shadow-primary"
-                                            : index === 1
-                                                ? "text-secondary text-shadow-secondary"
-                                                : "text-accent text-shadow-accent"
-                                            }`}
+                                        className={`font-semibold text-xl mb-3 ${
+                                            index === 0
+                                                ? "text-primary text-shadow-primary"
+                                                : index === 1
+                                                  ? "text-secondary text-shadow-secondary"
+                                                  : "text-accent text-shadow-accent"
+                                        }`}
                                     >
                                         {project.title}
                                     </h3>
@@ -466,15 +553,21 @@ export default function Home() {
                                                 ? `/projects/${project.slug}`
                                                 : "/projects"
                                         }
-                                        className={`hover:text-${index === 0
-                                            ? "primary"
-                                            : index === 1
-                                                ? "secondary"
-                                                : "accent"
-                                            } font-medium inline-flex items-center transition-colors`}
+                                        className={`hover:text-${
+                                            index === 0
+                                                ? "primary"
+                                                : index === 1
+                                                  ? "secondary"
+                                                  : "accent"
+                                        } font-medium inline-flex items-center transition-colors`}
                                     >
                                         View Details
-                                        <FiArrowRight className="ml-2" />
+                                        <MorphIconWrapper
+                                            from={ArrowRight}
+                                            to={ArrowUpRight}
+                                            className="ml-2"
+                                            size={16}
+                                        />
                                     </Link>
                                 </div>
                             </motion.div>
@@ -503,7 +596,8 @@ export default function Home() {
                             </span>
                         </h2>
                         <p className="text-gray-400 text-sm">
-                            Verified credentials earned on Google Cloud Skills Boost
+                            Verified credentials earned on Google Cloud Skills
+                            Boost
                         </p>
                     </motion.div>
                 </div>
@@ -512,8 +606,10 @@ export default function Home() {
                 <div
                     className="container mx-auto px-4 md:px-6 overflow-hidden"
                     style={{
-                        maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-                        WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+                        maskImage:
+                            "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+                        WebkitMaskImage:
+                            "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
                     }}
                 >
                     <div

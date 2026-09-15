@@ -2,16 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Share2, Sparkles, Copy, Check, Mail, MailOpen } from "lucide";
 import {
-    FiShare2,
-    FiTwitter,
-    FiFacebook,
-    FiLinkedin,
-    FiCopy,
-    FiCheck,
-    FiMail,
-    FiMessageCircle,
-} from "react-icons/fi";
+    TwitterIcon,
+    FacebookIcon,
+    LinkedinIcon,
+} from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { ShareButtonMobile } from "./share-button-mobile";
 
 interface ShareButtonProps {
@@ -73,25 +70,29 @@ export function ShareButton({
     const shareLinks = [
         {
             name: "Twitter",
-            icon: FiTwitter,
+            icon: TwitterIcon,
+            toIcon: Sparkles,
             url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
             color: "hover:text-blue-400 hover:bg-blue-400/10",
         },
         {
             name: "Facebook",
-            icon: FiFacebook,
+            icon: FacebookIcon,
+            toIcon: Sparkles,
             url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
             color: "hover:text-blue-600 hover:bg-blue-600/10",
         },
         {
             name: "LinkedIn",
-            icon: FiLinkedin,
+            icon: LinkedinIcon,
+            toIcon: Share2,
             url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
             color: "hover:text-blue-500 hover:bg-blue-500/10",
         },
         {
             name: "Email",
-            icon: FiMail,
+            icon: Mail,
+            toIcon: MailOpen,
             url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${title}\n\n${url}`)}`,
             color: "hover:text-green-500 hover:bg-green-500/10",
         },
@@ -117,7 +118,9 @@ export function ShareButton({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
-                <FiShare2
+                <MorphIconWrapper
+                    from={Share2}
+                    to={Sparkles}
                     size={16}
                     className="group-hover:rotate-12 transition-transform duration-300"
                 />
@@ -147,7 +150,11 @@ export function ShareButton({
                                     transition={{ delay: index * 0.05 }}
                                     whileHover={{ x: 4 }}
                                 >
-                                    <link.icon size={16} />
+                                    <MorphIconWrapper
+                                        from={link.icon}
+                                        to={link.toIcon}
+                                        size={16}
+                                    />
                                     <span className="text-sm font-medium">
                                         {link.name}
                                     </span>
@@ -163,24 +170,19 @@ export function ShareButton({
                                 transition={{ delay: shareLinks.length * 0.05 }}
                                 whileHover={{ x: 4 }}
                             >
-                                {copied ? (
-                                    <>
-                                        <FiCheck
-                                            size={16}
-                                            className="text-green-500"
-                                        />
-                                        <span className="text-sm font-medium text-green-500">
-                                            Copied!
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <FiCopy size={16} />
-                                        <span className="text-sm font-medium">
-                                            Copy Link
-                                        </span>
-                                    </>
-                                )}
+                                <MorphIconWrapper
+                                    from={Copy}
+                                    to={Check}
+                                    active={copied}
+                                    trigger="controlled"
+                                    size={16}
+                                    className={copied ? "text-green-500" : ""}
+                                />
+                                <span
+                                    className={`text-sm font-medium ${copied ? "text-green-500" : ""}`}
+                                >
+                                    {copied ? "Copied!" : "Copy Link"}
+                                </span>
                             </motion.button>
                         </div>
                     </motion.div>

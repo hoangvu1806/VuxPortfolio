@@ -7,18 +7,28 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import {
-    FiAward,
-    FiBriefcase,
-    FiMessageCircle,
-    FiUser,
-    FiCode,
-    FiGlobe,
-    FiMail,
-    FiMapPin,
-    FiDatabase,
-    FiServer,
-    FiCpu,
-} from "react-icons/fi";
+    Award,
+    Trophy,
+    Briefcase,
+    FolderGit2,
+    MessageCircle,
+    Bot,
+    User,
+    Smile,
+    Code,
+    Terminal,
+    Globe,
+    Languages,
+    Mail,
+    MailOpen,
+    MapPin,
+    Navigation,
+    Database,
+    Server,
+    Cpu,
+    Sparkles,
+} from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
 export default function AboutPage() {
     const containerRef = useRef(null);
@@ -31,57 +41,85 @@ export default function AboutPage() {
     const opacity = useTransform(
         scrollYProgress,
         [0, 0.2, 0.8, 1],
-        [0.3, 1, 1, 0.7]
+        [0.3, 1, 1, 0.7],
     );
     const scale = useTransform(
         scrollYProgress,
         [0, 0.2, 0.8, 1],
-        [0.8, 1, 1, 0.95]
+        [0.8, 1, 1, 0.95],
     );
 
     const technicalSkillGroups = [
         {
             category: "Programming",
-            icon: <FiCode className="text-primary text-2xl" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Code}
+                    to={Terminal}
+                    className="text-primary"
+                    size={24}
+                />
+            ),
             accent: "from-primary to-secondary",
             titleClass: "text-primary",
             items:
                 profile.skills.technical.find(
-                    (s) => s.category === "Programming"
+                    (s) => s.category === "Programming",
                 )?.items ?? [],
         },
         {
             category: "Vector & Graph Databases",
-            icon: <FiDatabase className="text-cyan-400 text-2xl" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Database}
+                    to={Server}
+                    className="text-cyan-400"
+                    size={24}
+                />
+            ),
             accent: "from-cyan-400 to-secondary",
             titleClass: "text-cyan-300",
             items:
                 profile.skills.technical.find(
-                    (s) => s.category === "Vector & Graph Databases"
+                    (s) => s.category === "Vector & Graph Databases",
                 )?.items ?? [],
         },
         {
             category: "LLM Frameworks & Backend",
-            icon: <FiCpu className="text-fuchsia-400 text-2xl" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Cpu}
+                    to={Sparkles}
+                    className="text-fuchsia-400"
+                    size={24}
+                />
+            ),
             accent: "from-fuchsia-500 to-primary",
             titleClass: "text-fuchsia-300",
             items: [
                 ...(profile.skills.technical.find(
-                    (s) => s.category === "LLM Frameworks"
+                    (s) => s.category === "LLM Frameworks",
                 )?.items ?? []),
                 ...(profile.skills.technical.find(
-                    (s) => s.category === "Backend"
+                    (s) => s.category === "Backend",
                 )?.items ?? []),
             ],
         },
         {
             category: "MLOps / LMOps",
-            icon: <FiServer className="text-indigo-400 text-2xl" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Server}
+                    to={Database}
+                    className="text-indigo-400"
+                    size={24}
+                />
+            ),
             accent: "from-indigo-400 to-secondary",
             titleClass: "text-indigo-300",
             items:
                 profile.skills.technical.find(
-                    (s) => s.category === "MLOps / LMOps"
+                    (s) => s.category === "MLOps / LMOps",
                 )?.items ?? [],
         },
     ];
@@ -175,7 +213,12 @@ export default function AboutPage() {
                                         className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow flex-shrink-0">
-                                            <FiMapPin className="text-xl text-primary" />
+                                            <MorphIconWrapper
+                                                from={MapPin}
+                                                to={Navigation}
+                                                className="text-primary"
+                                                size={20}
+                                            />
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <h4 className="font-medium text-gray-200 mb-1">
@@ -197,7 +240,12 @@ export default function AboutPage() {
                                         className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center shadow-secondary-glow flex-shrink-0">
-                                            <FiMail className="text-xl text-secondary" />
+                                            <MorphIconWrapper
+                                                from={Mail}
+                                                to={MailOpen}
+                                                className="text-secondary"
+                                                size={20}
+                                            />
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <h4 className="font-medium text-gray-200 mb-1">
@@ -218,7 +266,12 @@ export default function AboutPage() {
                                         className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shadow-accent-glow flex-shrink-0">
-                                            <FiAward className="text-xl text-accent" />
+                                            <MorphIconWrapper
+                                                from={Award}
+                                                to={Trophy}
+                                                className="text-accent"
+                                                size={20}
+                                            />
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <h4 className="font-medium text-gray-200 mb-1">
@@ -239,7 +292,12 @@ export default function AboutPage() {
                                         className="flex items-start space-x-3 backdrop-blur-sm bg-gray-800/40 p-4 rounded-lg border border-gray-700/50 shadow-lg min-w-0"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shadow-primary-glow flex-shrink-0">
-                                            <FiUser className="text-xl text-primary" />
+                                            <MorphIconWrapper
+                                                from={User}
+                                                to={Smile}
+                                                className="text-primary"
+                                                size={20}
+                                            />
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <h4 className="font-medium text-gray-200 mb-1">
@@ -296,7 +354,12 @@ export default function AboutPage() {
                                         </motion.div>
                                     </div>
                                     <div className="z-10 flex-shrink-0 bg-gradient-primary rounded-full h-10 w-10 flex items-center justify-center shadow-primary-glow border-4 border-gray-900">
-                                        <FiAward className="text-white" />
+                                        <MorphIconWrapper
+                                            from={Award}
+                                            to={Trophy}
+                                            className="text-white"
+                                            size={16}
+                                        />
                                     </div>
                                     <div className="flex-1 md:pl-10 hidden md:block">
                                         {/* Empty space for alignment */}
@@ -308,13 +371,15 @@ export default function AboutPage() {
                                 <div className="relative" key={index}>
                                     <div className="flex flex-col md:flex-row items-center">
                                         <div
-                                            className={`flex-1 ${index % 2 === 0
+                                            className={`flex-1 ${
+                                                index % 2 === 0
                                                     ? "md:text-right md:pr-10"
                                                     : "md:pl-10 order-1 md:order-3"
-                                                } mb-4 md:mb-0 ${index % 2 === 0
+                                            } mb-4 md:mb-0 ${
+                                                index % 2 === 0
                                                     ? "order-1 md:order-1"
                                                     : "order-1 md:order-3"
-                                                }`}
+                                            }`}
                                         >
                                             <motion.div
                                                 initial={{
@@ -341,16 +406,23 @@ export default function AboutPage() {
                                             </motion.div>
                                         </div>
                                         <div className="z-10 flex-shrink-0 bg-gradient-secondary rounded-full h-10 w-10 flex items-center justify-center shadow-secondary-glow border-4 border-gray-900 order-2">
-                                            <FiBriefcase className="text-white" />
+                                            <MorphIconWrapper
+                                                from={Briefcase}
+                                                to={FolderGit2}
+                                                className="text-white"
+                                                size={16}
+                                            />
                                         </div>
                                         <div
-                                            className={`flex-1 ${index % 2 === 0
+                                            className={`flex-1 ${
+                                                index % 2 === 0
                                                     ? "md:pl-10 hidden md:block"
                                                     : "md:text-right md:pr-10"
-                                                } ${index % 2 === 0
+                                            } ${
+                                                index % 2 === 0
                                                     ? "order-3"
                                                     : "order-1 md:order-1 hidden md:block"
-                                                }`}
+                                            }`}
                                         >
                                             {/* Empty space for alignment on alternating sides */}
                                         </div>
@@ -372,7 +444,12 @@ export default function AboutPage() {
 
                     <div className="mb-12">
                         <h3 className="text-2xl font-semibold mb-8 text-center text-gray-200 flex items-center justify-center">
-                            <FiCode className="mr-2 text-primary" />
+                            <MorphIconWrapper
+                                from={Code}
+                                to={Terminal}
+                                className="mr-2 text-primary"
+                                size={24}
+                            />
                             <span>Technical Skills</span>
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
@@ -389,13 +466,17 @@ export default function AboutPage() {
                                     whileHover={{ y: -5 }}
                                     className="h-full backdrop-blur-sm bg-gradient-to-br from-gray-900/80 to-gray-800/50 rounded-xl shadow-lg border border-gray-700/50 overflow-hidden"
                                 >
-                                    <div className={`h-2 bg-gradient-to-r ${skill.accent}`}></div>
+                                    <div
+                                        className={`h-2 bg-gradient-to-r ${skill.accent}`}
+                                    ></div>
                                     <div className="p-6 h-full flex flex-col">
                                         <div className="flex items-start gap-3 mb-5">
                                             <div className="mt-1">
                                                 {skill.icon}
                                             </div>
-                                            <h4 className={`font-semibold text-2xl leading-tight ${skill.titleClass}`}>
+                                            <h4
+                                                className={`font-semibold text-2xl leading-tight ${skill.titleClass}`}
+                                            >
                                                 {skill.category}
                                             </h4>
                                         </div>
@@ -424,28 +505,41 @@ export default function AboutPage() {
                                 <div className="h-1.5 bg-gradient-to-r from-secondary to-primary"></div>
                                 <div className="p-6">
                                     <h3 className="text-2xl font-semibold mb-6 text-gray-200 flex items-center">
-                                        <FiMessageCircle className="mr-2 text-secondary" />
+                                        <MorphIconWrapper
+                                            from={MessageCircle}
+                                            to={Bot}
+                                            className="mr-2 text-secondary"
+                                            size={24}
+                                        />
                                         <span>Soft Skills</span>
                                     </h3>
                                     <ul className="space-y-3">
-                                        {profile.skills.soft.map((skill, index) => (
-                                            <motion.li
-                                                key={skill}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                whileInView={{ opacity: 1, x: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{
-                                                    duration: 0.4,
-                                                    delay: index * 0.06,
-                                                }}
-                                                className="flex items-start text-gray-300 leading-relaxed"
-                                            >
-                                                <span className="text-secondary mr-3 mt-0.5">
-                                                    •
-                                                </span>
-                                                <span>{skill}</span>
-                                            </motion.li>
-                                        ))}
+                                        {profile.skills.soft.map(
+                                            (skill, index) => (
+                                                <motion.li
+                                                    key={skill}
+                                                    initial={{
+                                                        opacity: 0,
+                                                        x: -20,
+                                                    }}
+                                                    whileInView={{
+                                                        opacity: 1,
+                                                        x: 0,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    transition={{
+                                                        duration: 0.4,
+                                                        delay: index * 0.06,
+                                                    }}
+                                                    className="flex items-start text-gray-300 leading-relaxed"
+                                                >
+                                                    <span className="text-secondary mr-3 mt-0.5">
+                                                        •
+                                                    </span>
+                                                    <span>{skill}</span>
+                                                </motion.li>
+                                            ),
+                                        )}
                                     </ul>
                                 </div>
                             </div>
@@ -454,48 +548,62 @@ export default function AboutPage() {
                                 <div className="h-1.5 bg-gradient-to-r from-accent to-secondary"></div>
                                 <div className="p-6">
                                     <h3 className="text-2xl font-semibold mb-6 text-gray-200 flex items-center">
-                                        <FiGlobe className="mr-2 text-accent" />
+                                        <MorphIconWrapper
+                                            from={Globe}
+                                            to={Languages}
+                                            className="mr-2 text-accent"
+                                            size={24}
+                                        />
                                         <span>Languages</span>
                                     </h3>
                                     <div className="space-y-5">
-                                        {profile.skills.languages.map((lang, index) => (
-                                            <motion.div
-                                                key={lang.language}
-                                                initial={{
-                                                    opacity: 0,
-                                                    y: 16,
-                                                }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{
-                                                    duration: 0.45,
-                                                    delay: index * 0.08,
-                                                }}
-                                            >
-                                                <div className="flex items-center justify-between gap-4 mb-2">
-                                                    <h4 className="font-semibold text-lg text-gray-200">
-                                                        {lang.language}
-                                                    </h4>
-                                                    <p className="text-accent text-right">
-                                                        {lang.level}
-                                                    </p>
-                                                </div>
-                                                <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
-                                                    <motion.div
-                                                        className="h-full bg-gradient-to-r from-accent to-secondary"
-                                                        initial={{ width: 0 }}
-                                                        whileInView={{
-                                                            width: `${lang.proficiency ?? 60}%`,
-                                                        }}
-                                                        viewport={{ once: true }}
-                                                        transition={{
-                                                            duration: 0.9,
-                                                            delay: 0.15,
-                                                        }}
-                                                    />
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                        {profile.skills.languages.map(
+                                            (lang, index) => (
+                                                <motion.div
+                                                    key={lang.language}
+                                                    initial={{
+                                                        opacity: 0,
+                                                        y: 16,
+                                                    }}
+                                                    whileInView={{
+                                                        opacity: 1,
+                                                        y: 0,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    transition={{
+                                                        duration: 0.45,
+                                                        delay: index * 0.08,
+                                                    }}
+                                                >
+                                                    <div className="flex items-center justify-between gap-4 mb-2">
+                                                        <h4 className="font-semibold text-lg text-gray-200">
+                                                            {lang.language}
+                                                        </h4>
+                                                        <p className="text-accent text-right">
+                                                            {lang.level}
+                                                        </p>
+                                                    </div>
+                                                    <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                                                        <motion.div
+                                                            className="h-full bg-gradient-to-r from-accent to-secondary"
+                                                            initial={{
+                                                                width: 0,
+                                                            }}
+                                                            whileInView={{
+                                                                width: `${lang.proficiency ?? 60}%`,
+                                                            }}
+                                                            viewport={{
+                                                                once: true,
+                                                            }}
+                                                            transition={{
+                                                                duration: 0.9,
+                                                                delay: 0.15,
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </motion.div>
+                                            ),
+                                        )}
                                     </div>
                                 </div>
                             </div>

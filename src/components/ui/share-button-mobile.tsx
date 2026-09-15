@@ -3,15 +3,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-    FiShare2,
-    FiTwitter,
-    FiFacebook,
-    FiLinkedin,
-    FiCopy,
-    FiCheck,
-    FiMail,
-    FiX,
-} from "react-icons/fi";
+    Share2,
+    Sparkles,
+    Copy,
+    Check,
+    Mail,
+    MailOpen,
+    X,
+    Minus,
+} from "lucide";
+import {
+    TwitterIcon,
+    FacebookIcon,
+    LinkedinIcon,
+} from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
 interface ShareButtonMobileProps {
     url: string;
@@ -61,25 +67,29 @@ export function ShareButtonMobile({
     const shareLinks = [
         {
             name: "Twitter",
-            icon: FiTwitter,
+            icon: TwitterIcon,
+            toIcon: Sparkles,
             url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
             color: "bg-blue-500",
         },
         {
             name: "Facebook",
-            icon: FiFacebook,
+            icon: FacebookIcon,
+            toIcon: Sparkles,
             url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
             color: "bg-blue-600",
         },
         {
             name: "LinkedIn",
-            icon: FiLinkedin,
+            icon: LinkedinIcon,
+            toIcon: Share2,
             url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
             color: "bg-blue-700",
         },
         {
             name: "Email",
-            icon: FiMail,
+            icon: Mail,
+            toIcon: MailOpen,
             url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${title}\n\n${url}`)}`,
             color: "bg-green-600",
         },
@@ -94,7 +104,7 @@ export function ShareButtonMobile({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
-                <FiShare2 size={14} />
+                <MorphIconWrapper from={Share2} to={Sparkles} size={14} />
                 <span>Share</span>
             </motion.button>
 
@@ -129,7 +139,11 @@ export function ShareButtonMobile({
                                     onClick={() => setIsOpen(false)}
                                     className="p-2 text-gray-400 hover:text-gray-200 transition-colors"
                                 >
-                                    <FiX size={20} />
+                                    <MorphIconWrapper
+                                        from={X}
+                                        to={Minus}
+                                        size={20}
+                                    />
                                 </button>
                             </div>
 
@@ -162,7 +176,11 @@ export function ShareButtonMobile({
                                         <div
                                             className={`p-2 rounded-lg ${link.color} text-white`}
                                         >
-                                            <link.icon size={16} />
+                                            <MorphIconWrapper
+                                                from={link.icon}
+                                                to={link.toIcon}
+                                                size={16}
+                                            />
                                         </div>
                                         <span className="text-gray-200 font-medium group-hover:text-white transition-colors">
                                             Share on {link.name}
@@ -183,11 +201,13 @@ export function ShareButtonMobile({
                                     <div
                                         className={`p-2 rounded-lg ${copied ? "bg-green-600" : "bg-accent"} text-white`}
                                     >
-                                        {copied ? (
-                                            <FiCheck size={16} />
-                                        ) : (
-                                            <FiCopy size={16} />
-                                        )}
+                                        <MorphIconWrapper
+                                            from={Copy}
+                                            to={Check}
+                                            active={copied}
+                                            trigger="controlled"
+                                            size={16}
+                                        />
                                     </div>
                                     <span
                                         className={`font-medium transition-colors ${copied ? "text-green-400" : "text-gray-200 group-hover:text-white"}`}

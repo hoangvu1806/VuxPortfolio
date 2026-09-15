@@ -1,0 +1,39 @@
+{
+    "title": "MeeTrack: Local-First Meeting Intelligence & Management",
+    "slug": "meetrack",
+    "type": "AI & ML, Desktop App",
+    "description": "A 100% local-first meeting intelligence platform featuring automated smart note-taking, discussion summaries, and action item tracking, powered by on-device speech separation and speaker diarization.",
+    "details": [
+        "High-Throughput Non-blocking Audio Pipeline: Implemented in Rust using Windows WASAPI loopback, supporting simultaneous capture from microphone, system sound, and specific running applications with zero packet drop.",
+        "On-Device Speech Intelligence Workflow: Combines Silero VAD (ONNX) for voice segmentation, int8 Overlap Detector to spot concurrent speakers, and SepFormer for neural audio source separation into discrete stems.",
+        "Persistent Speaker Identity Engine: Employs voice embeddings and centroid clustering to recognize participants across sessions, resolve unknown speakers, and retroactively link speech fragments without cloud dependencies.",
+        "Multi-Threaded Producer-Consumer Architecture: Decouples continuous audio capture from AI worker threads and inference tasks, guaranteeing 60+ FPS UI responsiveness and continuous recording integrity.",
+        "Modern Glassmorphic Desktop Interface: Built with Next.js 15, React 19, Tauri v2 event-driven IPC, and an audio-reactive Lava Lamp visualizer powered by Three.js GLSL raymarching shaders."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Lead Developer",
+    "projectType": "personal project",
+    "startDate": "06/2026",
+    "endDate": "08/2026",
+    "githubUrl": "https://github.com/hoangvu1806/MeeTrack",
+    "techStack": [
+        "Rust",
+        "Tauri v2",
+        "Next.js 15",
+        "React 19",
+        "TypeScript",
+        "ONNX Runtime",
+        "Silero VAD",
+        "SepFormer",
+        "Three.js",
+        "Tailwind CSS"
+    ],
+    "highlights": [
+        "100% Local-First & Zero Cloud Dependency",
+        "Non-blocking Windows WASAPI Audio Pipeline in Rust",
+        "On-device INT8 Overlap Detection & SepFormer Speech Separation",
+        "Persistent Speaker Identity via Vector Centroid Clustering",
+        "Audio-reactive Lava Lamp Visualizer with Three.js Raymarching"
+    ]
+}

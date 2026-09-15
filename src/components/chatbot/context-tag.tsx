@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiX, FiCornerDownRight } from "react-icons/fi";
+import { CornerDownRight, ArrowRight, X, Minus } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
 import type { ContextData } from "@/contexts/ChatbotContext";
 
@@ -26,7 +27,12 @@ export function ContextTag({ context, onRemove }: ContextTagProps) {
             className="mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border border-primary/30 rounded-full text-xs font-medium backdrop-blur-sm group hover:from-primary/30 hover:to-secondary/30 transition-all duration-200"
             title={`Reference: "${context.text}"`}
         >
-            <FiCornerDownRight size={12} className="flex-shrink-0" />
+            <MorphIconWrapper
+                from={CornerDownRight}
+                to={ArrowRight}
+                size={12}
+                className="flex-shrink-0"
+            />
             <span className="max-w-[120px] truncate">
                 {truncateText(context.text)}
             </span>
@@ -37,7 +43,7 @@ export function ContextTag({ context, onRemove }: ContextTagProps) {
                 className="flex-shrink-0 text-primary/70 hover:text-primary transition-colors ml-1"
                 title="Remove reference"
             >
-                <FiX size={12} />
+                <MorphIconWrapper from={X} to={Minus} size={12} />
             </motion.button>
         </motion.div>
     );

@@ -6,21 +6,35 @@ import { ProjectImage } from "@/components/ui/project-image";
 import { hasDemo, hasGithub } from "@/types/project";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-    FiExternalLink,
-    FiGithub,
-    FiCode,
-    FiFilter,
-    FiSearch,
-    FiLayers,
-    FiCpu,
-    FiFeather,
-    FiArrowRight,
-    FiStar,
-    FiUser,
-    FiCalendar,
-    FiBriefcase,
-    FiAward,
-} from "react-icons/fi";
+    ExternalLink,
+    Code,
+    Terminal,
+    Filter,
+    SlidersHorizontal,
+    Search,
+    Sparkles,
+    Layers,
+    LayoutGrid,
+    Cpu,
+    Feather,
+    BookOpen,
+    ArrowRight,
+    ArrowUpRight,
+    Star,
+    User,
+    Smile,
+    Calendar,
+    Clock,
+    Briefcase,
+    FolderGit2,
+    Award,
+    Trophy,
+    GitBranch,
+    X,
+    Minus,
+} from "lucide";
+import { GithubIcon } from "@/components/ui/brand-icons";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import Link from "next/link";
 import { useState, useRef } from "react";
 
@@ -31,18 +45,65 @@ export default function ProjectsPage() {
     const searchRef = useRef(null);
 
     const categories = [
-        { id: "all", label: "All", icon: <FiLayers className="mr-2" /> },
-        { id: "ai", label: "AI & ML", icon: <FiCpu className="mr-2" /> },
-        { id: "web", label: "Web App", icon: <FiCode className="mr-2" /> },
+        {
+            id: "all",
+            label: "All",
+            icon: (
+                <MorphIconWrapper
+                    from={Layers}
+                    to={LayoutGrid}
+                    className="mr-2"
+                    size={16}
+                />
+            ),
+        },
+        {
+            id: "ai",
+            label: "AI & ML",
+            icon: (
+                <MorphIconWrapper
+                    from={Cpu}
+                    to={Sparkles}
+                    className="mr-2"
+                    size={16}
+                />
+            ),
+        },
+        {
+            id: "web",
+            label: "Web App",
+            icon: (
+                <MorphIconWrapper
+                    from={Code}
+                    to={Terminal}
+                    className="mr-2"
+                    size={16}
+                />
+            ),
+        },
         {
             id: "research",
             label: "Research",
-            icon: <FiFeather className="mr-2" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Feather}
+                    to={BookOpen}
+                    className="mr-2"
+                    size={16}
+                />
+            ),
         },
         {
             id: "competition",
             label: "Competition",
-            icon: <FiAward className="mr-2" />,
+            icon: (
+                <MorphIconWrapper
+                    from={Award}
+                    to={Trophy}
+                    className="mr-2"
+                    size={16}
+                />
+            ),
         },
     ];
 
@@ -116,9 +177,7 @@ export default function ProjectsPage() {
                             {categories.map((category) => (
                                 <motion.button
                                     key={category.id}
-                                    onClick={() =>
-                                        setActiveFilter(category.id)
-                                    }
+                                    onClick={() => setActiveFilter(category.id)}
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all duration-300 ${
@@ -134,34 +193,30 @@ export default function ProjectsPage() {
                         </div>
 
                         <div className="relative max-w-md w-full">
-                            <FiSearch className="absolute left-4 top-4 text-gray-400 w-4 h-4 pointer-events-none" />
+                            <MorphIconWrapper
+                                from={Search}
+                                to={Sparkles}
+                                className="absolute left-4 top-3.5 text-gray-400 pointer-events-none"
+                                size={16}
+                            />
                             <input
                                 ref={searchRef}
                                 type="text"
                                 className="bg-gray-800/70 text-white w-full pl-10 pr-4 py-2 rounded-lg border border-gray-700/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 placeholder="Search projects..."
                                 value={searchQuery}
-                                onChange={(e) =>
-                                    setSearchQuery(e.target.value)
-                                }
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             {searchQuery && (
                                 <button
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
                                     onClick={() => setSearchQuery("")}
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
+                                    <MorphIconWrapper
+                                        from={X}
+                                        to={Minus}
+                                        size={16}
+                                    />
                                 </button>
                             )}
                         </div>
@@ -181,8 +236,13 @@ export default function ProjectsPage() {
                             animate={{ opacity: 1 }}
                             className="text-center py-20"
                         >
-                            <div className="text-gray-400 mb-4">
-                                <FiFilter className="w-12 h-12 mx-auto" />
+                            <div className="text-gray-400 mb-4 flex justify-center">
+                                <MorphIconWrapper
+                                    from={Filter}
+                                    to={SlidersHorizontal}
+                                    className="text-gray-400"
+                                    size={48}
+                                />
                             </div>
                             <h3 className="text-xl text-gray-200 mb-2">
                                 No projects found
@@ -206,7 +266,12 @@ export default function ProjectsPage() {
                             {featuredProjects.length > 0 && (
                                 <div>
                                     <div className="flex items-center gap-3 mb-8">
-                                        <FiStar className="text-primary w-5 h-5" />
+                                        <MorphIconWrapper
+                                            from={Star}
+                                            to={Sparkles}
+                                            className="text-primary"
+                                            size={20}
+                                        />
                                         <h2 className="text-2xl font-bold text-gray-100">
                                             Featured Projects
                                         </h2>
@@ -283,14 +348,15 @@ export default function ProjectsPage() {
                                                                                     ? "bg-white/10 text-white/80"
                                                                                     : "bg-white/10 text-white/60 italic"
                                                                             }`}
-                                                                            style={{ clipPath: "polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)" }}
+                                                                            style={{
+                                                                                clipPath:
+                                                                                    "polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)",
+                                                                            }}
                                                                         >
-                                                                            {
-                                                                                project.status ===
-                                                                                "Completed"
-                                                                                    ? "Completed"
-                                                                                    : "In Progress"
-                                                                            }
+                                                                            {project.status ===
+                                                                            "Completed"
+                                                                                ? "Completed"
+                                                                                : "In Progress"}
                                                                         </span>
                                                                     </div>
                                                                 )}
@@ -304,7 +370,10 @@ export default function ProjectsPage() {
                                                                             ? "text-xl md:text-3xl"
                                                                             : "text-lg md:text-xl"
                                                                     }`}
-                                                                    style={{ textShadow: "0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,1)" }}
+                                                                    style={{
+                                                                        textShadow:
+                                                                            "0 2px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,1)",
+                                                                    }}
                                                                 >
                                                                     {
                                                                         project.title
@@ -315,27 +384,69 @@ export default function ProjectsPage() {
 
                                                         {/* ── Content body ── */}
                                                         <div className="p-5 flex flex-col gap-4">
-
                                                             {/* Metadata row: role, timeline, project type */}
-                                                            {(project.role || project.startDate || project.projectType) && (
+                                                            {(project.role ||
+                                                                project.startDate ||
+                                                                project.projectType) && (
                                                                 <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-400">
                                                                     {project.role && (
                                                                         <span className="flex items-center gap-1">
-                                                                            <FiUser className="shrink-0 text-primary" />
-                                                                            {project.role}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    User
+                                                                                }
+                                                                                to={
+                                                                                    Smile
+                                                                                }
+                                                                                className="shrink-0 text-primary"
+                                                                                size={
+                                                                                    14
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                project.role
+                                                                            }
                                                                         </span>
                                                                     )}
-                                                                    {(project.startDate || project.endDate) && (
+                                                                    {(project.startDate ||
+                                                                        project.endDate) && (
                                                                         <span className="flex items-center gap-1">
-                                                                            <FiCalendar className="shrink-0 text-primary" />
-                                                                            {project.startDate ?? "—"}
-                                                                            {project.endDate ? ` → ${project.endDate}` : " → Present"}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    Calendar
+                                                                                }
+                                                                                to={
+                                                                                    Clock
+                                                                                }
+                                                                                className="shrink-0 text-primary"
+                                                                                size={
+                                                                                    14
+                                                                                }
+                                                                            />
+                                                                            {project.startDate ??
+                                                                                "—"}
+                                                                            {project.endDate
+                                                                                ? ` → ${project.endDate}`
+                                                                                : " → Present"}
                                                                         </span>
                                                                     )}
                                                                     {project.projectType && (
                                                                         <span className="flex items-center gap-1 capitalize">
-                                                                            <FiBriefcase className="shrink-0 text-primary" />
-                                                                            {project.projectType}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    Briefcase
+                                                                                }
+                                                                                to={
+                                                                                    FolderGit2
+                                                                                }
+                                                                                className="shrink-0 text-primary"
+                                                                                size={
+                                                                                    14
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                project.projectType
+                                                                            }
                                                                         </span>
                                                                     )}
                                                                 </div>
@@ -357,12 +468,12 @@ export default function ProjectsPage() {
                                                                                     index ===
                                                                                         0
                                                                                         ? 7
-                                                                                        : 5
+                                                                                        : 5,
                                                                                 )
                                                                                 .map(
                                                                                     (
                                                                                         tech,
-                                                                                        i
+                                                                                        i,
                                                                                     ) => (
                                                                                         <span
                                                                                             key={
@@ -374,7 +485,7 @@ export default function ProjectsPage() {
                                                                                                 tech
                                                                                             }
                                                                                         </span>
-                                                                                    )
+                                                                                    ),
                                                                                 )}
                                                                             {project
                                                                                 .techStack
@@ -402,12 +513,14 @@ export default function ProjectsPage() {
                                                             {"highlights" in
                                                                 project &&
                                                                 project.highlights &&
-                                                                project.highlights
+                                                                project
+                                                                    .highlights
                                                                     .length >
                                                                     0 && (
                                                                     <div
                                                                         className={`grid gap-0.25 ${
-                                                                            index === 0
+                                                                            index ===
+                                                                            0
                                                                                 ? "grid-cols-1 sm:grid-cols-2"
                                                                                 : "grid-cols-1"
                                                                         }`}
@@ -415,23 +528,32 @@ export default function ProjectsPage() {
                                                                         {project.highlights
                                                                             .slice(
                                                                                 0,
-                                                                                index === 0 ? 4 : 3
+                                                                                index ===
+                                                                                    0
+                                                                                    ? 4
+                                                                                    : 3,
                                                                             )
                                                                             .map(
                                                                                 (
                                                                                     h,
-                                                                                    i
+                                                                                    i,
                                                                                 ) => (
                                                                                     <div
-                                                                                        key={i}
+                                                                                        key={
+                                                                                            i
+                                                                                        }
                                                                                         className="flex items-start gap-1 text-xs text-gray-400"
                                                                                     >
                                                                                         <span className="text-primary mt-0.5 shrink-0">
                                                                                             ›
                                                                                         </span>
-                                                                                        <span>{h}</span>
+                                                                                        <span>
+                                                                                            {
+                                                                                                h
+                                                                                            }
+                                                                                        </span>
                                                                                     </div>
-                                                                                )
+                                                                                ),
                                                                             )}
                                                                     </div>
                                                                 )}
@@ -447,11 +569,21 @@ export default function ProjectsPage() {
                                                                     className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary to-secondary text-white rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition-all"
                                                                 >
                                                                     Details
-                                                                    <FiArrowRight className="w-3.5 h-3.5" />
+                                                                    <MorphIconWrapper
+                                                                        from={
+                                                                            ArrowRight
+                                                                        }
+                                                                        to={
+                                                                            ArrowUpRight
+                                                                        }
+                                                                        size={
+                                                                            14
+                                                                        }
+                                                                    />
                                                                 </Link>
 
                                                                 {hasDemo(
-                                                                    project
+                                                                    project,
                                                                 ) && (
                                                                     <Link
                                                                         href={
@@ -460,13 +592,24 @@ export default function ProjectsPage() {
                                                                         target="_blank"
                                                                         className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-emerald-600/20 border border-emerald-600/30 text-emerald-300 rounded-lg hover:bg-emerald-600/30 transition-colors"
                                                                     >
-                                                                        Live Demo
-                                                                        <FiExternalLink className="w-3.5 h-3.5" />
+                                                                        Live
+                                                                        Demo
+                                                                        <MorphIconWrapper
+                                                                            from={
+                                                                                ExternalLink
+                                                                            }
+                                                                            to={
+                                                                                ArrowUpRight
+                                                                            }
+                                                                            size={
+                                                                                14
+                                                                            }
+                                                                        />
                                                                     </Link>
                                                                 )}
 
                                                                 {hasGithub(
-                                                                    project
+                                                                    project,
                                                                 ) && (
                                                                     <Link
                                                                         href={
@@ -476,13 +619,23 @@ export default function ProjectsPage() {
                                                                         className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-gray-800/80 border border-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-700/80 hover:text-white transition-colors"
                                                                     >
                                                                         GitHub
-                                                                        <FiGithub className="w-3.5 h-3.5" />
+                                                                        <MorphIconWrapper
+                                                                            from={
+                                                                                GithubIcon
+                                                                            }
+                                                                            to={
+                                                                                GitBranch
+                                                                            }
+                                                                            size={
+                                                                                14
+                                                                            }
+                                                                        />
                                                                     </Link>
                                                                 )}
                                                             </div>
                                                         </div>
                                                     </motion.div>
-                                                )
+                                                ),
                                             )}
                                         </div>
                                     </AnimatePresence>
@@ -493,7 +646,12 @@ export default function ProjectsPage() {
                             {otherProjects.length > 0 && (
                                 <div>
                                     <div className="flex items-center gap-3 mb-8">
-                                        <FiCode className="text-secondary w-5 h-5" />
+                                        <MorphIconWrapper
+                                            from={Code}
+                                            to={Terminal}
+                                            className="text-secondary"
+                                            size={20}
+                                        />
                                         <h2 className="text-2xl font-bold text-gray-100">
                                             Other Projects
                                         </h2>
@@ -528,53 +686,95 @@ export default function ProjectsPage() {
                                                                 )}
                                                             </div>
 
-
                                                             {"status" in
                                                                 project &&
                                                                 project.status && (
                                                                     <span
                                                                         className="self-start font-sans text-[9px] font-semibold tracking-[0.15em] uppercase bg-gray-700/50 text-gray-400 px-2 py-0.5"
-                                                                        style={{ clipPath: "polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%)" }}
+                                                                        style={{
+                                                                            clipPath:
+                                                                                "polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%)",
+                                                                        }}
                                                                     >
-                                                                        {
-                                                                            project.status === "Completed"
-                                                                                ? "Stable"
-                                                                                : "In Progress"
-                                                                        }
+                                                                        {project.status ===
+                                                                        "Completed"
+                                                                            ? "Stable"
+                                                                            : "In Progress"}
                                                                     </span>
                                                                 )}
 
                                                             {/* Metadata row for compact cards */}
-                                                            {(project.role || project.startDate || project.projectType) && (
+                                                            {(project.role ||
+                                                                project.startDate ||
+                                                                project.projectType) && (
                                                                 <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-gray-500">
                                                                     {project.role && (
                                                                         <span className="flex items-center gap-1">
-                                                                            <FiUser className="shrink-0 text-primary/70" />
-                                                                            {project.role}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    User
+                                                                                }
+                                                                                to={
+                                                                                    Smile
+                                                                                }
+                                                                                className="shrink-0 text-primary/70"
+                                                                                size={
+                                                                                    12
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                project.role
+                                                                            }
                                                                         </span>
                                                                     )}
-                                                                    {(project.startDate || project.endDate) && (
+                                                                    {(project.startDate ||
+                                                                        project.endDate) && (
                                                                         <span className="flex items-center gap-1">
-                                                                            <FiCalendar className="shrink-0 text-primary/70" />
-                                                                            {project.startDate ?? "—"}
-                                                                            {project.endDate ? ` → ${project.endDate}` : " → Present"}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    Calendar
+                                                                                }
+                                                                                to={
+                                                                                    Clock
+                                                                                }
+                                                                                className="shrink-0 text-primary/70"
+                                                                                size={
+                                                                                    12
+                                                                                }
+                                                                            />
+                                                                            {project.startDate ??
+                                                                                "—"}
+                                                                            {project.endDate
+                                                                                ? ` → ${project.endDate}`
+                                                                                : " → Present"}
                                                                         </span>
                                                                     )}
                                                                     {project.projectType && (
                                                                         <span className="flex items-center gap-1 capitalize">
-                                                                            <FiBriefcase className="shrink-0 text-primary/70" />
-                                                                            {project.projectType}
+                                                                            <MorphIconWrapper
+                                                                                from={
+                                                                                    Briefcase
+                                                                                }
+                                                                                to={
+                                                                                    FolderGit2
+                                                                                }
+                                                                                className="shrink-0 text-primary/70"
+                                                                                size={
+                                                                                    12
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                project.projectType
+                                                                            }
                                                                         </span>
                                                                     )}
                                                                 </div>
                                                             )}
 
                                                             <div className="flex gap-2 pt-2 border-t border-gray-700/40 mt-auto">
-                                                                {(
-                                                                    "details" in
-                                                                        project &&
-                                                                    project.details
-                                                                ) ? (
+                                                                {"details" in
+                                                                    project &&
+                                                                project.details ? (
                                                                     <Link
                                                                         href={
                                                                             project.slug
@@ -584,12 +784,22 @@ export default function ProjectsPage() {
                                                                         className="inline-flex items-center gap-1 text-xs px-3 py-1.5 font-medium bg-primary/10 border border-primary/20 text-primary rounded-md hover:bg-primary/20 transition-colors"
                                                                     >
                                                                         Details
-                                                                        <FiArrowRight className="w-3 h-3" />
+                                                                        <MorphIconWrapper
+                                                                            from={
+                                                                                ArrowRight
+                                                                            }
+                                                                            to={
+                                                                                ArrowUpRight
+                                                                            }
+                                                                            size={
+                                                                                12
+                                                                            }
+                                                                        />
                                                                     </Link>
                                                                 ) : null}
 
                                                                 {hasDemo(
-                                                                    project
+                                                                    project,
                                                                 ) && (
                                                                     <Link
                                                                         href={
@@ -599,12 +809,22 @@ export default function ProjectsPage() {
                                                                         className="inline-flex items-center gap-1 text-xs px-3 py-1.5 font-medium bg-emerald-600/10 border border-emerald-600/20 text-emerald-400 rounded-md hover:bg-emerald-600/20 transition-colors"
                                                                     >
                                                                         Demo
-                                                                        <FiExternalLink className="w-3 h-3" />
+                                                                        <MorphIconWrapper
+                                                                            from={
+                                                                                ExternalLink
+                                                                            }
+                                                                            to={
+                                                                                ArrowUpRight
+                                                                            }
+                                                                            size={
+                                                                                12
+                                                                            }
+                                                                        />
                                                                     </Link>
                                                                 )}
 
                                                                 {hasGithub(
-                                                                    project
+                                                                    project,
                                                                 ) && (
                                                                     <Link
                                                                         href={
@@ -614,13 +834,23 @@ export default function ProjectsPage() {
                                                                         className="inline-flex items-center gap-1 text-xs px-3 py-1.5 font-medium bg-gray-800/60 border border-gray-700/40 text-gray-400 rounded-md hover:bg-gray-700/60 hover:text-white transition-colors"
                                                                     >
                                                                         GitHub
-                                                                        <FiGithub className="w-3 h-3" />
+                                                                        <MorphIconWrapper
+                                                                            from={
+                                                                                GithubIcon
+                                                                            }
+                                                                            to={
+                                                                                GitBranch
+                                                                            }
+                                                                            size={
+                                                                                12
+                                                                            }
+                                                                        />
                                                                     </Link>
                                                                 )}
                                                             </div>
                                                         </div>
                                                     </motion.div>
-                                                )
+                                                ),
                                             )}
                                         </AnimatePresence>
                                     </div>

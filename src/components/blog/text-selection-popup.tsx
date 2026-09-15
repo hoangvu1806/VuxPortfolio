@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiMessageCircle } from "react-icons/fi";
+import { MessageCircle, Bot } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { useChatbotContext, type ContextData } from "@/contexts/ChatbotContext";
 
 interface SelectionPosition {
@@ -46,7 +47,7 @@ export function TextSelectionPopup({ containerRef }: TextSelectionPopupProps) {
         if (containerRef.current) {
             const range = selection.getRangeAt(0);
             const isWithinContainer = containerRef.current.contains(
-                range.commonAncestorContainer
+                range.commonAncestorContainer,
             );
 
             if (!isWithinContainer) {
@@ -122,7 +123,7 @@ export function TextSelectionPopup({ containerRef }: TextSelectionPopupProps) {
         return () => {
             document.removeEventListener(
                 "selectionchange",
-                handleSelectionChange
+                handleSelectionChange,
             );
             document.removeEventListener("mouseup", handleTextSelection);
             document.removeEventListener("click", handleClickOutside);
@@ -145,7 +146,7 @@ export function TextSelectionPopup({ containerRef }: TextSelectionPopupProps) {
                 style={{
                     left: Math.max(
                         10,
-                        Math.min(position.x - 40, window.innerWidth - 90)
+                        Math.min(position.x - 40, window.innerWidth - 90),
                     ),
                     top: Math.max(70, position.y - 45), // Position above selected text
                 }}
@@ -157,7 +158,7 @@ export function TextSelectionPopup({ containerRef }: TextSelectionPopupProps) {
                     whileTap={{ scale: 0.95 }}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white text-xs font-medium rounded-full shadow-xl hover:shadow-primary/25 transition-all duration-200 backdrop-blur-sm border border-white/10"
                 >
-                    <FiMessageCircle size={12} />
+                    <MorphIconWrapper from={MessageCircle} to={Bot} size={12} />
                     <span>Ask Vux</span>
                 </motion.button>
             </motion.div>

@@ -4,17 +4,29 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { profile } from "@/data/profile";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-    FiDownload,
-    FiAward,
-    FiBriefcase,
-    FiCode,
-    FiBookOpen,
-    FiGlobe,
-    FiMail,
-    FiPhone,
-    FiMapPin,
-    FiExternalLink,
-} from "react-icons/fi";
+    Download,
+    ArrowDownToLine,
+    Award,
+    Trophy,
+    Briefcase,
+    FolderGit2,
+    Code,
+    Terminal,
+    BookOpen,
+    GraduationCap,
+    Globe,
+    Languages,
+    Mail,
+    MailOpen,
+    Phone,
+    PhoneCall,
+    MapPin,
+    Navigation,
+    ExternalLink,
+    ArrowUpRight,
+    Sparkles,
+} from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import Link from "next/link";
 import { useRef } from "react";
 import type { Project } from "@/types/project";
@@ -29,14 +41,15 @@ export default function ResumePage() {
     const opacity = useTransform(
         scrollYProgress,
         [0, 0.2, 0.8, 1],
-        [0.3, 1, 1, 0.7]
+        [0.3, 1, 1, 0.7],
     );
     const scale = useTransform(
         scrollYProgress,
         [0, 0.2, 0.8, 1],
-        [0.95, 1, 1, 0.98]
+        [0.95, 1, 1, 0.98],
     );
     const featuredProjectSlugs = [
+        "meetrack",
         "ready4rag",
         "acaread",
         "twinself",
@@ -52,11 +65,15 @@ export default function ResumePage() {
         Boolean(project);
 
     const featuredProjects = featuredProjectSlugs
-        .map((slug) => profile.projects.find((project) => project.slug === slug))
+        .map((slug) =>
+            profile.projects.find((project) => project.slug === slug),
+        )
         .filter(isProject);
 
     const featuredCompetitions = competitionSlugs
-        .map((slug) => profile.projects.find((project) => project.slug === slug))
+        .map((slug) =>
+            profile.projects.find((project) => project.slug === slug),
+        )
         .filter(isProject);
 
     return (
@@ -88,7 +105,13 @@ export default function ResumePage() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Download PDF <FiDownload className="ml-2" />
+                            Download PDF{" "}
+                            <MorphIconWrapper
+                                from={Download}
+                                to={ArrowDownToLine}
+                                className="ml-2"
+                                size={18}
+                            />
                         </Link>
                     </motion.div>
                 </motion.div>
@@ -115,7 +138,12 @@ export default function ResumePage() {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-gray-300">
                                         <div className="flex items-start gap-2">
-                                            <FiMapPin className="mt-1 text-primary" />
+                                            <MorphIconWrapper
+                                                from={MapPin}
+                                                to={Navigation}
+                                                className="mt-1 text-primary"
+                                                size={16}
+                                            />
                                             <div>
                                                 <p>
                                                     {profile.location.address}
@@ -131,7 +159,12 @@ export default function ResumePage() {
                                         </div>
                                         <div>
                                             <p className="flex items-center gap-2 mb-2">
-                                                <FiMail className="text-primary" />
+                                                <MorphIconWrapper
+                                                    from={Mail}
+                                                    to={MailOpen}
+                                                    className="text-primary"
+                                                    size={16}
+                                                />
                                                 <a
                                                     href={`mailto:${profile.email}`}
                                                     className="hover:text-primary transition-colors"
@@ -140,7 +173,12 @@ export default function ResumePage() {
                                                 </a>
                                             </p>
                                             <p className="flex items-center gap-2">
-                                                <FiPhone className="text-primary" />
+                                                <MorphIconWrapper
+                                                    from={Phone}
+                                                    to={PhoneCall}
+                                                    className="text-primary"
+                                                    size={16}
+                                                />
                                                 <a
                                                     href={`tel:${profile.phone}`}
                                                     className="hover:text-primary transition-colors"
@@ -167,7 +205,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-light"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiBookOpen className="text-primary" />
+                                        <MorphIconWrapper
+                                            from={BookOpen}
+                                            to={GraduationCap}
+                                            className="text-primary"
+                                            size={20}
+                                        />
                                         <span>Education</span>
                                     </h3>
 
@@ -200,7 +243,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-secondary-light"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiAward className="text-secondary" />
+                                        <MorphIconWrapper
+                                            from={Award}
+                                            to={Trophy}
+                                            className="text-secondary"
+                                            size={20}
+                                        />
                                         <span>Certifications</span>
                                     </h3>
 
@@ -232,7 +280,7 @@ export default function ResumePage() {
                                                         {cert.issuer}
                                                     </p>
                                                 </motion.div>
-                                            )
+                                            ),
                                         )}
                                     </div>
                                 </div>
@@ -246,7 +294,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-accent-light"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiGlobe className="text-accent" />
+                                        <MorphIconWrapper
+                                            from={Globe}
+                                            to={Languages}
+                                            className="text-accent"
+                                            size={20}
+                                        />
                                         <span>Languages</span>
                                     </h3>
 
@@ -283,7 +336,7 @@ export default function ResumePage() {
                                                             initial={{
                                                                 width: 0,
                                                             }}
-                                                        whileInView={{
+                                                            whileInView={{
                                                                 width: `${
                                                                     lang.proficiency ??
                                                                     (lang.level ===
@@ -291,14 +344,14 @@ export default function ResumePage() {
                                                                         ? 100
                                                                         : lang.level ===
                                                                             "Fluent"
-                                                                            ? 90
+                                                                          ? 90
+                                                                          : lang.level ===
+                                                                              "Advanced"
+                                                                            ? 80
                                                                             : lang.level ===
-                                                                                "Advanced"
-                                                                                ? 80
-                                                                                : lang.level ===
-                                                                                    "Intermediate"
-                                                                                    ? 60
-                                                                                    : 40)
+                                                                                "Intermediate"
+                                                                              ? 60
+                                                                              : 40)
                                                                 }%`,
                                                             }}
                                                             viewport={{
@@ -311,7 +364,7 @@ export default function ResumePage() {
                                                         />
                                                     </div>
                                                 </motion.div>
-                                            )
+                                            ),
                                         )}
                                     </div>
                                 </div>
@@ -328,7 +381,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiBriefcase className="text-primary" />
+                                        <MorphIconWrapper
+                                            from={Briefcase}
+                                            to={FolderGit2}
+                                            className="text-primary"
+                                            size={20}
+                                        />
                                         <span>Selected Projects</span>
                                     </h3>
 
@@ -359,21 +417,37 @@ export default function ResumePage() {
                                                                 {project.title}
                                                             </h4>
                                                             <p className="text-xs text-primary mt-1">
-                                                                {project.projectType?.replace("-", " ")}{" "}
-                                                                {project.startDate || project.endDate
+                                                                {project.projectType?.replace(
+                                                                    "-",
+                                                                    " ",
+                                                                )}{" "}
+                                                                {project.startDate ||
+                                                                project.endDate
                                                                     ? `• ${project.startDate ?? "—"}${project.endDate ? ` → ${project.endDate}` : ""}`
                                                                     : ""}
-                                                                {project.role ? ` • ${project.role}` : ""}
+                                                                {project.role
+                                                                    ? ` • ${project.role}`
+                                                                    : ""}
                                                             </p>
                                                         </div>
                                                         {project.githubUrl && (
                                                             <Link
-                                                                href={project.githubUrl}
+                                                                href={
+                                                                    project.githubUrl
+                                                                }
                                                                 target="_blank"
                                                                 className="inline-flex items-center gap-1 text-xs text-gray-300 hover:text-primary transition-colors"
                                                             >
                                                                 Repository
-                                                                <FiExternalLink size={12} />
+                                                                <MorphIconWrapper
+                                                                    from={
+                                                                        ExternalLink
+                                                                    }
+                                                                    to={
+                                                                        ArrowUpRight
+                                                                    }
+                                                                    size={12}
+                                                                />
                                                             </Link>
                                                         )}
                                                     </div>
@@ -381,7 +455,7 @@ export default function ResumePage() {
                                                         {project.description}
                                                     </p>
                                                 </motion.div>
-                                            )
+                                            ),
                                         )}
                                     </div>
                                 </div>
@@ -395,50 +469,63 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-accent"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiAward className="text-secondary" />
+                                        <MorphIconWrapper
+                                            from={Award}
+                                            to={Trophy}
+                                            className="text-secondary"
+                                            size={20}
+                                        />
                                         <span>Competitions</span>
                                     </h3>
 
                                     <ul className="space-y-4">
-                                        {featuredCompetitions.map((project, index) => (
-                                            <motion.li
-                                                key={project.title}
-                                                initial={{
-                                                    opacity: 0,
-                                                    y: 20,
-                                                }}
-                                                whileInView={{
-                                                    opacity: 1,
-                                                    y: 0,
-                                                }}
-                                                viewport={{ once: true }}
-                                                transition={{
-                                                    duration: 0.45,
-                                                    delay: index * 0.08,
-                                                }}
-                                                className="rounded-lg border border-gray-700/40 bg-gray-900/20 p-4"
-                                            >
-                                                <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                                                    <div>
-                                                        <h4 className="text-sm font-semibold text-gray-100">
-                                                            {project.title}
-                                                        </h4>
-                                                        <p className="text-xs text-secondary mt-1">
-                                                            {project.achievement || project.role || project.type}
-                                                        </p>
+                                        {featuredCompetitions.map(
+                                            (project, index) => (
+                                                <motion.li
+                                                    key={project.title}
+                                                    initial={{
+                                                        opacity: 0,
+                                                        y: 20,
+                                                    }}
+                                                    whileInView={{
+                                                        opacity: 1,
+                                                        y: 0,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    transition={{
+                                                        duration: 0.45,
+                                                        delay: index * 0.08,
+                                                    }}
+                                                    className="rounded-lg border border-gray-700/40 bg-gray-900/20 p-4"
+                                                >
+                                                    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                                                        <div>
+                                                            <h4 className="text-sm font-semibold text-gray-100">
+                                                                {project.title}
+                                                            </h4>
+                                                            <p className="text-xs text-secondary mt-1">
+                                                                {project.achievement ||
+                                                                    project.role ||
+                                                                    project.type}
+                                                            </p>
+                                                        </div>
+                                                        {(project.startDate ||
+                                                            project.endDate) && (
+                                                            <span className="text-xs text-gray-400">
+                                                                {project.startDate ??
+                                                                    "—"}
+                                                                {project.endDate
+                                                                    ? ` → ${project.endDate}`
+                                                                    : ""}
+                                                            </span>
+                                                        )}
                                                     </div>
-                                                    {(project.startDate || project.endDate) && (
-                                                        <span className="text-xs text-gray-400">
-                                                            {project.startDate ?? "—"}
-                                                            {project.endDate ? ` → ${project.endDate}` : ""}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="mt-2 text-sm leading-6 text-gray-300">
-                                                    {project.description}
-                                                </p>
-                                            </motion.li>
-                                        ))}
+                                                    <p className="mt-2 text-sm leading-6 text-gray-300">
+                                                        {project.description}
+                                                    </p>
+                                                </motion.li>
+                                            ),
+                                        )}
                                     </ul>
                                 </div>
                             </motion.div>
@@ -451,7 +538,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiCode className="text-accent" />
+                                        <MorphIconWrapper
+                                            from={Code}
+                                            to={Terminal}
+                                            className="text-accent"
+                                            size={20}
+                                        />
                                         <span>Technical Skills</span>
                                     </h3>
 
@@ -490,11 +582,11 @@ export default function ResumePage() {
                                                                     </span>
                                                                     {skill}
                                                                 </div>
-                                                            )
+                                                            ),
                                                         )}
                                                     </div>
                                                 </motion.div>
-                                            )
+                                            ),
                                         )}
                                     </div>
                                 </div>
@@ -508,7 +600,12 @@ export default function ResumePage() {
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <FiBriefcase className="text-primary" />
+                                        <MorphIconWrapper
+                                            from={Briefcase}
+                                            to={Sparkles}
+                                            className="text-primary"
+                                            size={20}
+                                        />
                                         <span>Soft Skills</span>
                                     </h3>
 

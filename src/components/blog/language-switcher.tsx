@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiGlobe } from "react-icons/fi";
+import { Globe, Languages } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
 interface LanguageSwitcherProps {
     currentSlug: string;
@@ -43,7 +44,9 @@ export function LanguageSwitcher({
                 whileTap={{ scale: 0.95 }}
                 aria-label="Switch language"
             >
-                <FiGlobe
+                <MorphIconWrapper
+                    from={Globe}
+                    to={Languages}
                     size={16}
                     className="group-hover:rotate-12 transition-transform duration-300"
                 />

@@ -2,7 +2,8 @@
 
 import { useState, useRef, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiSend } from "react-icons/fi";
+import { Send, Check } from "lucide";
+import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { ContextTag } from "./context-tag";
 import type { ContextData } from "@/contexts/ChatbotContext";
 
@@ -52,7 +53,7 @@ export function ChatInput({
             textareaRef.current.style.height = "auto";
             textareaRef.current.style.height = `${Math.min(
                 textareaRef.current.scrollHeight,
-                120
+                120,
             )}px`;
         }
     };
@@ -100,7 +101,7 @@ export function ChatInput({
                             : "bg-gray-700 text-gray-400 cursor-not-allowed"
                     }`}
                 >
-                    <FiSend className="w-4 h-4" />
+                    <MorphIconWrapper from={Send} to={Check} size={16} />
                 </motion.button>
             </div>
         </div>
