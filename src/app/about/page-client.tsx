@@ -27,6 +27,9 @@ import {
     Server,
     Cpu,
     Sparkles,
+    Layers,
+    LayoutGrid,
+    GitBranch,
 } from "lucide";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
@@ -51,75 +54,92 @@ export default function AboutPage() {
 
     const technicalSkillGroups = [
         {
+            category: "AI / ML",
+            icon: (
+                <MorphIconWrapper
+                    from={Cpu}
+                    to={Sparkles}
+                    className="text-purple-400"
+                    size={24}
+                />
+            ),
+            accent: "from-purple-500 to-indigo-500",
+            titleClass: "text-purple-400",
+            bulletColor: "text-purple-400",
+            items:
+                profile.skills.technical.find((s) => s.category === "AI / ML")
+                    ?.items ?? [],
+        },
+        {
             category: "Programming",
             icon: (
                 <MorphIconWrapper
                     from={Code}
                     to={Terminal}
-                    className="text-primary"
+                    className="text-accent"
                     size={24}
                 />
             ),
-            accent: "from-primary to-secondary",
-            titleClass: "text-primary",
+            accent: "from-pink-500 to-rose-500",
+            titleClass: "text-accent",
+            bulletColor: "text-accent",
             items:
                 profile.skills.technical.find(
                     (s) => s.category === "Programming",
                 )?.items ?? [],
         },
         {
-            category: "Vector & Graph Databases",
+            category: "Frameworks",
+            icon: (
+                <MorphIconWrapper
+                    from={Layers}
+                    to={LayoutGrid}
+                    className="text-secondary"
+                    size={24}
+                />
+            ),
+            accent: "from-cyan-400 to-teal-400",
+            titleClass: "text-secondary",
+            bulletColor: "text-secondary",
+            items:
+                profile.skills.technical.find(
+                    (s) => s.category === "Frameworks",
+                )?.items ?? [],
+        },
+        {
+            category: "Data & Retrieval",
             icon: (
                 <MorphIconWrapper
                     from={Database}
                     to={Server}
-                    className="text-cyan-400"
+                    className="text-emerald-400"
                     size={24}
                 />
             ),
-            accent: "from-cyan-400 to-secondary",
-            titleClass: "text-cyan-300",
+            accent: "from-emerald-400 to-teal-500",
+            titleClass: "text-emerald-300",
+            bulletColor: "text-emerald-400",
             items:
                 profile.skills.technical.find(
-                    (s) => s.category === "Vector & Graph Databases",
+                    (s) => s.category === "Data & Retrieval",
                 )?.items ?? [],
         },
         {
-            category: "LLM Frameworks & Backend",
-            icon: (
-                <MorphIconWrapper
-                    from={Cpu}
-                    to={Sparkles}
-                    className="text-fuchsia-400"
-                    size={24}
-                />
-            ),
-            accent: "from-fuchsia-500 to-primary",
-            titleClass: "text-fuchsia-300",
-            items: [
-                ...(profile.skills.technical.find(
-                    (s) => s.category === "LLM Frameworks",
-                )?.items ?? []),
-                ...(profile.skills.technical.find(
-                    (s) => s.category === "Backend",
-                )?.items ?? []),
-            ],
-        },
-        {
-            category: "MLOps / LMOps",
+            category: "Backend & MLOps",
             icon: (
                 <MorphIconWrapper
                     from={Server}
-                    to={Database}
-                    className="text-indigo-400"
+                    to={GitBranch}
+                    className="text-primary"
                     size={24}
                 />
             ),
-            accent: "from-indigo-400 to-secondary",
-            titleClass: "text-indigo-300",
+            accent: "from-indigo-500 to-blue-500",
+            titleClass: "text-primary",
+            bulletColor: "text-primary",
             items:
                 profile.skills.technical.find(
-                    (s) => s.category === "MLOps / LMOps",
+                    (s) => s.category === "Backend & MLOps",
                 )?.items ?? [],
         },
     ];
@@ -172,7 +192,7 @@ export default function AboutPage() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 right-0 p-4">
-                                        <h3 className="text-xl font-semibold text-white text-shadow-primary">
+                                        <h3 className="text-xl font-semibold text-white drop-shadow-md">
                                             {profile.name}
                                         </h3>
                                         <p className="text-primary">
@@ -452,7 +472,7 @@ export default function AboutPage() {
                             />
                             <span>Technical Skills</span>
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-stretch">
                             {technicalSkillGroups.map((skill, index) => (
                                 <motion.div
                                     key={skill.category}
@@ -486,7 +506,9 @@ export default function AboutPage() {
                                                     key={item}
                                                     className="flex items-start leading-relaxed"
                                                 >
-                                                    <span className="text-secondary mr-2 mt-0.5">
+                                                    <span
+                                                        className={`${skill.bulletColor} mr-2 mt-0.5`}
+                                                    >
                                                         •
                                                     </span>
                                                     <span>{item}</span>

@@ -3,7 +3,7 @@ import { projects } from "./projects";
 export const profile = {
     name: "Do Hoang Vu",
     title: "AI Engineer",
-    email: "dohoangvu.nt2005@gmail.com",
+    email: "dohoangvu.forwork@gmail.com",
     phone: "+84 835901375",
     location: {
         address: "Hoang Van Thu Street",
@@ -20,7 +20,7 @@ export const profile = {
         university: "The Saigon International University",
         degree: "Bachelor of Artificial Intelligence",
         graduation: "2027",
-        gpa: "3.62/4.00",
+        gpa: "3.65/4.00",
     },
     tech_stack: ["PyTorch", "LangChain", "FastAPI"],
     certifications: [
@@ -45,48 +45,50 @@ export const profile = {
     skills: {
         technical: [
             {
+                category: "AI / ML",
+                items: [
+                    "Deep Learning",
+                    "Multimodal AI",
+                    "Retrieval Systems",
+                    "Agentic AI",
+                    "Model Evaluation",
+                ],
+            },
+            {
                 category: "Programming",
                 items: [
-                    "Python",
+                    "Python (Agentic AI & ML)",
+                    "Rust (High-Performance Systems & Inference)",
                     "TypeScript",
-                    "RUST",
                     "SQL",
-                    "Bash",
                     "C / C++",
                 ],
             },
             {
-                category: "Vector & Graph Databases",
+                category: "Frameworks",
                 items: [
-                    "Qdrant",
-                    "Milvus",
-                    "FalkorDB",
-                    "Redis caching",
+                    "PyTorch",
+                    "Hugging Face",
+                    "OpenCV",
+                    "LangChain",
+                    "Google ADK",
                 ],
             },
             {
-                category: "LLM Frameworks",
-                items: [
-                    "Python",
-                    "LLM pipelines",
-                    "RAG systems",
-                    "Multi-agent systems",
-                    "Data ingestion pipelines",
-                    "Embedding pipelines",
-                ],
+                category: "Data & Retrieval",
+                items: ["Qdrant", "Milvus", "FalkorDB", "PostgreSQL", "Redis"],
             },
             {
-                category: "MLOps / LMOps",
+                category: "Backend & MLOps",
                 items: [
+                    "FastAPI",
+                    "Node.js",
+                    "S3 API",
+                    "Docker",
                     "MLflow",
                     "DeepEval",
-                    "Docker",
                     "GitHub Actions",
                 ],
-            },
-            {
-                category: "Backend",
-                items: ["FastAPI", "Node.js"],
             },
         ],
         soft: [
@@ -106,10 +108,10 @@ export const profile = {
         ],
     },
     interests: [
-        "Generative AI",
-        "LLMs",
+        "Large Language Models",
+        "Speech & Audio AI",
+        "Model Optimization",
         "Multi-Agent Systems",
-        "MLOps",
         "Voice Transformation",
         "Mathematics & Physics",
         "AI Ethics",

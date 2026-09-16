@@ -114,7 +114,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
 
     // Filter posts when search or category changes
     useEffect(() => {
-        let filtered = ClientBlogService.filterPosts(initialPosts, {
+        const filtered = ClientBlogService.filterPosts(initialPosts, {
             category: selectedCategory || undefined,
             search: searchQuery || undefined,
         });

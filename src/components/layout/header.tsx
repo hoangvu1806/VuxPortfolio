@@ -3,19 +3,28 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { Menu, X } from "lucide";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+    Menu,
+    X,
+    Home,
+    User,
+    Briefcase,
+    BookOpen,
+    FileText,
+    Mail,
+} from "lucide";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { ImagePaths } from "@/utils/image-paths";
 import Image from "next/image";
 
 const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Projects", path: "/projects" },
-    { name: "Blog", path: "/blog" },
-    { name: "Resume", path: "/resume" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", path: "/", icon: Home },
+    { name: "About", path: "/about", icon: User },
+    { name: "Projects", path: "/projects", icon: Briefcase },
+    { name: "Blog", path: "/blog", icon: BookOpen },
+    { name: "Resume", path: "/resume", icon: FileText },
+    { name: "Contact", path: "/contact", icon: Mail },
 ];
 
 export function Header() {
@@ -56,12 +65,10 @@ export function Header() {
                                 />
                             </div>
                             <span className="flex flex-col">
-                                {" "}
-                                <span className="logo-text">VU HOANG</span>{" "}
+                                <span className="logo-text">VU HOANG</span>
                                 <span className="logo-subtitle">
-                                    {" "}
-                                    AI-DEAS FOR BRIGHT MINDS{" "}
-                                </span>{" "}
+                                    AI-DEAS FOR BRIGHT MINDS
+                                </span>
                             </span>
                         </motion.div>
                     </Link>
@@ -129,55 +136,51 @@ export function Header() {
             </div>
 
             {/* Mobile Menu */}
-            {mobileMenuOpen && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="header-mobile-menu bg-gray-900 py-4 px-4 shadow-lg border border-gray-700/50"
-                >
-                    <nav className="flex flex-col space-y-2 py-4">
-                        {navItems.map((item, index) => (
-                            <motion.div
-                                key={`mobile-${item.name}`}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: index * 0.1,
-                                }}
-                            >
-                                <Link
-                                    href={item.path}
-                                    className={`relative text-base flex items-center py-3 px-4 rounded-lg transition-all duration-300 ${
-                                        pathname === item.path
-                                            ? "text-primary bg-primary/20 font-medium border-l-4 border-primary"
-                                            : "text-gray-100 hover:bg-gray-800 hover:translate-x-1"
-                                    }`}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    <span
-                                        className={`mr-3 transition-colors duration-300 ${pathname === item.path ? "text-primary" : "text-gray-500"}`}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="header-mobile-menu mx-4 mt-2 p-1.5 rounded-lg bg-gray-900/95 backdrop-blur-xl shadow-2xl shadow-black/60 overflow-hidden"
+                    >
+                        <nav className="flex flex-col gap-0.5">
+                            {navItems.map((item) => {
+                                const isActive = pathname === item.path;
+                                return (
+                                    <Link
+                                        key={`mobile-${item.name}`}
+                                        href={item.path}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={`flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium transition-all duration-200 ${
+                                            isActive
+                                                ? "bg-primary/10 text-primary"
+                                                : "text-gray-300 hover:text-white hover:bg-white/5"
+                                        }`}
                                     >
-                                        {pathname === item.path ? "●" : "○"}
-                                    </span>
-                                    {item.name}
-                                    {pathname === item.path && (
-                                        <motion.span
-                                            className="ml-auto text-primary"
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 0.3 }}
-                                        >
-                                            ✓
-                                        </motion.span>
-                                    )}
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </nav>
-                </motion.div>
-            )}
+                                        <div className="flex items-center gap-3">
+                                            <MorphIconWrapper
+                                                from={item.icon}
+                                                size={16}
+                                                className={
+                                                    isActive
+                                                        ? "text-primary"
+                                                        : "text-gray-400"
+                                                }
+                                            />
+                                            <span>{item.name}</span>
+                                        </div>
+                                        {isActive && (
+                                            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                        )}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 }

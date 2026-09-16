@@ -139,7 +139,7 @@ export class BlogService {
                         "\\QQ": "\\mathbb{Q}",
                         "\\CC": "\\mathbb{C}"
                     }
-                } as any)
+                })
                 .use(rehypeHighlight) // Code syntax highlighting
                 .use(rehypeStringify, { allowDangerousHtml: true }) // Convert to string
                 .process(processedContent);

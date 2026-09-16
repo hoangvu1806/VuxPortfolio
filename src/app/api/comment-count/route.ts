@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 
+interface GitHubDiscussion {
+    title: string;
+    comments: number;
+}
+
 export async function GET(request: Request) {
     const slug = new URL(request.url).searchParams.get("slug");
     const repo = process.env.NEXT_PUBLIC_GISCUS_REPO
@@ -12,8 +17,8 @@ export async function GET(request: Request) {
         cache: "no-store",
     });
 
-    const discussions = await res.json();
-    const target = discussions.find((d: any) => d.title === `/blog/${slug}`);
+    const discussions = (await res.json()) as GitHubDiscussion[];
+    const target = discussions.find((discussion) => discussion.title === `/blog/${slug}`);
     if (!target) {
         console.log("Discussions: ", slug);
     }

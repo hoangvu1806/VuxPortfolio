@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:22-alpine AS base
 
 # Set working directory
 WORKDIR /app
@@ -56,4 +56,4 @@ USER nextjs
 EXPOSE 8888
 
 # Start the application
-CMD ["node", "server.js"] 
+CMD ["node", "server.js"]

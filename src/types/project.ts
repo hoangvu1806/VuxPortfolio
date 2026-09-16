@@ -2,6 +2,7 @@
 
 export interface BaseProject {
     title: string;
+    slug: string;
     type?: string;
     description: string;
     details?: string[];
@@ -19,7 +20,6 @@ export interface BaseProject {
     startDate?: string;
     endDate?: string;
     achievement?: string;
-    [key: string]: any; // Allow additional properties
 }
 
 export interface MainProject extends BaseProject {

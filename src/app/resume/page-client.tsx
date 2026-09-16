@@ -49,6 +49,7 @@ export default function ResumePage() {
         [0.95, 1, 1, 0.98],
     );
     const featuredProjectSlugs = [
+        "hestia",
         "meetrack",
         "ready4rag",
         "acaread",
@@ -99,20 +100,20 @@ export default function ResumePage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        <Link
-                            href="/resume.pdf"
+                        <a
+                            href="/DOHOANGVU_CV.pdf"
                             className="inline-flex items-center justify-center px-8 py-3 font-medium bg-gradient-to-r from-primary to-secondary text-white transition-all rounded-lg shadow-lg hover:shadow-primary-glow"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Download PDF{" "}
+                            Download CV{" "}
                             <MorphIconWrapper
                                 from={Download}
                                 to={ArrowDownToLine}
                                 className="ml-2"
                                 size={18}
                             />
-                        </Link>
+                        </a>
                     </motion.div>
                 </motion.div>
             </section>

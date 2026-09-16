@@ -60,7 +60,6 @@ logs
 *.log
 
 # docker
-.dockerignore
 robots.txt
 llms.txt
 

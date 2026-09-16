@@ -1,6 +1,8 @@
 {
     "title": "AIC25 COMPETITION",
     "slug": "aic25-competition",
+    "image": "/images/blog/default-hero.jpg",
+    "thumbnail": "/images/blog/default-hero.jpg",
     "type": "Competition",
     "description": "Led team SIU Cerberus at Ho Chi Minh City AI Challenge 2025, deploying the TARS (Temporal Alignment Retrieval System) framework for order-aware video event retrieval. Achieved 93.15% accuracy on the benchmark with a training-free monotonic DP alignment approach.",
     "details": [

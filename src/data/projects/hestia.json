@@ -1,0 +1,41 @@
+{
+    "title": "Hestia: Multimodal Food Chemistry & Evidence-Grounded Culinary Safety Assistant",
+    "slug": "hestia",
+    "type": "AI & ML, Multi-Agent, Full Stack",
+    "description": "An evidence-grounded culinary safety and food chemistry assistant that prevents LLM hallucinations by coupling multimodal ingredient vision with hierarchical multi-agent orchestration and canonical scientific databases (FooDB, EFSA OpenFoodTox, PubChem).",
+    "details": [
+        "Hierarchical Multi-Agent Architecture: Engineered a 3-tier specialist agent system with Google ADK and LiteLLM (Gemini 3.5 Flash Lite & Qwen 3.6 35B), comprising Root Orchestrator, Food Analysis Specialist, and Research Specialist.",
+        "Evidence-Grounded Hallucination Prevention: Enforced strict Tool Budgeting (maximum 4 tool calls per analysis turn) and auditable FooDB citation tags ([<Compound:FDBxxxxxx>]), guaranteeing no fabricated chemical reactions without empirical evidence.",
+        "High-Performance Knowledge Engineering & Entity Resolution: Ingested over 70,000+ food-chemical relations from FooDB and EFSA OpenFoodTox 3.0 into SQLite; developed conservative fuzzy entity matching (SequenceMatcher + token subset containment with safety margins) mapping informal ingredient names to scientific taxonomy.",
+        "Real-Time Streaming Engine: Built a low-latency Server-Sent Events (SSE) pipeline via FastAPI delivering text_delta, tool_call, and tool_result events with sub-500ms Time-to-First-Token (TTFT).",
+        "Interactive Data & Reaction Pathway Visualization: Developed a responsive Next.js 16 (React 19, TypeScript) interface dynamically rendering Mermaid.js hazard pathway diagrams, KaTeX biochemical formulas, and bilingual i18n support (EN/VI)."
+    ],
+    "status": "Completed",
+    "featured": true,
+    "role": "Technical Lead",
+    "projectType": "team project",
+    "startDate": "04/2026",
+    "endDate": "07/2026",
+    "githubUrl": "https://github.com/hoangvu1806/Hestia",
+    "techStack": [
+        "Python",
+        "FastAPI",
+        "Google ADK",
+        "Next.js 16",
+        "React 19",
+        "TypeScript",
+        "LiteLLM",
+        "SQLite",
+        "Mermaid.js",
+        "Tailwind CSS",
+        "Server-Sent Events",
+        "FooDB"
+    ],
+    "highlights": [
+        "Hierarchical 3-Tier Multi-Agent System via Google ADK",
+        "Evidence-Grounded Hallucination Prevention with 4-Tool Budgeting",
+        "70,000+ Chemical Relations Indexed from FooDB & EFSA OpenFoodTox",
+        "Conservative Fuzzy Entity Resolution for Scientific Taxonomy",
+        "Real-Time SSE Streaming with Dynamic Mermaid.js Reaction Pathways"
+    ]
+}

@@ -37,64 +37,59 @@ import { useEffect, useState } from "react";
 
 const skillCategoryConfigs = [
     {
-        icon: (
-            <MorphIconWrapper
-                from={Server}
-                to={Database}
-                className="text-accent mt-1"
-                size={24}
-            />
-        ),
-        titleClass: "text-accent text-shadow-accent",
-        bulletClass: "bg-accent",
-    },
-    {
-        icon: (
-            <MorphIconWrapper
-                from={Layers}
-                to={LayoutGrid}
-                className="text-secondary mt-1"
-                size={24}
-            />
-        ),
-        titleClass: "text-secondary text-shadow-secondary",
-        bulletClass: "bg-secondary",
-    },
-    {
-        icon: (
-            <MorphIconWrapper
-                from={Code}
-                to={Terminal}
-                className="text-primary mt-1"
-                size={24}
-            />
-        ),
-        titleClass: "text-primary text-shadow-primary",
-        bulletClass: "bg-primary",
-    },
-    {
+        // 0. AI / ML
         icon: (
             <MorphIconWrapper
                 from={Cpu}
                 to={Sparkles}
-                className="text-secondary mt-1"
-                size={24}
+                className="text-primary"
+                size={20}
             />
         ),
-        titleClass: "text-secondary text-shadow-secondary",
-        bulletClass: "bg-secondary",
     },
     {
+        // 1. Programming
         icon: (
             <MorphIconWrapper
-                from={GithubIcon}
-                to={GitBranch}
-                className="text-primary mt-1"
-                size={24}
+                from={Code}
+                to={Terminal}
+                className="text-secondary"
+                size={20}
             />
         ),
-        titleClass: "text-primary text-shadow-primary",
-        bulletClass: "bg-primary",
+    },
+    {
+        // 2. Frameworks
+        icon: (
+            <MorphIconWrapper
+                from={Layers}
+                to={LayoutGrid}
+                className="text-cyan-400"
+                size={20}
+            />
+        ),
+    },
+    {
+        // 3. Data & Retrieval
+        icon: (
+            <MorphIconWrapper
+                from={Database}
+                to={Server}
+                className="text-emerald-400"
+                size={20}
+            />
+        ),
+    },
+    {
+        // 4. Backend & MLOps
+        icon: (
+            <MorphIconWrapper
+                from={Server}
+                to={GitBranch}
+                className="text-indigo-400"
+                size={20}
+            />
+        ),
     },
 ];
 
@@ -114,6 +109,38 @@ export default function Home() {
             {/* Dynamic Background */}
             <DynamicBackground />
 
+            {/* SVG Filter for Liquid Glass lens refraction */}
+            <svg
+                className="absolute w-0 h-0 pointer-events-none opacity-0"
+                aria-hidden="true"
+            >
+                <defs>
+                    <filter
+                        id="glass-refraction"
+                        x="-20%"
+                        y="-20%"
+                        width="140%"
+                        height="140%"
+                        colorInterpolationFilters="sRGB"
+                    >
+                        <feTurbulence
+                            type="fractalNoise"
+                            baseFrequency="0.035 0.035"
+                            numOctaves="3"
+                            result="noise"
+                        />
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="noise"
+                            scale="12"
+                            xChannelSelector="R"
+                            yChannelSelector="G"
+                            result="displaced"
+                        />
+                    </filter>
+                </defs>
+            </svg>
+
             {/* Hero Section */}
             <section className="hero-section pt-32 pb-20">
                 <div className="container mx-auto px-4 md:px-6 relative">
@@ -129,7 +156,7 @@ export default function Home() {
                             className="md:col-span-7 flex flex-col"
                         >
                             <div className="py-4 my-2">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider">
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider !bg-transparent !bg-none text-transparent">
                                     <span className="animated-border-text">
                                         {profile.name}
                                     </span>
@@ -267,24 +294,49 @@ export default function Home() {
                                 ></motion.div>
                             </motion.div>
 
-                            {/* Floating elements */}
-                            <div className="absolute top-10 -left-4 z-20 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 p-2 ml-4">
-                                <div className="text-xs font-medium text-gray-300">
-                                    Specialization
+                            {/* Floating elements — Liquid Glass style */}
+                            <motion.div
+                                className="absolute top-10 -left-4 z-20 px-4 py-2.5 ml-4 rounded-xl bg-gray-900/85 backdrop-blur-md border border-white/10 shadow-xl cursor-default"
+                                initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                whileHover={{ scale: 1.05, y: -3 }}
+                                transition={{
+                                    duration: 0.6,
+                                    delay: 0.4,
+                                    type: "spring",
+                                    stiffness: 100,
+                                }}
+                            >
+                                <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                                    Working on
                                 </div>
-                                <div className="font-semibold text-secondary text-shadow-secondary">
+                                <div className="text-sm font-bold text-white">
                                     AI Engineering
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="absolute bottom-4 -right-4 p-2 z-20 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 mr-4">
-                                <div className="text-xs font-medium p-1 text-gray-300">
-                                    Tech Stack
+                            <motion.div
+                                className="absolute bottom-10 -right-4 z-20 px-4 py-2.5 mr-4 rounded-xl bg-gray-900/85 backdrop-blur-md border border-white/10 shadow-xl cursor-default"
+                                initial={{ opacity: 0, x: 30, scale: 0.9 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                whileHover={{ scale: 1.05, y: -3 }}
+                                transition={{
+                                    duration: 0.6,
+                                    delay: 0.6,
+                                    type: "spring",
+                                    stiffness: 100,
+                                }}
+                            >
+                                <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                                    Focusing on
                                 </div>
-                                <div className="font-semibold text-primary text-shadow-primary">
-                                    {profile.tech_stack.join(", ")}...
+                                <div className="text-sm font-bold text-white leading-snug">
+                                    <div className="whitespace-nowrap">
+                                        Agentic AI · Speech & Audio AI
+                                    </div>
+                                    <div>Optimize Model</div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     </div>
                 </div>
@@ -295,11 +347,16 @@ export default function Home() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <motion.div
-                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 hover:border-primary/40 transition-all duration-300"
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
+                            transition={{
+                                duration: 0.5,
+                                type: "spring",
+                                stiffness: 100,
+                            }}
+                            whileHover={{ y: -6, scale: 1.02 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-primary/30 flex items-center justify-center mb-4 shadow-primary-glow">
                                 <MorphIconWrapper
@@ -323,11 +380,17 @@ export default function Home() {
                         </motion.div>
 
                         <motion.div
-                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 hover:border-secondary/40 transition-all duration-300"
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
+                            transition={{
+                                duration: 0.5,
+                                delay: 0.12,
+                                type: "spring",
+                                stiffness: 100,
+                            }}
+                            whileHover={{ y: -6, scale: 1.02 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-secondary/30 flex items-center justify-center mb-4 shadow-secondary-glow">
                                 <MorphIconWrapper
@@ -363,11 +426,17 @@ export default function Home() {
                         </motion.div>
 
                         <motion.div
-                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center text-center h-full min-h-[260px] p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 hover:border-accent/40 transition-all duration-300"
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
+                            transition={{
+                                duration: 0.5,
+                                delay: 0.24,
+                                type: "spring",
+                                stiffness: 100,
+                            }}
+                            whileHover={{ y: -6, scale: 1.02 }}
                         >
                             <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4 shadow-accent-glow">
                                 <MorphIconWrapper
@@ -412,17 +481,17 @@ export default function Home() {
                             transition={{ duration: 0.6 }}
                         >
                             <h2 className="text-3xl font-bold mb-4">
-                                <span className="text-primary text-shadow-primary">
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
                                     Technical Skills
                                 </span>
                             </h2>
-                            <p className="text-gray-300 max-w-2xl mx-auto backdrop-blur-sm bg-gray-900/30 p-4 rounded-lg">
+                            <p className="text-gray-300 max-w-2xl mx-auto text-base">
                                 Skills and technologies I've gained experience
                                 in.
                             </p>
                         </motion.div>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
+                    <div className="flex flex-wrap justify-center gap-5 xl:gap-6 items-stretch">
                         {profile.skills.technical.map((skill, index) => {
                             const config =
                                 skillCategoryConfigs[index] ||
@@ -430,39 +499,50 @@ export default function Home() {
                             return (
                                 <motion.div
                                     key={skill.category}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, y: 35, scale: 0.93 }}
+                                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
                                     viewport={{ once: true }}
                                     transition={{
                                         duration: 0.5,
-                                        delay: index * 0.1,
+                                        delay: index * 0.09,
+                                        type: "spring",
+                                        stiffness: 100,
                                     }}
-                                    className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-20px)] xl:w-[calc(20%-26px)] min-w-[220px] max-w-[320px] lg:max-w-none p-6 backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 flex flex-col"
+                                    whileHover={{
+                                        y: -6,
+                                        scale: 1.02,
+                                        transition: { duration: 0.2 },
+                                    }}
+                                    className="group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-16px)] xl:w-[calc(20%-20px)] min-w-[210px] p-6 backdrop-blur-md bg-gray-900/40 hover:bg-gray-900/70 rounded-2xl border border-gray-800 hover:border-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col justify-between"
                                 >
-                                    <div className="flex items-start gap-4 h-full">
-                                        {config.icon}
-                                        <div className="flex-1 flex flex-col h-full">
-                                            <h3
-                                                className={`font-semibold text-xl mb-4 ${config.titleClass}`}
-                                            >
+                                    {/* Subtle top border accent */}
+                                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/50 via-secondary/40 to-accent/40 rounded-t-2xl opacity-60 group-hover:opacity-100 transition-opacity" />
+
+                                    <div className="flex flex-col h-full">
+                                        {/* Header: Icon badge + Title */}
+                                        <div className="flex items-center gap-3 mb-5 min-h-[48px]">
+                                            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gray-800/90 border border-gray-700/70 group-hover:border-gray-600 transition-all shadow-sm">
+                                                {config.icon}
+                                            </div>
+                                            <h3 className="font-bold text-base xl:text-lg leading-tight text-gray-100 group-hover:text-white transition-colors">
                                                 {skill.category}
                                             </h3>
-                                            <ul className="space-y-3">
-                                                {skill.items.map((item) => (
-                                                    <li
-                                                        key={item}
-                                                        className="text-gray-300 flex items-center gap-2"
-                                                    >
-                                                        <span
-                                                            className={`w-2 h-2 rounded-full flex-shrink-0 ${config.bulletClass}`}
-                                                        ></span>
-                                                        <span className="break-words">
-                                                            {item}
-                                                        </span>
-                                                    </li>
-                                                ))}
-                                            </ul>
                                         </div>
+
+                                        {/* Skill items */}
+                                        <ul className="space-y-3 flex-1">
+                                            {skill.items.map((item) => (
+                                                <li
+                                                    key={item}
+                                                    className="text-gray-300 group/item flex items-start gap-2.5 text-sm leading-relaxed"
+                                                >
+                                                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-primary/70 group-hover/item:bg-primary group-hover/item:scale-125 transition-all" />
+                                                    <span className="break-words font-medium text-gray-300 group-hover/item:text-gray-100 transition-colors">
+                                                        {item}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 </motion.div>
                             );
@@ -486,7 +566,7 @@ export default function Home() {
                                     Featured Projects
                                 </span>
                             </h2>
-                            <p className="text-gray-300 max-w-2xl mx-auto backdrop-blur-sm bg-gray-900/30 p-4 rounded-lg">
+                            <p className="text-gray-300 max-w-2xl mx-auto text-base">
                                 Some of my notable projects I've worked on
                                 recently.
                             </p>
@@ -496,14 +576,20 @@ export default function Home() {
                         {profile.projects.slice(0, 3).map((project, index) => (
                             <motion.div
                                 key={project.title}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 35, scale: 0.95 }}
+                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{
                                     duration: 0.5,
-                                    delay: index * 0.1,
+                                    delay: index * 0.12,
+                                    type: "spring",
+                                    stiffness: 90,
                                 }}
-                                className="overflow-hidden backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50"
+                                whileHover={{
+                                    y: -6,
+                                    transition: { duration: 0.2 },
+                                }}
+                                className="overflow-hidden backdrop-blur-sm bg-gray-900/30 rounded-lg border border-gray-700/50 hover:border-primary/40 transition-all duration-300"
                             >
                                 <div className="h-40 relative overflow-hidden rounded-t-lg">
                                     <ProjectImage

@@ -2,6 +2,7 @@ import { ImagePaths } from "@/utils/image-paths";
 import { Project } from "@/types/project";
 
 // --- Raw JSON imports (one file per project) ---
+import hestia from "./projects/hestia.json";
 import meetrack from "./projects/meetrack.json";
 import acaread from "./projects/acaread.json";
 import twinself from "./projects/twinself.json";
@@ -22,21 +23,23 @@ import vizquest from "./projects/vizquest.json";
 function withImages(raw: Record<string, unknown>): Project {
     const slug = raw.slug as string | undefined;
 
-    if (!slug) return raw as Project;
+    if (!slug) return raw as unknown as Project;
+
+    const hero = (raw.image as string | undefined) ?? ImagePaths.project.hero(slug);
+    const thumbnail =
+        (raw.thumbnail as string | undefined) ?? ImagePaths.project.thumbnail(slug);
 
     return {
         ...raw,
-        image: ImagePaths.project.hero(slug),
-        thumbnail: ImagePaths.project.thumbnail(slug),
-        images: [
-            ImagePaths.project.hero(slug),
-            ImagePaths.project.thumbnail(slug),
-        ],
+        image: hero,
+        thumbnail,
+        images: (raw.images as string[] | undefined) ?? [hero, thumbnail],
     } as Project;
 }
 
 // Ordered list — order determines display order on the projects page.
 export const projects: Project[] = [
+    withImages(hestia),
     withImages(meetrack),
     withImages(acaread),
     withImages(twinself),

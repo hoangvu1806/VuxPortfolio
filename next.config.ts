@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    output: "standalone",
     poweredByHeader: false,
-    env: {
-        PORT: process.env.NODE_ENV === "production" ? "8000" : "8001",
-    },
     experimental: {
         serverMinification: true,
     },
@@ -13,20 +11,34 @@ const nextConfig: NextConfig = {
             fullUrl: true,
         },
     },
-    output: "standalone",
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
-    typescript: {
-        ignoreBuildErrors: true,
+    async rewrites() {
+        return [
+            {
+                source: "/chatbot/:path*",
+                destination: "http://127.0.0.1:8080/chatbot/:path*",
+            },
+        ];
     },
     images: {
+        dangerouslyAllowSVG: true,
+        contentSecurityPolicy:
+            "default-src 'self'; script-src 'none'; sandbox;",
         remotePatterns: [
             {
                 protocol: "https",
                 hostname: "cdn.qwiklabs.com",
             },
         ],
+        formats: ["image/webp", "image/avif"],
+    },
+    async redirects() {
+        return [
+            {
+                source: "/resume.pdf",
+                destination: "/DOHOANGVU_CV.pdf",
+                permanent: true,
+            },
+        ];
     },
 };
 
