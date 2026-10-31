@@ -1,649 +1,524 @@
 "use client";
 
 import { MainLayout } from "@/components/layout/main-layout";
-import { profile } from "@/data/profile";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-    Download,
-    ArrowDownToLine,
-    Award,
-    Trophy,
-    Briefcase,
-    FolderGit2,
-    Code,
-    Terminal,
-    BookOpen,
-    GraduationCap,
-    Globe,
-    Languages,
-    Mail,
-    MailOpen,
-    Phone,
-    PhoneCall,
-    MapPin,
-    Navigation,
-    ExternalLink,
-    ArrowUpRight,
-    Sparkles,
-} from "lucide";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
-import Link from "next/link";
-import { useRef } from "react";
-import type { Project } from "@/types/project";
+import { profile } from "@/data/profile";
+import { resume, type Metric } from "@/data/resume";
+import { animate, motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, ExternalLink } from "lucide";
+import { Fragment, useEffect, useRef, useState } from "react";
+
+const mono = "font-[family-name:var(--font-roboto-mono)]";
+const EASE = [0.22, 1, 0.36, 1] as const;
+const CV_URL = "/DOHOANGVU_CV.pdf";
+
+const SECTIONS = [
+    { id: "experience", label: "Experience" },
+    { id: "projects", label: "Projects" },
+    { id: "research", label: "Research" },
+    { id: "skills", label: "Skills" },
+    { id: "education", label: "Education" },
+];
+
+/* ───────────────────────── reveal primitives ───────────────────────── */
+
+/**
+ * Text rises out of a clipped line box. Visibility is observed on the
+ * clipping wrapper: the shifted inner span is fully clipped, so observing it
+ * directly would never report an intersection.
+ */
+function Mask({
+    children,
+    delay = 0,
+    className = "",
+}: {
+    children: React.ReactNode;
+    delay?: number;
+    className?: string;
+}) {
+    const reduce = useReducedMotion();
+    const ref = useRef<HTMLSpanElement>(null);
+    const inView = useInView(ref, { once: true, margin: "0px 0px -8% 0px" });
+    return (
+        <span ref={ref} className={`block overflow-hidden pb-[0.08em] ${className}`}>
+            <motion.span
+                className="block"
+                initial={reduce ? false : { y: "110%" }}
+                animate={inView || reduce ? { y: 0 } : { y: "110%" }}
+                transition={{ duration: 0.9, ease: EASE, delay }}
+            >
+                {children}
+            </motion.span>
+        </span>
+    );
+}
+
+/** A hairline that draws itself left → right. */
+function Rule({ delay = 0, className = "" }: { delay?: number; className?: string }) {
+    const reduce = useReducedMotion();
+    return (
+        <motion.div
+            aria-hidden
+            className={`h-px origin-left bg-white/15 ${className}`}
+            initial={reduce ? false : { scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.1, ease: EASE, delay }}
+        />
+    );
+}
+
+/** Fade + slight blur-in for blocks of prose. */
+function Fade({
+    children,
+    delay = 0,
+    className = "",
+}: {
+    children: React.ReactNode;
+    delay?: number;
+    className?: string;
+}) {
+    const reduce = useReducedMotion();
+    return (
+        <motion.div
+            className={className}
+            initial={reduce ? false : { opacity: 0, y: 14, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+            transition={{ duration: 0.8, ease: EASE, delay }}
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+function Count({ m }: { m: Metric }) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
+    const reduce = useReducedMotion();
+    const [val, setVal] = useState(reduce ? m.value : 0);
+    const decimals = m.decimals ?? 0;
+
+    useEffect(() => {
+        if (!inView || reduce) return;
+        const controls = animate(0, m.value, { duration: 1.6, ease: EASE, onUpdate: setVal });
+        return () => controls.stop();
+    }, [inView, reduce, m.value]);
+
+    return (
+        <span ref={ref}>
+            {m.prefix}
+            {val.toLocaleString("en-US", {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals,
+            })}
+            {m.suffix}
+        </span>
+    );
+}
+
+function Metrics({ items }: { items: Metric[] }) {
+    if (!items.length) return null;
+    return (
+        <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-5">
+            {items.map((m) => (
+                <div key={m.label}>
+                    <dd className="text-3xl font-medium tabular-nums tracking-tight text-white">
+                        <Count m={m} />
+                    </dd>
+                    <dt className={`${mono} mt-1 text-[11px] uppercase tracking-widest text-gray-500`}>
+                        {m.label}
+                    </dt>
+                </div>
+            ))}
+        </dl>
+    );
+}
+
+/** Renders **bold** markers as emphasised figures. */
+function Rich({ text }: { text: string }) {
+    return (
+        <>
+            {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+                part.startsWith("**") ? (
+                    <strong key={i} className="font-semibold text-white">
+                        {part.slice(2, -2)}
+                    </strong>
+                ) : (
+                    <Fragment key={i}>{part}</Fragment>
+                ),
+            )}
+        </>
+    );
+}
+
+/* ───────────────────────── section chrome ───────────────────────── */
+
+function SectionHead({ n, title }: { n: string; title: string }) {
+    return (
+        <header className="mb-10">
+            <div className="flex items-baseline gap-4 pb-4">
+                <span className={`${mono} text-xs text-primary-light`}>{n}</span>
+                <h2 className="block text-2xl font-medium tracking-tight text-white after:hidden md:text-3xl">
+                    <Mask>{title}</Mask>
+                </h2>
+            </div>
+            <Rule />
+        </header>
+    );
+}
+
+/** Left index: scroll-spy with a vertical track that fills as you read. */
+function Rail() {
+    const [active, setActive] = useState(SECTIONS[0].id);
+
+    useEffect(() => {
+        const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(
+            (e): e is HTMLElement => Boolean(e),
+        );
+        const io = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) setActive(e.target.id);
+                });
+            },
+            { rootMargin: "-35% 0px -60% 0px" },
+        );
+        els.forEach((el) => io.observe(el));
+        return () => io.disconnect();
+    }, []);
+
+    const idx = SECTIONS.findIndex((s) => s.id === active);
+
+    return (
+        <nav aria-label="Resume sections" className="sticky top-32 hidden lg:block">
+            <div className="relative pl-5">
+                <div className="absolute bottom-1 left-0 top-1 w-px bg-white/10" />
+                <motion.div
+                    className="absolute left-0 top-1 w-px bg-primary-light"
+                    animate={{ height: `calc(${((idx + 1) / SECTIONS.length) * 100}% - 4px)` }}
+                    transition={{ duration: 0.6, ease: EASE }}
+                />
+                <ul className="space-y-3">
+                    {SECTIONS.map((s, i) => (
+                        <li key={s.id}>
+                            <a
+                                href={`#${s.id}`}
+                                className={`${mono} flex gap-3 text-xs transition-colors duration-300 ${
+                                    active === s.id ? "text-white" : "text-gray-500 hover:text-gray-300"
+                                }`}
+                            >
+                                <span className={active === s.id ? "text-primary-light" : ""}>
+                                    {String(i + 1).padStart(2, "0")}
+                                </span>
+                                {s.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </nav>
+    );
+}
+
+function ViewCVButton({ className = "", tabIndex }: { className?: string; tabIndex?: number }) {
+    return (
+        <a
+            href={CV_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={tabIndex}
+            className={`group inline-flex items-center gap-3 bg-primary-light font-semibold text-gray-950 transition-shadow duration-300 hover:shadow-[0_0_0_6px_rgba(129,140,248,0.25)] ${className}`}
+        >
+            View CV
+            <MorphIconWrapper from={ExternalLink} to={ArrowUpRight} size={16} />
+        </a>
+    );
+}
+
+/** CV button that stays reachable once the masthead is scrolled past. */
+function FloatingCV() {
+    const [show, setShow] = useState(false);
+    useEffect(() => {
+        const onScroll = () => setShow(window.scrollY > 520);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    return (
+        <motion.div
+            className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 shadow-2xl"
+            initial={false}
+            animate={{ y: show ? 0 : 90, opacity: show ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            aria-hidden={!show}
+        >
+            <ViewCVButton className="px-6 py-3 text-sm" tabIndex={show ? 0 : -1} />
+        </motion.div>
+    );
+}
+
+/* ───────────────────────── page ───────────────────────── */
 
 export default function ResumePage() {
-    const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"],
-    });
-
-    const opacity = useTransform(
-        scrollYProgress,
-        [0, 0.2, 0.8, 1],
-        [0.3, 1, 1, 0.7],
-    );
-    const scale = useTransform(
-        scrollYProgress,
-        [0, 0.2, 0.8, 1],
-        [0.95, 1, 1, 0.98],
-    );
-    const featuredProjectSlugs = [
-        "hestia",
-        "meetrack",
-        "ready4rag",
-        "acaread",
-        "twinself",
-        "face-attendance",
+    const links: [string, string][] = [
+        ["Portfolio", profile.social.portfolio],
+        ["GitHub", profile.social.github],
+        ["LinkedIn", profile.social.linkedin],
     ];
-    const competitionSlugs = [
-        "viettel-ai-race-2025",
-        "aic24-competition",
-        "zalo-ai-challenge-2023",
-    ];
-
-    const isProject = (project: Project | undefined): project is Project =>
-        Boolean(project);
-
-    const featuredProjects = featuredProjectSlugs
-        .map((slug) =>
-            profile.projects.find((project) => project.slug === slug),
-        )
-        .filter(isProject);
-
-    const featuredCompetitions = competitionSlugs
-        .map((slug) =>
-            profile.projects.find((project) => project.slug === slug),
-        )
-        .filter(isProject);
 
     return (
         <MainLayout>
-            {/* Hero Section */}
-            <section className="min-h-[40vh] relative flex items-center justify-center overflow-hidden mb-12">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-primary opacity-10 rounded-full filter blur-3xl -z-10"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary opacity-10 rounded-full filter blur-3xl -z-10"></div>
+            <div className="mx-auto max-w-6xl [&_p]:mb-0 px-5 pb-32 pt-32 md:px-8 md:pt-40">
+                {/* ───────── masthead ───────── */}
+                <section className="mb-20 md:mb-24">
+                    <div className={`${mono} mb-8 text-xs uppercase tracking-[0.2em] text-gray-400`}>
+                        AI Engineer
+                    </div>
 
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                    className="container px-4 md:px-6 mx-auto text-center"
-                >
-                    <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                        Resume
+                    <h1 className="animate-none bg-none text-[clamp(3.4rem,13vw,10rem)] font-semibold leading-[0.9] tracking-[-0.04em] text-white [-webkit-text-fill-color:currentColor] after:hidden">
+                        <Mask>Do Hoang</Mask>
+                        <Mask delay={0.12}>
+                            <span className="text-gray-500">Vu</span>
+                            <span className="text-primary-light">.</span>
+                        </Mask>
                     </h1>
-                    <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-                        My experience, education, and professional skills
-                    </p>
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        <a
-                            href="/DOHOANGVU_CV.pdf"
-                            className="inline-flex items-center justify-center px-8 py-3 font-medium bg-gradient-to-r from-primary to-secondary text-white transition-all rounded-lg shadow-lg hover:shadow-primary-glow"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Download CV{" "}
-                            <MorphIconWrapper
-                                from={Download}
-                                to={ArrowDownToLine}
-                                className="ml-2"
-                                size={18}
-                            />
-                        </a>
-                    </motion.div>
-                </motion.div>
-            </section>
 
-            <div className="container px-4 md:px-6 mx-auto" ref={containerRef}>
-                <div className="max-w-5xl mx-auto">
-                    {/* Header Section */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="relative backdrop-blur-sm bg-gray-900/30 rounded-2xl overflow-hidden shadow-xl border border-gray-700/50 mb-16"
-                    >
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent"></div>
-                        <div className="p-8 md:p-10">
-                            <div className="flex flex-col md:flex-row gap-8">
-                                <div className="flex-grow">
-                                    <h2 className="text-3xl font-bold text-gray-100 mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                                        {profile.name}
-                                    </h2>
-                                    <h3 className="text-xl text-primary mb-6">
-                                        {profile.title}
-                                    </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-gray-300">
-                                        <div className="flex items-start gap-2">
-                                            <MorphIconWrapper
-                                                from={MapPin}
-                                                to={Navigation}
-                                                className="mt-1 text-primary"
-                                                size={16}
-                                            />
-                                            <div>
-                                                <p>
-                                                    {profile.location.address}
-                                                </p>
-                                                <p>
-                                                    {profile.location.city},{" "}
-                                                    {profile.location.district}
-                                                </p>
-                                                <p>
-                                                    {profile.location.country}
-                                                </p>
-                                            </div>
-                                        </div>
+                    <Fade delay={0.3} className="mt-14 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-20">
+                        <p className="text-xl leading-snug text-gray-200 md:text-2xl">{resume.objective}</p>
+                        <div>
+                            <ViewCVButton className="px-8 py-4 text-base" />
+                            <ul className={`${mono} mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm`}>
+                                {links.map(([label, href]) => (
+                                    <li key={label}>
+                                        <a
+                                            href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-gray-300 underline decoration-white/20 underline-offset-4 transition-colors hover:text-primary-light hover:decoration-primary-light"
+                                        >
+                                            {label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </Fade>
+                </section>
+
+                <div className="grid gap-16 lg:grid-cols-[150px_1fr]">
+                    <Rail />
+
+                    <div className="min-w-0 space-y-20 md:space-y-24">
+                        {/* ───────── experience ───────── */}
+                        <section id="experience" className="scroll-mt-32">
+                            <SectionHead n="01" title="Experience" />
+                            <div className="space-y-20">
+                                {resume.experience.map((e) => (
+                                    <article key={e.id} className="grid gap-6 md:grid-cols-[170px_1fr] md:gap-10">
+                                        <Fade>
+                                            <p className={`${mono} text-xs leading-relaxed text-gray-400`}>{e.period}</p>
+                                        </Fade>
                                         <div>
-                                            <p className="flex items-center gap-2 mb-2">
-                                                <MorphIconWrapper
-                                                    from={Mail}
-                                                    to={MailOpen}
-                                                    className="text-primary"
-                                                    size={16}
-                                                />
-                                                <a
-                                                    href={`mailto:${profile.email}`}
-                                                    className="hover:text-primary transition-colors"
-                                                >
-                                                    {profile.email}
-                                                </a>
+                                            <h3 className="text-xl text-white md:text-2xl">
+                                                <Mask>{e.org}</Mask>
+                                            </h3>
+                                            <p className="mt-1 text-gray-400">
+                                                <Mask delay={0.08}>{e.role}</Mask>
                                             </p>
-                                            <p className="flex items-center gap-2">
-                                                <MorphIconWrapper
-                                                    from={Phone}
-                                                    to={PhoneCall}
-                                                    className="text-primary"
-                                                    size={16}
-                                                />
-                                                <a
-                                                    href={`tel:${profile.phone}`}
-                                                    className="hover:text-primary transition-colors"
-                                                >
-                                                    {profile.phone}
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Content Sections */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                        {/* Left Column */}
-                        <div className="md:col-span-1 space-y-8">
-                            {/* Education Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-light"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={BookOpen}
-                                            to={GraduationCap}
-                                            className="text-primary"
-                                            size={20}
-                                        />
-                                        <span>Education</span>
-                                    </h3>
-
-                                    <div className="space-y-4">
-                                        <div className="relative pl-8 pb-5 border-l-2 border-gray-700">
-                                            <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-primary shadow-primary-glow"></div>
-                                            <h4 className="text-lg font-semibold text-gray-100">
-                                                {profile.education.university}
-                                            </h4>
-                                            <p className="text-primary mb-1">
-                                                {profile.education.degree}
-                                            </p>
-                                            <p className="text-gray-300 text-sm">
-                                                Expected graduation:{" "}
-                                                {profile.education.graduation}
-                                            </p>
-                                            <p className="text-gray-300 text-sm">
-                                                GPA: {profile.education.gpa}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Certifications Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-secondary-light"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Award}
-                                            to={Trophy}
-                                            className="text-secondary"
-                                            size={20}
-                                        />
-                                        <span>Certifications</span>
-                                    </h3>
-
-                                    <div className="space-y-5">
-                                        {profile.certifications.map(
-                                            (cert, index) => (
-                                                <motion.div
-                                                    key={index}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        x: -20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        x: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.5,
-                                                        delay: index * 0.1,
-                                                    }}
-                                                    className="relative pl-8 pb-5 border-l-2 border-gray-700 last:pb-0"
-                                                >
-                                                    <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-secondary shadow-secondary-glow"></div>
-                                                    <h4 className="text-base font-semibold text-gray-100 mb-1">
-                                                        {cert.title}
-                                                    </h4>
-                                                    <p className="text-gray-300 text-sm">
-                                                        {cert.issuer}
-                                                    </p>
-                                                </motion.div>
-                                            ),
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Languages Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-accent-light"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Globe}
-                                            to={Languages}
-                                            className="text-accent"
-                                            size={20}
-                                        />
-                                        <span>Languages</span>
-                                    </h3>
-
-                                    <div className="space-y-5">
-                                        {profile.skills.languages.map(
-                                            (lang, index) => (
-                                                <motion.div
-                                                    key={lang.language}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: 10,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.5,
-                                                        delay: index * 0.1,
-                                                    }}
-                                                >
-                                                    <div className="flex justify-between mb-2">
-                                                        <span className="font-medium text-gray-200">
-                                                            {lang.language}
-                                                        </span>
-                                                        <span className="text-accent">
-                                                            {lang.level}
-                                                        </span>
-                                                    </div>
-                                                    <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
-                                                        <motion.div
-                                                            className="h-full bg-gradient-to-r from-accent to-accent-light"
-                                                            initial={{
-                                                                width: 0,
-                                                            }}
-                                                            whileInView={{
-                                                                width: `${
-                                                                    lang.proficiency ??
-                                                                    (lang.level ===
-                                                                    "Native"
-                                                                        ? 100
-                                                                        : lang.level ===
-                                                                            "Fluent"
-                                                                          ? 90
-                                                                          : lang.level ===
-                                                                              "Advanced"
-                                                                            ? 80
-                                                                            : lang.level ===
-                                                                                "Intermediate"
-                                                                              ? 60
-                                                                              : 40)
-                                                                }%`,
-                                                            }}
-                                                            viewport={{
-                                                                once: true,
-                                                            }}
-                                                            transition={{
-                                                                duration: 1,
-                                                                delay: 0.2,
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </motion.div>
-                                            ),
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </div>
-
-                        {/* Right Column (main content) */}
-                        <div className="md:col-span-2 space-y-8">
-                            {/* Projects Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Briefcase}
-                                            to={FolderGit2}
-                                            className="text-primary"
-                                            size={20}
-                                        />
-                                        <span>Selected Projects</span>
-                                    </h3>
-
-                                    <div className="space-y-5">
-                                        {featuredProjects.map(
-                                            (project, index) => (
-                                                <motion.div
-                                                    key={project.title}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: 20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.5,
-                                                        delay: index * 0.1,
-                                                    }}
-                                                    className="relative pl-6 pb-5 border-l border-gray-700/70 last:pb-0"
-                                                >
-                                                    <div className="absolute left-[-6px] top-1.5 w-3 h-3 rounded-full bg-gradient-to-br from-primary to-secondary shadow-xl"></div>
-                                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                                                        <div>
-                                                            <h4 className="text-base font-semibold text-gray-100 leading-snug">
-                                                                {project.title}
-                                                            </h4>
-                                                            <p className="text-xs text-primary mt-1">
-                                                                {project.projectType?.replace(
-                                                                    "-",
-                                                                    " ",
-                                                                )}{" "}
-                                                                {project.startDate ||
-                                                                project.endDate
-                                                                    ? `• ${project.startDate ?? "—"}${project.endDate ? ` → ${project.endDate}` : ""}`
-                                                                    : ""}
-                                                                {project.role
-                                                                    ? ` • ${project.role}`
-                                                                    : ""}
-                                                            </p>
-                                                        </div>
-                                                        {project.githubUrl && (
-                                                            <Link
-                                                                href={
-                                                                    project.githubUrl
-                                                                }
-                                                                target="_blank"
-                                                                className="inline-flex items-center gap-1 text-xs text-gray-300 hover:text-primary transition-colors"
-                                                            >
-                                                                Repository
-                                                                <MorphIconWrapper
-                                                                    from={
-                                                                        ExternalLink
-                                                                    }
-                                                                    to={
-                                                                        ArrowUpRight
-                                                                    }
-                                                                    size={12}
-                                                                />
-                                                            </Link>
-                                                        )}
-                                                    </div>
-                                                    <p className="mt-3 text-sm leading-6 text-gray-300">
-                                                        {project.description}
-                                                    </p>
-                                                </motion.div>
-                                            ),
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Competitions Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-accent"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Award}
-                                            to={Trophy}
-                                            className="text-secondary"
-                                            size={20}
-                                        />
-                                        <span>Competitions</span>
-                                    </h3>
-
-                                    <ul className="space-y-4">
-                                        {featuredCompetitions.map(
-                                            (project, index) => (
-                                                <motion.li
-                                                    key={project.title}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: 20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.45,
-                                                        delay: index * 0.08,
-                                                    }}
-                                                    className="rounded-lg border border-gray-700/40 bg-gray-900/20 p-4"
-                                                >
-                                                    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                                                        <div>
-                                                            <h4 className="text-sm font-semibold text-gray-100">
-                                                                {project.title}
-                                                            </h4>
-                                                            <p className="text-xs text-secondary mt-1">
-                                                                {project.achievement ||
-                                                                    project.role ||
-                                                                    project.type}
-                                                            </p>
-                                                        </div>
-                                                        {(project.startDate ||
-                                                            project.endDate) && (
-                                                            <span className="text-xs text-gray-400">
-                                                                {project.startDate ??
-                                                                    "—"}
-                                                                {project.endDate
-                                                                    ? ` → ${project.endDate}`
-                                                                    : ""}
+                                            <Fade delay={0.12}>
+                                                <Metrics items={e.metrics} />
+                                            </Fade>
+                                            <ol className="mt-8 border-t border-white/10">
+                                                {e.points.map((p, i) => (
+                                                    <li key={i} className="border-b border-white/10 py-4">
+                                                        <Fade delay={i * 0.08} className="grid grid-cols-[2rem_1fr]">
+                                                            <span className={`${mono} pt-1 text-[11px] text-gray-600`}>
+                                                                {String(i + 1).padStart(2, "0")}
                                                             </span>
-                                                        )}
-                                                    </div>
-                                                    <p className="mt-2 text-sm leading-6 text-gray-300">
-                                                        {project.description}
-                                                    </p>
-                                                </motion.li>
-                                            ),
-                                        )}
-                                    </ul>
-                                </div>
-                            </motion.div>
+                                                            <p className="leading-relaxed text-gray-300">
+                                                                <Rich text={p} />
+                                                            </p>
+                                                        </Fade>
+                                                    </li>
+                                                ))}
+                                            </ol>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
 
-                            {/* Technical Skills Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Code}
-                                            to={Terminal}
-                                            className="text-accent"
-                                            size={20}
-                                        />
-                                        <span>Technical Skills</span>
-                                    </h3>
-
-                                    <div className="space-y-6">
-                                        {profile.skills.technical.map(
-                                            (skillGroup, index) => (
-                                                <motion.div
-                                                    key={skillGroup.category}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: 20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.5,
-                                                        delay: index * 0.1,
-                                                    }}
-                                                >
-                                                    <h4 className="text-base font-semibold text-gray-100 mb-3 flex items-center">
-                                                        <span className="w-2 h-2 bg-accent rounded-full mr-2"></span>
-                                                        {skillGroup.category}
-                                                    </h4>
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                        {skillGroup.items.map(
-                                                            (skill, i) => (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-start gap-2 text-gray-300 text-sm leading-relaxed"
-                                                                >
-                                                                    <span className="text-accent mt-0.5">
-                                                                        •
-                                                                    </span>
-                                                                    {skill}
-                                                                </div>
-                                                            ),
-                                                        )}
-                                                    </div>
-                                                </motion.div>
-                                            ),
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Soft Skills Section */}
-                            <motion.div
-                                style={{ opacity, scale }}
-                                className="relative backdrop-blur-sm bg-gray-900/30 rounded-xl overflow-hidden shadow-lg border border-gray-700/50"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 mb-6">
-                                        <MorphIconWrapper
-                                            from={Briefcase}
-                                            to={Sparkles}
-                                            className="text-primary"
-                                            size={20}
-                                        />
-                                        <span>Soft Skills</span>
-                                    </h3>
-
-                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        {profile.skills.soft.map((skill, i) => (
-                                            <motion.li
-                                                key={i}
-                                                initial={{
-                                                    opacity: 0,
-                                                    y: 16,
-                                                }}
-                                                whileInView={{
-                                                    opacity: 1,
-                                                    y: 0,
-                                                }}
-                                                viewport={{
-                                                    once: true,
-                                                }}
-                                                transition={{
-                                                    duration: 0.4,
-                                                    delay: i * 0.05,
-                                                }}
-                                                className="flex items-start rounded-lg border border-gray-700/40 bg-gray-900/20 p-3 text-sm leading-relaxed text-gray-300"
-                                            >
-                                                <span className="text-primary mr-2 mt-0.5">
-                                                    •
+                        {/* ───────── projects ───────── */}
+                        <section id="projects" className="scroll-mt-32">
+                            <SectionHead n="02" title="Projects" />
+                            <div className="space-y-6">
+                                {resume.projects.map((p, i) => (
+                                    <Fade key={p.id}>
+                                        <article className="border border-white/10 bg-white/[0.02] transition-colors duration-300 hover:border-white/25">
+                                            <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-6 py-3 md:px-8">
+                                                <span className={`${mono} text-xs text-primary-light`}>
+                                                    Project {String(i + 1).padStart(2, "0")}
                                                 </span>
-                                                <span>{skill}</span>
-                                            </motion.li>
+                                                <span className={`${mono} text-xs text-gray-400`}>{p.period}</span>
+                                            </header>
+                                            <div className="grid gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:gap-10 md:px-8">
+                                                <div>
+                                                    <h3 className="text-2xl text-white md:text-3xl">
+                                                        <Mask>{p.name}</Mask>
+                                                    </h3>
+                                                    <p className="mt-1 text-gray-400">{p.subtitle}</p>
+                                                    <p className={`${mono} mt-3 text-xs text-gray-500`}>
+                                                        {p.kind} · {p.role}
+                                                    </p>
+                                                    <p className="mt-5 max-w-2xl leading-relaxed text-gray-300">{p.text}</p>
+                                                    <Metrics items={p.metrics} />
+                                                </div>
+                                                <a
+                                                    href={p.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="group inline-flex items-center gap-2 self-start border border-white/20 px-4 py-2 text-sm text-gray-200 transition-colors hover:border-primary-light hover:text-primary-light"
+                                                >
+                                                    GitHub
+                                                    <MorphIconWrapper from={ExternalLink} to={ArrowUpRight} size={14} />
+                                                </a>
+                                            </div>
+                                        </article>
+                                    </Fade>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* ───────── research ───────── */}
+                        <section id="research" className="scroll-mt-32">
+                            <SectionHead n="03" title="Research & Competitions" />
+                            <div className="grid gap-14 md:grid-cols-2">
+                                <div>
+                                    <div className={`${mono} mb-4 text-[11px] uppercase tracking-widest text-gray-500`}>
+                                        Research Papers
+                                    </div>
+                                    <ul className="border-t border-white/10">
+                                        {resume.papers.map((p, i) => (
+                                            <li key={p.name} className="border-b border-white/10">
+                                                <Fade delay={i * 0.1}>
+                                                    <a
+                                                        href={p.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="group flex items-baseline justify-between gap-4 py-4"
+                                                    >
+                                                        <span>
+                                                            <span className="text-xl text-white">{p.name}</span>
+                                                            <span className="ml-3 text-sm text-gray-400">{p.role}</span>
+                                                        </span>
+                                                        <span className={`${mono} text-xs text-gray-500 transition-colors group-hover:text-primary-light`}>
+                                                            {p.venue} ↗
+                                                        </span>
+                                                    </a>
+                                                </Fade>
+                                            </li>
                                         ))}
                                     </ul>
                                 </div>
-                            </motion.div>
-                        </div>
+                                <div>
+                                    <div className={`${mono} mb-4 text-[11px] uppercase tracking-widest text-gray-500`}>
+                                        Competitions
+                                    </div>
+                                    <ul className="border-t border-white/10">
+                                        {resume.competitions.map((c, i) => (
+                                            <li key={c} className="border-b border-white/10 py-4 text-xl text-white">
+                                                <Mask delay={i * 0.08}>{c}</Mask>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* ───────── skills ───────── */}
+                        <section id="skills" className="scroll-mt-32">
+                            <SectionHead n="04" title="Skills" />
+                            <dl className="border-t border-white/10">
+                                {resume.skills.map((s, i) => (
+                                    <Fade key={s.group} delay={i * 0.05}>
+                                        <div className="grid gap-2 border-b border-white/10 py-5 md:grid-cols-[170px_1fr] md:gap-10">
+                                            <dt className={`${mono} text-xs text-gray-500`}>{s.group}</dt>
+                                            <dd className="leading-relaxed text-gray-200">
+                                                {s.items.map((it, j) => (
+                                                    <Fragment key={it}>
+                                                        {j > 0 && <span className="mx-2 text-gray-700">/</span>}
+                                                        {it}
+                                                    </Fragment>
+                                                ))}
+                                            </dd>
+                                        </div>
+                                    </Fade>
+                                ))}
+                            </dl>
+
+                            <div className="mt-10 grid gap-10 md:grid-cols-3">
+                                <Fade>
+                                    <div className={`${mono} mb-3 text-[11px] uppercase tracking-widest text-gray-500`}>
+                                        Areas of Interest
+                                    </div>
+                                    <ul className="space-y-1.5 text-gray-200">
+                                        {resume.interests.map((s) => (
+                                            <li key={s}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </Fade>
+                                <Fade delay={0.08}>
+                                    <div className={`${mono} mb-3 text-[11px] uppercase tracking-widest text-gray-500`}>
+                                        Soft Skills
+                                    </div>
+                                    <ul className="space-y-1.5 text-gray-300">
+                                        {resume.softSkills.map((s) => (
+                                            <li key={s}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </Fade>
+                                <Fade delay={0.16}>
+                                    <div className={`${mono} mb-3 text-[11px] uppercase tracking-widest text-gray-500`}>
+                                        Languages
+                                    </div>
+                                    <ul className="space-y-1.5 text-gray-200">
+                                        {resume.languages.map((l) => (
+                                            <li key={l.name}>
+                                                {l.name} <span className="text-gray-500">· {l.level}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </Fade>
+                            </div>
+                        </section>
+
+                        {/* ───────── education ───────── */}
+                        <section id="education" className="scroll-mt-32">
+                            <SectionHead n="05" title="Education" />
+                            <div className="grid gap-4 md:grid-cols-[170px_1fr_auto] md:items-baseline md:gap-10">
+                                <Fade>
+                                    <p className={`${mono} text-xs text-gray-400`}>{resume.education.graduation}</p>
+                                </Fade>
+                                <div>
+                                    <h3 className="text-xl text-white md:text-2xl">
+                                        <Mask>{resume.education.school}</Mask>
+                                    </h3>
+                                    <p className="mt-1 text-gray-400">
+                                        <Mask delay={0.08}>{resume.education.degree}</Mask>
+                                    </p>
+                                </div>
+                                <Fade delay={0.15} className="flex items-baseline gap-3 md:block md:text-right">
+                                    <p className={`${mono} text-[11px] uppercase tracking-widest text-gray-500`}>GPA</p>
+                                    <p className="text-3xl font-medium tabular-nums text-white">{resume.education.gpa}</p>
+                                </Fade>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
+            <FloatingCV />
         </MainLayout>
     );
 }
