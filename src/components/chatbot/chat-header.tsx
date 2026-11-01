@@ -32,7 +32,7 @@ export function ChatHeader({
                     <div className="relative">
                         <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg">
                             <Image
-                                src="/images/profile/twinself.png"
+                                src="/images/profile/twinself.webp"
                                 alt="AI Assistant Avatar"
                                 width={44}
                                 height={44}

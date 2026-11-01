@@ -23,7 +23,7 @@ import {
     GitBranch,
     Share2,
 } from "lucide";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/ui/brand-icons";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import Link from "next/link";
 import { useState } from "react";
@@ -135,6 +135,21 @@ export default function ContactPage() {
         {
             icon: (
                 <MorphIconWrapper
+                    from={TelegramIcon}
+                    to={Send}
+                    className="text-primary"
+                    size={24}
+                />
+            ),
+            title: "Telegram",
+            value: "@hoangvunt1806",
+            link: profile.social.telegram,
+            bgColor: "bg-primary/20 shadow-primary-glow",
+            delay: 0.4,
+        },
+        {
+            icon: (
+                <MorphIconWrapper
                     from={MapPin}
                     to={Navigation}
                     className="text-accent"
@@ -144,7 +159,7 @@ export default function ContactPage() {
             title: "Address",
             value: `${profile.location.address}, ${profile.location.district}, ${profile.location.city}, ${profile.location.country}`,
             bgColor: "bg-accent/20 shadow-accent-glow",
-            delay: 0.4,
+            delay: 0.5,
         },
     ];
 
@@ -222,6 +237,10 @@ export default function ContactPage() {
                                                         {item.link ? (
                                                             <a
                                                                 href={item.link}
+                                                                {...(item.link.startsWith("http") && {
+                                                                    target: "_blank",
+                                                                    rel: "noopener noreferrer",
+                                                                })}
                                                                 className="text-gray-300 hover:text-primary transition-colors"
                                                             >
                                                                 {item.value}
@@ -293,6 +312,34 @@ export default function ContactPage() {
                                                         <MorphIconWrapper
                                                             from={LinkedinIcon}
                                                             to={Share2}
+                                                            size={32}
+                                                        />
+                                                    </Link>
+                                                </motion.div>
+                                                <motion.div
+                                                    whileHover={{
+                                                        scale: 1.2,
+                                                        y: -3,
+                                                    }}
+                                                    transition={{
+                                                        type: "spring",
+                                                        stiffness: 400,
+                                                        damping: 10,
+                                                    }}
+                                                >
+                                                    <Link
+                                                        href={
+                                                            profile.social
+                                                                .telegram
+                                                        }
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-gray-400 hover:text-primary transition-colors duration-300"
+                                                        aria-label="Telegram"
+                                                    >
+                                                        <MorphIconWrapper
+                                                            from={TelegramIcon}
+                                                            to={Send}
                                                             size={32}
                                                         />
                                                     </Link>

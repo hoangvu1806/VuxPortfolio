@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import { ChatMessage } from "./chat-message";
 import { ChatInput } from "./chat-input";
@@ -35,6 +36,8 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
     } = useChatbotContext();
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [isDragLocked, setIsDragLocked] = useState(false);
+    // The NFC page has its own TwinSelf entry and a bottom-pinned save button.
+    const hideTrigger = usePathname() === "/information";
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -56,7 +59,7 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
         <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
             {/* Chat Toggle Button */}
             <AnimatePresence>
-                {!isOpen && (
+                {!isOpen && !hideTrigger && (
                     <motion.button
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
@@ -67,7 +70,7 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                         className="relative w-14 h-14 rounded-full shadow-2xl hover:shadow-primary/25 transition-all duration-300 overflow-hidden border-3 border-primary/30"
                     >
                         <Image
-                            src="/images/profile/twinself.png"
+                            src="/images/profile/twinself.webp"
                             alt="Open Chat"
                             width={56}
                             height={56}
@@ -147,7 +150,7 @@ export function ChatbotPopup({ className = "" }: ChatbotPopupProps) {
                                 >
                                     <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-primary/30">
                                         <Image
-                                            src="/images/profile/twinself.png"
+                                            src="/images/profile/twinself.webp"
                                             alt="AI Assistant"
                                             width={28}
                                             height={28}

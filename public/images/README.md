@@ -16,8 +16,8 @@ images/
 │   │   └── results.jpg        # Results/output images
 │   └── ...
 ├── profile/            # Personal profile images
-│   ├── avatar.jpg             # Profile avatar (400x400)
-│   ├── profile.jpg            # Full profile image (800x600)
+│   ├── avatar.webp            # Profile avatar
+│   ├── profile.webp           # Full profile image (profile.jpg: link previews only)
 │   ├── hero-bg.jpg            # Hero section background
 │   └── about-bg.jpg           # About page background
 ├── tech/               # Technology-related images

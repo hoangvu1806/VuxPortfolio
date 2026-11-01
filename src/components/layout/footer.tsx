@@ -22,8 +22,9 @@ import {
     Navigation,
     Phone,
     PhoneCall,
+    Send,
 } from "lucide";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/ui/brand-icons";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
 import { profile } from "@/data/profile";
 import { ImagePaths } from "@/utils/image-paths";
@@ -104,6 +105,20 @@ export function Footer() {
                                 <MorphIconWrapper
                                     from={LinkedinIcon}
                                     to={Share2}
+                                    trigger="hover"
+                                    size={18}
+                                />
+                            </Link>
+                            <Link
+                                href={profile.social.telegram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 shadow-md text-gray-400 hover:text-primary transition-colors group"
+                                aria-label="Telegram"
+                            >
+                                <MorphIconWrapper
+                                    from={TelegramIcon}
+                                    to={Send}
                                     trigger="hover"
                                     size={18}
                                 />
@@ -247,6 +262,23 @@ export function Footer() {
                                     className="text-primary"
                                 />
                                 <span>{profile.phone}</span>
+                            </li>
+                            <li className="text-gray-200 flex items-center gap-2 drop-shadow-sm group">
+                                <MorphIconWrapper
+                                    from={TelegramIcon}
+                                    to={Send}
+                                    trigger="hover"
+                                    size={18}
+                                    className="text-primary"
+                                />
+                                <Link
+                                    href={profile.social.telegram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-primary transition-colors"
+                                >
+                                    @hoangvunt1806
+                                </Link>
                             </li>
                         </ul>
                     </div>

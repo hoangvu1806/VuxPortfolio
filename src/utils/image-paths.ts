@@ -15,8 +15,8 @@ export const ImagePaths = {
 
     // Profile images
     profile: {
-        avatar: "/images/profile/avatar.jpg",
-        profile: "/images/profile/profile.jpg",
+        avatar: "/images/profile/avatar.webp",
+        profile: "/images/profile/profile.webp",
         heroBg: "/images/profile/hero-bg.jpg",
         aboutBg: "/images/profile/about-bg.jpg",
     },

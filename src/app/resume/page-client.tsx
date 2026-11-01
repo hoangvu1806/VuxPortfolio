@@ -1,7 +1,9 @@
 "use client";
 
 import { MainLayout } from "@/components/layout/main-layout";
+import { KeycapButton } from "@/components/ui/keycap-button";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
+import { TextMorph } from "@/components/ui/text-morph";
 import { profile } from "@/data/profile";
 import { resume, type Metric } from "@/data/resume";
 import { animate, motion, useInView, useReducedMotion } from "framer-motion";
@@ -13,10 +15,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const CV_URL = "/DOHOANGVU_CV.pdf";
 
 const SECTIONS = [
-    { id: "experience", label: "Experience" },
     { id: "projects", label: "Projects" },
     { id: "research", label: "Research" },
     { id: "skills", label: "Skills" },
+    { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
 ];
 
@@ -158,7 +160,7 @@ function SectionHead({ n, title }: { n: string; title: string }) {
     return (
         <header className="mb-10">
             <div className="flex items-baseline gap-4 pb-4">
-                <span className={`${mono} text-xs text-primary-light`}>{n}</span>
+                <span className={`${mono} text-xs text-[color:var(--primary-light)]`}>{n}</span>
                 <h2 className="block text-2xl font-medium tracking-tight text-white after:hidden md:text-3xl">
                     <Mask>{title}</Mask>
                 </h2>
@@ -195,7 +197,7 @@ function Rail() {
             <div className="relative pl-5">
                 <div className="absolute bottom-1 left-0 top-1 w-px bg-white/10" />
                 <motion.div
-                    className="absolute left-0 top-1 w-px bg-primary-light"
+                    className="absolute left-0 top-1 w-px bg-[color:var(--primary-light)]"
                     animate={{ height: `calc(${((idx + 1) / SECTIONS.length) * 100}% - 4px)` }}
                     transition={{ duration: 0.6, ease: EASE }}
                 />
@@ -208,7 +210,7 @@ function Rail() {
                                     active === s.id ? "text-white" : "text-gray-500 hover:text-gray-300"
                                 }`}
                             >
-                                <span className={active === s.id ? "text-primary-light" : ""}>
+                                <span className={active === s.id ? "text-[color:var(--primary-light)]" : ""}>
                                     {String(i + 1).padStart(2, "0")}
                                 </span>
                                 {s.label}
@@ -221,51 +223,13 @@ function Rail() {
     );
 }
 
-function ViewCVButton({ className = "", tabIndex }: { className?: string; tabIndex?: number }) {
-    return (
-        <a
-            href={CV_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            tabIndex={tabIndex}
-            className={`group inline-flex items-center gap-3 bg-primary-light font-semibold text-gray-950 transition-shadow duration-300 hover:shadow-[0_0_0_6px_rgba(129,140,248,0.25)] ${className}`}
-        >
-            View CV
-            <MorphIconWrapper from={ExternalLink} to={ArrowUpRight} size={16} />
-        </a>
-    );
-}
-
-/** CV button that stays reachable once the masthead is scrolled past. */
-function FloatingCV() {
-    const [show, setShow] = useState(false);
-    useEffect(() => {
-        const onScroll = () => setShow(window.scrollY > 520);
-        onScroll();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
-
-    return (
-        <motion.div
-            className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 shadow-2xl"
-            initial={false}
-            animate={{ y: show ? 0 : 90, opacity: show ? 1 : 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
-            aria-hidden={!show}
-        >
-            <ViewCVButton className="px-6 py-3 text-sm" tabIndex={show ? 0 : -1} />
-        </motion.div>
-    );
-}
-
 /* ───────────────────────── page ───────────────────────── */
 
 export default function ResumePage() {
     const links: [string, string][] = [
-        ["Portfolio", profile.social.portfolio],
         ["GitHub", profile.social.github],
         ["LinkedIn", profile.social.linkedin],
+        ["Telegram", profile.social.telegram],
     ];
 
     return (
@@ -273,30 +237,34 @@ export default function ResumePage() {
             <div className="mx-auto max-w-6xl [&_p]:mb-0 px-5 pb-32 pt-32 md:px-8 md:pt-40">
                 {/* ───────── masthead ───────── */}
                 <section className="mb-20 md:mb-24">
-                    <div className={`${mono} mb-8 text-xs uppercase tracking-[0.2em] text-gray-400`}>
-                        AI Engineer
-                    </div>
-
-                    <h1 className="animate-none bg-none text-[clamp(3.4rem,13vw,10rem)] font-semibold leading-[0.9] tracking-[-0.04em] text-white [-webkit-text-fill-color:currentColor] after:hidden">
-                        <Mask>Do Hoang</Mask>
-                        <Mask delay={0.12}>
-                            <span className="text-gray-500">Vu</span>
-                            <span className="text-primary-light">.</span>
-                        </Mask>
+                    {/* Inline: the global h1 rule outranks utilities, and its background-clip gradient would paint hidden words. */}
+                    <h1
+                        aria-label="Do Hoang Vu, AI Engineer"
+                        className="text-center font-semibold after:hidden"
+                        style={{
+                            fontSize: "clamp(2.2rem, 10.5vw, 7.5rem)",
+                            letterSpacing: "-0.04em",
+                            background: "none",
+                            animation: "none",
+                            color: "#fff",
+                            WebkitTextFillColor: "currentColor",
+                        }}
+                    >
+                        <TextMorph words={["Do Hoang Vu", "AI ENGINEER"]} />
                     </h1>
 
-                    <Fade delay={0.3} className="mt-14 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-20">
+                    <Fade delay={0.3} className="mx-auto mt-14 flex max-w-3xl flex-col items-center gap-10 text-center">
                         <p className="text-xl leading-snug text-gray-200 md:text-2xl">{resume.objective}</p>
-                        <div>
-                            <ViewCVButton className="px-8 py-4 text-base" />
-                            <ul className={`${mono} mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm`}>
+                        <div className="flex flex-col items-center">
+                            <KeycapButton label="View CV" href={CV_URL} />
+                            <ul className={`${mono} mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm`}>
                                 {links.map(([label, href]) => (
                                     <li key={label}>
                                         <a
                                             href={href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-gray-300 underline decoration-white/20 underline-offset-4 transition-colors hover:text-primary-light hover:decoration-primary-light"
+                                            className="text-gray-300 underline decoration-white/20 underline-offset-4 transition-colors hover:text-[color:var(--primary-light)] hover:decoration-[color:var(--primary-light)]"
                                         >
                                             {label}
                                         </a>
@@ -311,59 +279,20 @@ export default function ResumePage() {
                     <Rail />
 
                     <div className="min-w-0 space-y-20 md:space-y-24">
-                        {/* ───────── experience ───────── */}
-                        <section id="experience" className="scroll-mt-32">
-                            <SectionHead n="01" title="Experience" />
-                            <div className="space-y-20">
-                                {resume.experience.map((e) => (
-                                    <article key={e.id} className="grid gap-6 md:grid-cols-[170px_1fr] md:gap-10">
-                                        <Fade>
-                                            <p className={`${mono} text-xs leading-relaxed text-gray-400`}>{e.period}</p>
-                                        </Fade>
-                                        <div>
-                                            <h3 className="text-xl text-white md:text-2xl">
-                                                <Mask>{e.org}</Mask>
-                                            </h3>
-                                            <p className="mt-1 text-gray-400">
-                                                <Mask delay={0.08}>{e.role}</Mask>
-                                            </p>
-                                            <Fade delay={0.12}>
-                                                <Metrics items={e.metrics} />
-                                            </Fade>
-                                            <ol className="mt-8 border-t border-white/10">
-                                                {e.points.map((p, i) => (
-                                                    <li key={i} className="border-b border-white/10 py-4">
-                                                        <Fade delay={i * 0.08} className="grid grid-cols-[2rem_1fr]">
-                                                            <span className={`${mono} pt-1 text-[11px] text-gray-600`}>
-                                                                {String(i + 1).padStart(2, "0")}
-                                                            </span>
-                                                            <p className="leading-relaxed text-gray-300">
-                                                                <Rich text={p} />
-                                                            </p>
-                                                        </Fade>
-                                                    </li>
-                                                ))}
-                                            </ol>
-                                        </div>
-                                    </article>
-                                ))}
-                            </div>
-                        </section>
-
                         {/* ───────── projects ───────── */}
                         <section id="projects" className="scroll-mt-32">
-                            <SectionHead n="02" title="Projects" />
+                            <SectionHead n="01" title="Projects" />
                             <div className="space-y-6">
                                 {resume.projects.map((p, i) => (
                                     <Fade key={p.id}>
                                         <article className="border border-white/10 bg-white/[0.02] transition-colors duration-300 hover:border-white/25">
                                             <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-6 py-3 md:px-8">
-                                                <span className={`${mono} text-xs text-primary-light`}>
+                                                <span className={`${mono} text-xs text-[color:var(--primary-light)]`}>
                                                     Project {String(i + 1).padStart(2, "0")}
                                                 </span>
                                                 <span className={`${mono} text-xs text-gray-400`}>{p.period}</span>
                                             </header>
-                                            <div className="grid gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:gap-10 md:px-8">
+                                            <div className="grid gap-6 px-[1.5rem] py-7 md:grid-cols-[1fr_auto] md:gap-10 md:px-8">
                                                 <div>
                                                     <h3 className="text-2xl text-white md:text-3xl">
                                                         <Mask>{p.name}</Mask>
@@ -379,7 +308,7 @@ export default function ResumePage() {
                                                     href={p.url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="group inline-flex items-center gap-2 self-start border border-white/20 px-4 py-2 text-sm text-gray-200 transition-colors hover:border-primary-light hover:text-primary-light"
+                                                    className="group inline-flex items-center gap-2 self-start border border-white/20 px-4 py-2 text-sm text-gray-200 transition-colors hover:border-[color:var(--primary-light)] hover:text-[color:var(--primary-light)]"
                                                 >
                                                     GitHub
                                                     <MorphIconWrapper from={ExternalLink} to={ArrowUpRight} size={14} />
@@ -393,7 +322,7 @@ export default function ResumePage() {
 
                         {/* ───────── research ───────── */}
                         <section id="research" className="scroll-mt-32">
-                            <SectionHead n="03" title="Research & Competitions" />
+                            <SectionHead n="02" title="Research & Competitions" />
                             <div className="grid gap-14 md:grid-cols-2">
                                 <div>
                                     <div className={`${mono} mb-4 text-[11px] uppercase tracking-widest text-gray-500`}>
@@ -413,7 +342,7 @@ export default function ResumePage() {
                                                             <span className="text-xl text-white">{p.name}</span>
                                                             <span className="ml-3 text-sm text-gray-400">{p.role}</span>
                                                         </span>
-                                                        <span className={`${mono} text-xs text-gray-500 transition-colors group-hover:text-primary-light`}>
+                                                        <span className={`${mono} text-xs text-gray-500 transition-colors group-hover:text-[color:var(--primary-light)]`}>
                                                             {p.venue} ↗
                                                         </span>
                                                     </a>
@@ -439,7 +368,7 @@ export default function ResumePage() {
 
                         {/* ───────── skills ───────── */}
                         <section id="skills" className="scroll-mt-32">
-                            <SectionHead n="04" title="Skills" />
+                            <SectionHead n="03" title="Skills" />
                             <dl className="border-t border-white/10">
                                 {resume.skills.map((s, i) => (
                                     <Fade key={s.group} delay={i * 0.05}>
@@ -494,6 +423,45 @@ export default function ResumePage() {
                             </div>
                         </section>
 
+                        {/* ───────── experience ───────── */}
+                        <section id="experience" className="scroll-mt-32">
+                            <SectionHead n="04" title="Experience" />
+                            <div className="space-y-20">
+                                {resume.experience.map((e) => (
+                                    <article key={e.id} className="grid gap-6 md:grid-cols-[170px_1fr] md:gap-10">
+                                        <Fade>
+                                            <p className={`${mono} text-xs leading-relaxed text-gray-400`}>{e.period}</p>
+                                        </Fade>
+                                        <div>
+                                            <h3 className="text-xl text-white md:text-2xl">
+                                                <Mask>{e.org}</Mask>
+                                            </h3>
+                                            <p className="mt-1 text-gray-400">
+                                                <Mask delay={0.08}>{e.role}</Mask>
+                                            </p>
+                                            <Fade delay={0.12}>
+                                                <Metrics items={e.metrics} />
+                                            </Fade>
+                                            <ol className="mt-8 border-t border-white/10">
+                                                {e.points.map((p, i) => (
+                                                    <li key={i} className="border-b border-white/10 py-4">
+                                                        <Fade delay={i * 0.08} className="grid grid-cols-[2rem_1fr]">
+                                                            <span className={`${mono} pt-1 text-[11px] text-gray-600`}>
+                                                                {String(i + 1).padStart(2, "0")}
+                                                            </span>
+                                                            <p className="leading-relaxed text-gray-300">
+                                                                <Rich text={p} />
+                                                            </p>
+                                                        </Fade>
+                                                    </li>
+                                                ))}
+                                            </ol>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+
                         {/* ───────── education ───────── */}
                         <section id="education" className="scroll-mt-32">
                             <SectionHead n="05" title="Education" />
@@ -518,7 +486,6 @@ export default function ResumePage() {
                     </div>
                 </div>
             </div>
-            <FloatingCV />
         </MainLayout>
     );
 }

@@ -33,6 +33,24 @@ import {
 } from "lucide";
 import { MorphIconWrapper } from "@/components/ui/morph-icon";
 
+const mono = "font-[family-name:var(--font-roboto-mono)]";
+// Six columns on desktop: three cells over two, so the panel has no empty corner.
+const SKILL_CELL_SPANS = [
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-3",
+    "sm:col-span-2 lg:col-span-3",
+];
+// Inline here and on the panel gaps: global rules outrank Tailwind utilities.
+const SKILL_TITLE = {
+    margin: 0,
+    fontSize: "1.125rem",
+    fontWeight: 600,
+    letterSpacing: "-0.01em",
+    color: "#fff",
+};
+
 export default function AboutPage() {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -59,13 +77,9 @@ export default function AboutPage() {
                 <MorphIconWrapper
                     from={Cpu}
                     to={Sparkles}
-                    className="text-purple-400"
                     size={24}
                 />
             ),
-            accent: "from-purple-500 to-indigo-500",
-            titleClass: "text-purple-400",
-            bulletColor: "text-purple-400",
             items:
                 profile.skills.technical.find((s) => s.category === "AI / ML")
                     ?.items ?? [],
@@ -76,13 +90,9 @@ export default function AboutPage() {
                 <MorphIconWrapper
                     from={Code}
                     to={Terminal}
-                    className="text-accent"
                     size={24}
                 />
             ),
-            accent: "from-pink-500 to-rose-500",
-            titleClass: "text-accent",
-            bulletColor: "text-accent",
             items:
                 profile.skills.technical.find(
                     (s) => s.category === "Programming",
@@ -94,13 +104,9 @@ export default function AboutPage() {
                 <MorphIconWrapper
                     from={Layers}
                     to={LayoutGrid}
-                    className="text-secondary"
                     size={24}
                 />
             ),
-            accent: "from-cyan-400 to-teal-400",
-            titleClass: "text-secondary",
-            bulletColor: "text-secondary",
             items:
                 profile.skills.technical.find(
                     (s) => s.category === "Frameworks",
@@ -112,13 +118,9 @@ export default function AboutPage() {
                 <MorphIconWrapper
                     from={Database}
                     to={Server}
-                    className="text-emerald-400"
                     size={24}
                 />
             ),
-            accent: "from-emerald-400 to-teal-500",
-            titleClass: "text-emerald-300",
-            bulletColor: "text-emerald-400",
             items:
                 profile.skills.technical.find(
                     (s) => s.category === "Data & Retrieval",
@@ -130,13 +132,9 @@ export default function AboutPage() {
                 <MorphIconWrapper
                     from={Server}
                     to={GitBranch}
-                    className="text-primary"
                     size={24}
                 />
             ),
-            accent: "from-indigo-500 to-blue-500",
-            titleClass: "text-primary",
-            bulletColor: "text-primary",
             items:
                 profile.skills.technical.find(
                     (s) => s.category === "Backend & MLOps",
@@ -177,7 +175,6 @@ export default function AboutPage() {
                     className="max-w-5xl mx-auto mb-20"
                 >
                     <div className="relative backdrop-blur-sm bg-gray-900/30 rounded-2xl overflow-hidden shadow-xl border border-gray-700/50 p-1">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent"></div>
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 md:p-8">
                             <div className="md:col-span-5 flex justify-center items-start">
                                 <motion.div
@@ -472,162 +469,94 @@ export default function AboutPage() {
                             />
                             <span>Technical Skills</span>
                         </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-stretch">
+                        <div style={{ gap: 1 }} className="grid overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-6">
                             {technicalSkillGroups.map((skill, index) => (
                                 <motion.div
                                     key={skill.category}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
                                     transition={{
                                         duration: 0.5,
-                                        delay: index * 0.1,
+                                        delay: index * 0.08,
                                     }}
-                                    whileHover={{ y: -5 }}
-                                    className="h-full backdrop-blur-sm bg-gradient-to-br from-gray-900/80 to-gray-800/50 rounded-xl shadow-lg border border-gray-700/50 overflow-hidden"
+                                    className={`bg-gray-950 p-6 transition-colors duration-300 hover:bg-gray-900 md:p-7 ${SKILL_CELL_SPANS[index]}`}
                                 >
-                                    <div
-                                        className={`h-2 bg-gradient-to-r ${skill.accent}`}
-                                    ></div>
-                                    <div className="p-6 h-full flex flex-col">
-                                        <div className="flex items-start gap-3 mb-5">
-                                            <div className="mt-1">
-                                                {skill.icon}
-                                            </div>
-                                            <h4
-                                                className={`font-semibold text-2xl leading-tight ${skill.titleClass}`}
-                                            >
-                                                {skill.category}
-                                            </h4>
-                                        </div>
-                                        <ul className="space-y-3 text-gray-300 mt-auto">
-                                            {skill.items.map((item) => (
-                                                <li
-                                                    key={item}
-                                                    className="flex items-start leading-relaxed"
-                                                >
-                                                    <span
-                                                        className={`${skill.bulletColor} mr-2 mt-0.5`}
-                                                    >
-                                                        •
-                                                    </span>
-                                                    <span>{item}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                    <div className="mb-5 flex items-center gap-3 text-[color:var(--primary-light)]">
+                                        {skill.icon}
+                                        <h4 style={SKILL_TITLE}>
+                                            {skill.category}
+                                        </h4>
+                                        <span className={`${mono} ml-auto text-xs text-gray-600`}>
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
                                     </div>
+                                    <ul className="space-y-2.5 text-gray-300">
+                                        {skill.items.map((item) => (
+                                            <li key={item} className="leading-relaxed">
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
                     <div className="mb-12">
-                        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,1fr)] gap-6">
-                            <div className="backdrop-blur-sm bg-gray-900/30 rounded-xl shadow-lg border border-gray-700/50 overflow-hidden">
-                                <div className="h-1.5 bg-gradient-to-r from-secondary to-primary"></div>
-                                <div className="p-6">
-                                    <h3 className="text-2xl font-semibold mb-6 text-gray-200 flex items-center">
-                                        <MorphIconWrapper
-                                            from={MessageCircle}
-                                            to={Bot}
-                                            className="mr-2 text-secondary"
-                                            size={24}
-                                        />
-                                        <span>Soft Skills</span>
-                                    </h3>
-                                    <ul className="space-y-3">
-                                        {profile.skills.soft.map(
-                                            (skill, index) => (
-                                                <motion.li
-                                                    key={skill}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        x: -20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        x: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.4,
-                                                        delay: index * 0.06,
-                                                    }}
-                                                    className="flex items-start text-gray-300 leading-relaxed"
-                                                >
-                                                    <span className="text-secondary mr-3 mt-0.5">
-                                                        •
-                                                    </span>
-                                                    <span>{skill}</span>
-                                                </motion.li>
-                                            ),
-                                        )}
-                                    </ul>
+                        <div style={{ gap: 1 }} className="grid overflow-hidden rounded-2xl border border-white/10 bg-white/10 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,1fr)]">
+                            <div className="bg-gray-950 p-6 md:p-7">
+                                <div className="mb-5 flex items-center gap-3 text-[color:var(--primary-light)]">
+                                    <MorphIconWrapper
+                                        from={MessageCircle}
+                                        to={Bot}
+                                        size={24}
+                                    />
+                                    <h3 style={SKILL_TITLE}>Soft Skills</h3>
                                 </div>
+                                <ul className="space-y-2.5">
+                                    {profile.skills.soft.map((skill, index) => (
+                                        <motion.li
+                                            key={skill}
+                                            initial={{ opacity: 0 }}
+                                            whileInView={{ opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                duration: 0.4,
+                                                delay: index * 0.06,
+                                            }}
+                                            className="leading-relaxed text-gray-300"
+                                        >
+                                            {skill}
+                                        </motion.li>
+                                    ))}
+                                </ul>
                             </div>
 
-                            <div className="backdrop-blur-sm bg-gray-900/40 rounded-xl shadow-lg border border-gray-700/50 overflow-hidden">
-                                <div className="h-1.5 bg-gradient-to-r from-accent to-secondary"></div>
-                                <div className="p-6">
-                                    <h3 className="text-2xl font-semibold mb-6 text-gray-200 flex items-center">
-                                        <MorphIconWrapper
-                                            from={Globe}
-                                            to={Languages}
-                                            className="mr-2 text-accent"
-                                            size={24}
-                                        />
-                                        <span>Languages</span>
-                                    </h3>
-                                    <div className="space-y-5">
-                                        {profile.skills.languages.map(
-                                            (lang, index) => (
-                                                <motion.div
-                                                    key={lang.language}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: 16,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.45,
-                                                        delay: index * 0.08,
-                                                    }}
-                                                >
-                                                    <div className="flex items-center justify-between gap-4 mb-2">
-                                                        <h4 className="font-semibold text-lg text-gray-200">
-                                                            {lang.language}
-                                                        </h4>
-                                                        <p className="text-accent text-right">
-                                                            {lang.level}
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
-                                                        <motion.div
-                                                            className="h-full bg-gradient-to-r from-accent to-secondary"
-                                                            initial={{
-                                                                width: 0,
-                                                            }}
-                                                            whileInView={{
-                                                                width: `${lang.proficiency ?? 60}%`,
-                                                            }}
-                                                            viewport={{
-                                                                once: true,
-                                                            }}
-                                                            transition={{
-                                                                duration: 0.9,
-                                                                delay: 0.15,
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </motion.div>
-                                            ),
-                                        )}
-                                    </div>
+                            <div className="bg-gray-950 p-6 md:p-7">
+                                <div className="mb-5 flex items-center gap-3 text-[color:var(--primary-light)]">
+                                    <MorphIconWrapper
+                                        from={Globe}
+                                        to={Languages}
+                                        size={24}
+                                    />
+                                    <h3 style={SKILL_TITLE}>Languages</h3>
                                 </div>
+                                <ul className="space-y-2.5">
+                                    {profile.skills.languages.map((lang) => (
+                                        <li
+                                            key={lang.language}
+                                            className="flex items-baseline justify-between gap-4 leading-relaxed"
+                                        >
+                                            <span className="text-gray-300">
+                                                {lang.language}
+                                            </span>
+                                            <span className={`${mono} text-right text-xs text-gray-400`}>
+                                                {lang.level}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
                     </div>

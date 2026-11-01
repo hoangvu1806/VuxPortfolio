@@ -3,6 +3,7 @@ import { projects } from "./projects";
 export const profile = {
     name: "Do Hoang Vu",
     title: "AI Engineer",
+    birthYear: 2005,
     email: "dohoangvu.forwork@gmail.com",
     phone: "+84 835901375",
     location: {
@@ -14,7 +15,8 @@ export const profile = {
     social: {
         github: "https://github.com/hoangvu1806",
         linkedin: "https://linkedin.com/in/hoangvu1806",
-        portfolio: "https://hoangvu.id.vn",
+        telegram: "https://t.me/hoangvunt1806",
+        facebook: "https://www.facebook.com/hoangvu.nt1806",
     },
     education: {
         university: "The Saigon International University",
@@ -59,9 +61,6 @@ export const profile = {
                 items: [
                     "Python (Agentic AI & ML)",
                     "Rust (High-Performance Systems & Inference)",
-                    "TypeScript",
-                    "SQL",
-                    "C / C++",
                 ],
             },
             {
@@ -94,7 +93,6 @@ export const profile = {
         soft: [
             "Research communication & scientific writing",
             "Experiment design and evaluation",
-            "Collaborative coding & version control (Git workflow)",
             "Critical problem solving & analytical thinking",
             "Technical documentation & knowledge sharing",
         ],
@@ -102,9 +100,8 @@ export const profile = {
             {
                 language: "English",
                 level: "Working proficiency",
-                proficiency: 72,
             },
-            { language: "Vietnamese", level: "Native", proficiency: 100 },
+            { language: "Vietnamese", level: "Native" },
         ],
     },
     interests: [

@@ -21,6 +21,16 @@ export const LinkedinIcon: IconNode = [
     ["circle", { cx: "4", cy: "4", r: "2" }],
 ];
 
+export const TelegramIcon: IconNode = [
+    [
+        "path",
+        {
+            d: "M21.2 4.6 2.9 11.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.4c.2.7 1.1.9 1.6.4l2.6-2.5 4.7 3.4c.6.5 1.5.1 1.7-.7l3-15.1c.2-1-.8-1.7-1.7-1.3z",
+        },
+    ],
+    ["path", { d: "m7.6 15 10.2-7.2-7.5 8.3" }],
+];
+
 export const TwitterIcon: IconNode = [
     [
         "path",

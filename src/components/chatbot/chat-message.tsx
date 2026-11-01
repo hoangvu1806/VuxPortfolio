@@ -57,7 +57,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                         />
                     ) : (
                         <Image
-                            src="/images/profile/twinself.png"
+                            src="/images/profile/twinself.webp"
                             alt="AI Assistant"
                             width={28}
                             height={28}

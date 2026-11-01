@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
                 destination: "/DOHOANGVU_CV.pdf",
                 permanent: true,
             },
+            {
+                source: "/infomation",
+                destination: "/information",
+                permanent: false,
+            },
         ];
     },
 };
